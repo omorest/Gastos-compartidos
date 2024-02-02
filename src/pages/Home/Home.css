@@ -1,0 +1,14 @@
+.home {
+  background-color: red;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-button-container {
+  display: flex;
+  justify-content: flex-start;
+}
+.home-button-create-group {
+  background-color: #b7e4c7
+
+}

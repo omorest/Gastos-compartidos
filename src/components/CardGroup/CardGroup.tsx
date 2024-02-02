@@ -1,17 +1,28 @@
+import { Link } from 'wouter'
 import { ChevronRight } from '../icons/ChevronRight'
 import './CardGroup.css'
+import { type FC } from 'react'
+import { type Group } from '../../domain/models/group.model'
 
-const CardGroup = () => {
+interface CardGroupProps {
+  group: Group
+}
+
+const CardGroup: FC<CardGroupProps> = ({ group }) => {
+  const linkTo = `groupExpenses/${group?.id}`
+
   return (
-    <div className='card-group'>
-      <div className='card-group-info'>
-        <h2 className='card-group-info-name'>Bilbo</h2>
-        <h5 className='card-group-info-description'>Viaje Bilbao</h5>
+    <Link href={linkTo}>
+      <div className='card-group'>
+        <div className='card-group-info'>
+          <h2 className='card-group-info-name'>Bilbo</h2>
+          <h5 className='card-group-info-description'>Viaje Bilbao</h5>
+        </div>
+        <div>
+          <ChevronRight></ChevronRight>
+        </div>
       </div>
-      <div>
-        <ChevronRight></ChevronRight>
-      </div>
-    </div>
+    </Link>
   )
 }
 
