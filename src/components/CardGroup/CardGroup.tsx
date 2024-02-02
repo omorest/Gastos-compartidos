@@ -2,7 +2,7 @@ import { Link } from 'wouter'
 import { ChevronRight } from '../icons/ChevronRight'
 import './CardGroup.css'
 import { type FC } from 'react'
-import { type Group } from '../../domain/models/group.model'
+import { type Group } from '../../Group/domain/Group'
 
 interface CardGroupProps {
   group: Group
