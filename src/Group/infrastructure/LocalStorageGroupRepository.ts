@@ -15,12 +15,14 @@ export class LocalStorageGroupRepository {
     const groups = await this.getAll()
     groups.unshift(group)
     this.save(groups)
+    return group
   }
 
-  async remove (groupId: string): Promise<void> {
+  async remove (groupId: string): Promise<Group[]> {
     const groups = await this.getAll()
     const groupsWithoutSelected = groups.filter((group) => group.id !== groupId)
     this.save(groupsWithoutSelected)
+    return groupsWithoutSelected
   }
 
   async edit (group: Group): Promise<Group> {

@@ -8,8 +8,8 @@ export class GroupService {
     return await this.groupRepository.create(group)
   }
 
-  async remove (groupId: string): Promise<void> {
-    await this.groupRepository.remove(groupId)
+  async remove (groupId: string): Promise<Group[]> {
+    return await this.groupRepository.remove(groupId)
   }
 
   async edit (group: Group): Promise<Group> {

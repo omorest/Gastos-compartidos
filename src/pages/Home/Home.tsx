@@ -6,9 +6,10 @@ import Button from '../../components/Button/Button'
 import './Home.css'
 import { CardList } from '../../components/CardList/CardList'
 import CardGroup from '../../components/CardGroup/CardGroup'
+import { generateID } from '../../utils/generateId'
 
 const exampleGroup: Group = {
-  id: '1',
+  id: generateID(),
   name: 'Grupo de Ejemplo',
   participants: [
     { id: 'u1', name: 'Usuario1' },
@@ -34,12 +35,17 @@ const Home = () => {
   }, [])
 
   const handleCreateNewGroup = async () => {
-    const group = await groupService.create(exampleGroup)
+    const group = await groupService.create({ ...exampleGroup, id: generateID() })
     setGroups([group, ...groups])
   }
 
+  const handleRemoveGroup = async (group: Group): Promise<void> => {
+    const groupsWithoutSelected = await groupService.remove(group.id)
+    setGroups(groupsWithoutSelected)
+  }
+  console.log(groups)
   return (
-    <div className='home'>
+    <main className='home'>
       <div className='home-button-container'>
         <Button
           className='home-button-create-group'
@@ -48,18 +54,16 @@ const Home = () => {
           Nuevo Grupo
         </Button>
       </div>
-      <div>
         {
-          groups
+          groups.length > 0
             ? <CardList>
-              {groups.map((group) => (
-                <CardGroup group={group} key={group?.id}></CardGroup>
-              ))}
-            </CardList>
+            {groups.map((group) => (
+              <CardGroup group={group} onRemoveGroup={handleRemoveGroup} key={group?.id}></CardGroup>
+            ))}
+          </CardList>
             : null
-          }
-        </div>
-    </div>
+        }
+    </main>
   )
 }
 
