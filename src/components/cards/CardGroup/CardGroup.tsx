@@ -1,8 +1,8 @@
 import { Link } from 'wouter'
-import { ChevronRight } from '../icons/ChevronRight'
+import { ChevronRight } from '../../icons/ChevronRight'
 import { type FC } from 'react'
-import { type Group } from '../../Group/domain/Group'
-import { RemoveIcon } from '../icons/Remove'
+import { type Group } from '../../../Group/domain/Group'
+import { RemoveIcon } from '../../icons/Remove'
 import './CardGroup.css'
 
 interface CardGroupProps {
@@ -11,7 +11,7 @@ interface CardGroupProps {
 }
 
 const CardGroup: FC<CardGroupProps> = ({ group, onRemoveGroup }) => {
-  const linkTo = `groupExpenses/${group?.id}`
+  const linkTo = `group/${group?.id}`
 
   const handleRemoveGroup = async (event: React.MouseEvent) => {
     event.stopPropagation()

@@ -1,22 +1,16 @@
 import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import { type User } from '../../../domain/models/User'
 import './FormNewGroup.css'
 import { type Group } from '../../../Group/domain/Group'
-import Button from '../../Button/Button'
+import Button from '../../atoms/Button/Button'
 import { generateID } from '../../../utils/generateId'
-import { InputText } from '../../InputText/InputText'
 import { RemoveIcon } from '../../icons/Remove'
 interface FormNewGroupProps {
   onSubmit: (group: Group) => void
   onCancel: () => void
 }
 
-interface FormData {
-  name: string
-  description: string
-  participants: User[]
-}
+type FormData = Pick<Group, 'name' | 'description' | 'participants'>
 
 const initialGroupData: FormData = {
   name: '',
@@ -34,6 +28,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
     defaultValues: initialGroupData
   })
 
+  // TODO: Change name
   const onSubmitt: SubmitHandler<FormData> = (data) => {
     console.log(data)
     const group: Group = {
@@ -56,12 +51,12 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
       <h3>Nuevo grupo</h3>
       <form onSubmit={handleSubmit(onSubmitt)} className='form-new-group'>
         <div>
-          <InputText placeholder='Título' {...register('name', { required: 'Este campo es requerido' })} />
+          <input placeholder='Título' {...register('name', { required: 'Este campo es requerido' })} />
           {errors.name && <span>{errors.name.message}</span>}
         </div>
 
         <div>
-          <InputText placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
+          <input placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
           {errors.description && <span>{errors.description.message}</span>}
         </div>
 
@@ -69,7 +64,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
           <strong>Participantes</strong>
           {fields.map((field, index) => (
             <div key={field.id} className='form-participant-input'>
-              <InputText
+              <input
                 placeholder={`Nombre del participante ${index + 1}`}
                 {...register(`participants.${index}.name`, {
                   required: 'Nombre es requerido'
