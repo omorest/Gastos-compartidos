@@ -8,7 +8,7 @@ import { CardList } from '../../components/CardList/CardList'
 import './Home.css'
 import { FormNewGroup } from '../../components/forms/FormNewGroup/FormNewGroup'
 import { generateID } from '../../utils/generateId'
-import { useMutation, useQuery, r, QueryClient, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 const repository = createLocaStorageGroupRepository()
 const groupService = new GroupService(repository)
@@ -17,7 +17,8 @@ const Home = () => {
   const [isShowingCreateGroupForm, setIsShowingCreateGroupForm] = useState<boolean>(false)
   const queryClient = useQueryClient()
 
-  const { data: groups, isLoading, error } = useQuery({
+  // TODO: loadings and errors
+  const { data: groups } = useQuery({
     queryKey: ['groups'],
     queryFn: async () => await groupService.getAll()
   })
@@ -30,12 +31,9 @@ const Home = () => {
     }
   })
 
-  // TODO: Review return type
   const remoteGroupMutation = useMutation({
     mutationFn: async (group: Group) => { await groupService.remove(group.id) },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['groups'] })
-    }
+    onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['groups'] }) }
   })
 
   if (isShowingCreateGroupForm) {

@@ -36,7 +36,8 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
       id: generateID(),
       participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
       totalExpenses: 0,
-      creationDate: new Date()
+      creationDate: new Date(),
+      expenses: []
     }
     onSubmit(group)
   }
