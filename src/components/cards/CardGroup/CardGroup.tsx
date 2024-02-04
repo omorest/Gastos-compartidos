@@ -7,15 +7,16 @@ import './CardGroup.css'
 
 interface CardGroupProps {
   group: Group
-  onRemoveGroup: (group: Group) => Promise<void>
+  // TODO: review type, promise or not?
+  onRemoveGroup: (group: Group) => void
 }
 
 const CardGroup: FC<CardGroupProps> = ({ group, onRemoveGroup }) => {
   const linkTo = `group/${group?.id}`
 
-  const handleRemoveGroup = async (event: React.MouseEvent) => {
+  const handleRemoveGroup = (event: React.MouseEvent) => {
     event.stopPropagation()
-    await onRemoveGroup?.(group)
+    onRemoveGroup?.(group)
   }
 
   return (
