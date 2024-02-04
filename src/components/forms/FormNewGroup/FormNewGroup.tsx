@@ -1,15 +1,95 @@
-export const FormNewGroup = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    console.log('Submit form')
+import { type FC } from 'react'
+import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
+import { type User } from '../../../domain/models/User'
+import './FormNewGroup.css'
+import { type Group } from '../../../Group/domain/Group'
+import Button from '../../Button/Button'
+import { generateID } from '../../../utils/generateId'
+import { InputText } from '../../InputText/InputText'
+import { RemoveIcon } from '../../icons/Remove'
+interface FormNewGroupProps {
+  onSubmit: (group: Group) => void
+  onCancel: () => void
+}
+
+interface FormData {
+  name: string
+  description: string
+  participants: User[]
+}
+
+const initialGroupData: FormData = {
+  name: '',
+  description: '',
+  participants: [{ id: '', name: '' }] // Inicializamos con un participante vacío
+}
+
+export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors }
+  } = useForm<FormData>({
+    defaultValues: initialGroupData
+  })
+
+  const onSubmitt: SubmitHandler<FormData> = (data) => {
+    console.log(data)
+    const group: Group = {
+      ...data,
+      id: generateID(),
+      participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
+      totalExpenses: 0,
+      creationDate: new Date()
+    }
+    onSubmit(group)
   }
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'participants'
+  })
 
   return (
     <div>
       <h3>Nuevo grupo</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmitt)} className='form-new-group'>
+        <div>
+          <InputText placeholder='Título' {...register('name', { required: 'Este campo es requerido' })} />
+          {errors.name && <span>{errors.name.message}</span>}
+        </div>
 
-      </form>
+        <div>
+          <InputText placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
+          {errors.description && <span>{errors.description.message}</span>}
+        </div>
+
+        <div className='form-participants'>
+          <strong>Participantes</strong>
+          {fields.map((field, index) => (
+            <div key={field.id} className='form-participant-input'>
+              <InputText
+                placeholder={`Nombre del participante ${index + 1}`}
+                {...register(`participants.${index}.name`, {
+                  required: 'Nombre es requerido'
+                })}
+              />
+              <Button type="button" onClick={() => { remove(index) }}>
+                <RemoveIcon />
+              </Button>
+            </div>
+          ))}
+          <Button type="button" onClick={() => { append({ id: '', name: '' }) }}>
+            Añadir Participante
+          </Button>
+        </div>
+
+        <div>
+          <Button type="submit">Crear</Button>
+          <Button type='button' onClick={onCancel}>Cancelar</Button>
+        </div>
+    </form>
 
     </div>
   )

@@ -1,9 +1,9 @@
 import { Link } from 'wouter'
 import { ChevronRight } from '../icons/ChevronRight'
-import './CardGroup.css'
 import { type FC } from 'react'
 import { type Group } from '../../Group/domain/Group'
 import { RemoveIcon } from '../icons/Remove'
+import './CardGroup.css'
 
 interface CardGroupProps {
   group: Group
@@ -22,8 +22,8 @@ const CardGroup: FC<CardGroupProps> = ({ group, onRemoveGroup }) => {
     <Link href={linkTo}>
       <div className='card-group'>
         <div className='card-group-info'>
-          <h2 className='card-group-info-name'>Bilbo</h2>
-          <h5 className='card-group-info-description'>Viaje Bilbao</h5>
+          <h2 className='card-group-info-name'>{group.name}</h2>
+          <h5 className='card-group-info-description'>{group.description}</h5>
         </div>
         <div className='card-group-icons'>
           <ChevronRight></ChevronRight>
