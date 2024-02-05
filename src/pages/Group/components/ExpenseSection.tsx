@@ -46,7 +46,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
   }
 
   return (
-    <div>
+    <section>
       <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
       <CardList>
         {
@@ -57,6 +57,6 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
           />)
         }
       </CardList>
-    </div>
+    </section>
   )
 }

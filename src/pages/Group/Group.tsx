@@ -28,7 +28,7 @@ const GroupPage = () => {
         <Button onClick={() => { setSetsectionGroup('balance') }}>Balance</Button>
       </div>
       <div>
-        {sectionGroup === 'expenses' && group ? <ExpenseSection group={group} groupService={groupService} /> : <BalanceSection />}
+        {sectionGroup === 'expenses' && group ? <ExpenseSection group={group} groupService={groupService} /> : <BalanceSection group={group} groupService={groupService} />}
       </div>
 
     </div>

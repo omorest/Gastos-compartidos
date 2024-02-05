@@ -6,7 +6,6 @@ export interface Group {
   name: string
   description: string
   participants: User[]
-  expenses: Expense[]
   totalExpenses: number
   creationDate: Date
 }

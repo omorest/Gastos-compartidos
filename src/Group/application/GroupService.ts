@@ -18,6 +18,12 @@ export class GroupService implements GroupRepository {
   //   return await this.groupRepository.edit(group)
   // }
 
+  private async addExpenseToTotalOfGroup (groupId: string, newExpenseCost: number): Promise<void> {
+    const group = await this.groupRepository.get(groupId)
+    const groupWithNewTotal = group && { ...group, totalExpenses: group?.totalExpenses + newExpenseCost }
+    // this.edit(groupWithNewTotal)
+  }
+
   async get (groupId: string): Promise<Group | null> {
     return await this.groupRepository.get(groupId)
   }
@@ -27,6 +33,7 @@ export class GroupService implements GroupRepository {
   }
 
   async addExpense (newExpense: Expense): Promise<Expense> {
+    await this.addExpenseToTotalOfGroup(newExpense.groupId, newExpense.cost)
     return await this.expenseRepository.create(newExpense)
   }
 
