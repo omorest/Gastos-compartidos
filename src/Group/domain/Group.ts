@@ -1,5 +1,5 @@
 import { type Expense } from '../../Expense/domain/Expense'
-import { type User } from '../../User/Domain/User'
+import { type User } from '../../User/domain/User'
 
 export interface Group {
   id: string

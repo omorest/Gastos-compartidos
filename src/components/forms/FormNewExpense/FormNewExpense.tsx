@@ -1,6 +1,6 @@
 import React from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { type User } from '../../../User/Domain/User'
+import { type User } from '../../../User/domain/User'
 import { formatDate } from '../../../utils/formatDate'
 import { type Expense } from '../../../Expense/domain/Expense'
 import { generateID } from '../../../utils/generateId'
