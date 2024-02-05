@@ -1,9 +1,0 @@
-
-
-input {
-  width: 100%;
-  border: none; /* Elimina todos los bordes */
-  border-bottom: 1px solid black; /* Añade solo el borde inferior */
-  outline: none;
-  padding-bottom: 10px;
-}
