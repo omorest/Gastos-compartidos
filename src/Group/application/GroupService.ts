@@ -14,9 +14,9 @@ export class GroupService implements GroupRepository {
     await this.groupRepository.remove(groupId)
   }
 
-  async edit (group: Group): Promise<Group> {
-    return await this.groupRepository.edit(group)
-  }
+  // async edit (group: Group): Promise<Group> {
+  //   return await this.groupRepository.edit(group)
+  // }
 
   async get (groupId: string): Promise<Group | null> {
     return await this.groupRepository.get(groupId)

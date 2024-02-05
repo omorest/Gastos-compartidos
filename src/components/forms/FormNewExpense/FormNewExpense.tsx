@@ -28,6 +28,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
   }
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form onSubmit={handleSubmit(onSubmit)} className='form-new-expense'>
       <div>
         <InputText placeholder='Título' {...register('title', { required: 'Campo requerido' })} />

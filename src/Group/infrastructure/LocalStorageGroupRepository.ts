@@ -6,7 +6,7 @@ export function createLocaStorageGroupRepository (): GroupRepository {
 }
 
 // TODO: Improve error handling
-export class LocalStorageGroupRepository {
+export class LocalStorageGroupRepository implements GroupRepository {
   private save (groups: Group[]): void {
     localStorage.setItem('groups', JSON.stringify(groups))
   }
@@ -24,9 +24,9 @@ export class LocalStorageGroupRepository {
     this.save(groupsWithoutSelected)
   }
 
-  async edit (group: Group): Promise<Group> {
-    console.log('Edit group', group)
-  }
+  // async edit (group: Group): Promise<Group> {
+  //   console.log('Edit group', group)
+  // }
 
   async get (groupId: string): Promise<Group | null> {
     const groups = await this.getAll()

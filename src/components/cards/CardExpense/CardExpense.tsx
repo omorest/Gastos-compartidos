@@ -9,7 +9,7 @@ interface CardExpenseProps {
   onRemoveExpense: (expenseID: string) => void
 }
 
-export const CardExpense: FC<CardExpenseProps> = ({ expense, onRemoveExpense }) => {
+export const CardExpense: FC<CardExpenseProps> = ({ expense }) => {
   return (
     <Link href={'#'}>
       <div className='card-expense'>
@@ -20,7 +20,7 @@ export const CardExpense: FC<CardExpenseProps> = ({ expense, onRemoveExpense }) 
         <div className='card-expense-values'>
           <span className='card-expense-values-cost'>{formatNumberCurrency(expense.cost)}</span>
           {/* TODO: review type creationDate */}
-          <span className='card-expense-values-date'>{expense.creationDate}</span>
+          <span className='card-expense-values-date'>{expense.creationDate.toString()}</span>
         </div>
       </div>
     </Link>

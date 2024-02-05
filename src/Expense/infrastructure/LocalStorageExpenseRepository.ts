@@ -24,10 +24,11 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
   }
 
   // TODO: Finish this
-  async edit (expenseId: string, expenseEdited: Expense): Promise<Expense> {
-    const expenses = await this.getAll()
-    const expense = expenses.find((expense) => expense.id === expenseId)
-  }
+  // async edit (expenseEdited: Expense): Promise<Expense> {
+  //   const expenses = await this.getAll()
+  //   const expense = expenses.find((expense) => expense.id === expenseEdited.id)
+  //   return expense
+  // }
 
   async getAllFromGroup (groupId: string): Promise<Expense[]> {
     const expenses = await this.getAll()

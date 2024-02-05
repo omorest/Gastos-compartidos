@@ -9,9 +9,11 @@ import './Home.css'
 import { FormNewGroup } from '../../components/forms/FormNewGroup/FormNewGroup'
 import { generateID } from '../../utils/generateId'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { createLocaStorageExpenseRepository } from '../../Expense/infrastructure/LocalStorageExpenseRepository'
 
-const repository = createLocaStorageGroupRepository()
-const groupService = new GroupService(repository)
+const groupRepository = createLocaStorageGroupRepository()
+const expenseRepository = createLocaStorageExpenseRepository()
+const groupService = new GroupService(groupRepository, expenseRepository)
 
 const Home = () => {
   const [isShowingCreateGroupForm, setIsShowingCreateGroupForm] = useState<boolean>(false)
