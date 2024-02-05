@@ -5,6 +5,7 @@ import { type Group } from '../../../Group/domain/Group'
 import Button from '../../atoms/Button/Button'
 import { generateID } from '../../../utils/generateId'
 import { RemoveIcon } from '../../icons/Remove'
+import { InputText } from '../../atoms/InputText/InputText'
 interface FormNewGroupProps {
   onSubmit: (group: Group) => void
   onCancel: () => void
@@ -52,12 +53,12 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
       <h3>Nuevo grupo</h3>
       <form onSubmit={handleSubmit(onSubmitt)} className='form-new-group'>
         <div>
-          <input placeholder='Título' {...register('name', { required: 'Este campo es requerido' })} />
+          <InputText placeholder='Título' {...register('name', { required: 'Este campo es requerido' })} />
           {errors.name && <span>{errors.name.message}</span>}
         </div>
 
         <div>
-          <input placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
+          <InputText placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
           {errors.description && <span>{errors.description.message}</span>}
         </div>
 
@@ -65,7 +66,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
           <strong>Participantes</strong>
           {fields.map((field, index) => (
             <div key={field.id} className='form-participant-input'>
-              <input
+              <InputText
                 placeholder={`Nombre del participante ${index + 1}`}
                 {...register(`participants.${index}.name`, {
                   required: 'Nombre es requerido'

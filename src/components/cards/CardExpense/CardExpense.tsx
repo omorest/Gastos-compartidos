@@ -6,7 +6,7 @@ import { formatNumberCurrency } from '../../../utils/formatNumberCurrency'
 
 interface CardExpenseProps {
   expense: Expense
-  onRemoveExpense: (expense: Expense) => Promise<void>
+  onRemoveExpense: (expenseID: string) => void
 }
 
 export const CardExpense: FC<CardExpenseProps> = ({ expense, onRemoveExpense }) => {

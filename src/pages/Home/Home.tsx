@@ -31,7 +31,7 @@ const Home = () => {
     }
   })
 
-  const remoteGroupMutation = useMutation({
+  const removeGroupMutation = useMutation({
     mutationFn: async (group: Group) => { await groupService.remove(group.id) },
     onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['groups'] }) }
   })
@@ -57,7 +57,7 @@ const Home = () => {
           groups && groups.length > 0
             ? <CardList>
             {groups.map((group) => (
-              <CardGroup group={group} onRemoveGroup={remoteGroupMutation.mutate} key={group?.id}></CardGroup>
+              <CardGroup group={group} onRemoveGroup={removeGroupMutation.mutate} key={group?.id}></CardGroup>
             ))}
           </CardList>
             : null

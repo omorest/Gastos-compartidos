@@ -1,10 +1,13 @@
-import { type FC } from 'react'
 import './InputText.css'
 
-interface InputTextProps extends React.InputHTMLAttributes<HTMLInputElement> { }
+import { type FC, forwardRef, type InputHTMLAttributes } from 'react'
 
-export const InputText: FC<InputTextProps> = (props) => {
+interface InputTextProps extends InputHTMLAttributes<HTMLInputElement> {}
+
+export const InputText: FC<InputTextProps> = forwardRef<HTMLInputElement, InputTextProps>((props, ref) => {
   return (
-    <input type='text' {...props} />
+    <input type='text' {...props} ref={ref} />
   )
-}
+})
+
+InputText.displayName = 'InputText'

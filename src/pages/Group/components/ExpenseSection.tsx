@@ -1,11 +1,10 @@
-import { type FC, useState } from 'react'
+import { type FC, useState, useEffect } from 'react'
 import { CardList } from '../../../components/CardList/CardList'
 import Button from '../../../components/atoms/Button/Button'
-import FormNewExpense from '../../../components/forms/FormNewExpense'
+import FormNewExpense from '../../../components/forms/FormNewExpense/FormNewExpense'
 import { type Group } from '../../../Group/domain/Group'
 import { type GroupService } from '../../../Group/application/GroupService'
 import { type Expense } from '../../../Expense/domain/Expense'
-import { useQuery } from '@tanstack/react-query'
 import { CardExpense } from '../../../components/cards/CardExpense/CardExpense'
 
 interface ExpenseSectionProps {
@@ -14,19 +13,36 @@ interface ExpenseSectionProps {
 }
 
 export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService }) => {
+  const [expenses, setExpenses] = useState<Expense[]>([])
   const [isShowingFormToCreateExpense, setIsShowingFormToCreateExpense] = useState<boolean>(false)
-  const { data: expenses } = useQuery({ queryKey: ['expenses'], queryFn: async () => await groupService.getExpensesFromGroup(group.id) })
 
-  const handleSaveExpense = async (newExpense: Expense) => {
+  useEffect(() => {
+    groupService.getExpensesFromGroup(group.id)
+      .then((expenses) => {
+        setExpenses(expenses)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [group.id])
+
+  const createNewExpense = async (newExpense: Expense) => {
     await groupService.addExpense(newExpense)
+    setExpenses([newExpense, ...expenses])
     setIsShowingFormToCreateExpense(false)
   }
+
+  // const removeExpenseMutation = useMutation({
+  //   mutationFn: async (expenseId: string) => { await groupService.removeExpense(expenseId) },
+  //   onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['expenses'] }) }
+  // })
 
   if (isShowingFormToCreateExpense) {
     return <FormNewExpense
       groupId={group.id}
       users={group.participants}
-      onSaveExpense={handleSaveExpense}/>
+      onSaveExpense={createNewExpense}
+    />
   }
 
   return (
@@ -34,7 +50,11 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
       <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
       <CardList>
         {
-          expenses?.map((expense) => <CardExpense expense={expense} key={expense.id} onRemoveExpense={async () => { console.log('remove') }}/>)
+          expenses?.map((expense) => <CardExpense
+            expense={expense}
+            key={expense.id}
+            onRemoveExpense={() => { console.log('remove expense') } }
+          />)
         }
       </CardList>
     </div>

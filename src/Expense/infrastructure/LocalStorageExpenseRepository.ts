@@ -17,9 +17,9 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
     return newExpense
   }
 
-  async remove (groupId: string): Promise<void> {
+  async remove (expenseId: string): Promise<void> {
     const expenses = await this.getAll()
-    const expensesWithoutSelected = expenses.filter((expense) => expense.groupId !== groupId)
+    const expensesWithoutSelected = expenses.filter((expense) => expense.id !== expenseId)
     this.save(expensesWithoutSelected)
   }
 

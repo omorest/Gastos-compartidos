@@ -1,9 +1,10 @@
 import React from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { type User } from '../../User/Domain/User'
-import { formatDate } from '../../utils/formatDate'
-import { type Expense } from '../../Expense/domain/Expense'
-import { generateID } from '../../utils/generateId'
+import { type User } from '../../../User/Domain/User'
+import { formatDate } from '../../../utils/formatDate'
+import { type Expense } from '../../../Expense/domain/Expense'
+import { generateID } from '../../../utils/generateId'
+import './FormNewExpense.css'
 
 interface FormNewExpenseProps {
   groupId: string
