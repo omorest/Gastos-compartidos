@@ -58,7 +58,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
         </div>
 
         <div>
-          <InputText placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
+          <InputText placeholder='Descripción' {...register('description')} />
           {errors.description && <span>{errors.description.message}</span>}
         </div>
 
