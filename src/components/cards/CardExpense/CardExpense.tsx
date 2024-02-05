@@ -10,7 +10,6 @@ interface CardExpenseProps {
 }
 
 export const CardExpense: FC<CardExpenseProps> = ({ expense, onRemoveExpense }) => {
-  console.log({ expense })
   return (
     <Link href={'#'}>
       <div className='card-expense'>

@@ -5,6 +5,7 @@ import { formatDate } from '../../../utils/formatDate'
 import { type Expense } from '../../../Expense/domain/Expense'
 import { generateID } from '../../../utils/generateId'
 import './FormNewExpense.css'
+import { InputText } from '../../atoms/InputText/InputText'
 
 interface FormNewExpenseProps {
   groupId: string
@@ -27,25 +28,22 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit)} className='form-new-expense'>
       <div>
-        <label>Título del Gasto:</label>
-        <input {...register('title', { required: 'Campo requerido' })} />
+        <InputText placeholder='Título' {...register('title', { required: 'Campo requerido' })} />
       </div>
 
       <div>
-        <label>Cantidad:</label>
-        <input type="number" {...register('cost', { required: 'Campo requerido' })} />
+        <input type="number" placeholder='Cantidad' {...register('cost', { required: 'Campo requerido' })} />
       </div>
 
       <div>
-        <label>Fecha:</label>
         <input type="date" {...register('creationDate', { required: 'Campo requerido' })} defaultValue={formatDate(new Date())}/>
       </div>
 
-      <div>
+      <div className='form-new-expense-input-date'>
         <label>Por quien fue pagado:</label>
-        <select {...register('payerId')}>
+        <select {...register('payerId')} className='form-new-expense-input-date-select'>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}

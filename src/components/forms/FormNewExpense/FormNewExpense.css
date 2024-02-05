@@ -1,0 +1,27 @@
+
+
+.form-new-expense {
+  margin-top: 20px;
+  display: flex;
+; flex-direction: column;
+  align-items: center;
+  gap: 30px;
+
+  div {
+    width: 100%;
+  } 
+
+  .form-new-expense-input-date {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    select {
+      width: 100%;
+      border: none;
+      border-bottom: 1px solid black;
+      outline: none;
+      cursor: pointer;
+    }
+  }
+}
