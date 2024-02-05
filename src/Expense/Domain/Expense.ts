@@ -1,8 +1,9 @@
 export interface Expense {
   id: string
   cost: number
-  name: string
-  payer: string
+  title: string
+  paidBy: string
   payerId: string
   creationDate: Date
+  groupId: string
 }

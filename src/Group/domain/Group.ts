@@ -1,4 +1,4 @@
-import { type Expense } from '../../Expense/Domain/Expense'
+import { type Expense } from '../../Expense/domain/Expense'
 import { type User } from '../../User/Domain/User'
 
 export interface Group {

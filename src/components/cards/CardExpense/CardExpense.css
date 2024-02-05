@@ -7,12 +7,39 @@
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
   width: 90%;
+  height: 100px;
 
-  .card-group-info{
-    text-align: start;
+  .card-expense-info {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-around;
 
-    .card-group-info-description {
-      color: rgb(150, 150, 150);
+    .card-expense-info-title {
+      font-size: large;
+      font-weight: bold;
+    }
+    .card-expense-info-paidby {
+      color: rgb(161, 161, 161);
+    }
+  }
+
+  .card-expense-values {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    justify-content: space-around;
+
+    .card-expense-values-cost {
+      font-size: large;
+      font-weight: bold;
+    }
+    .card-expense-values-date {
+      color: rgb(161, 161, 161);
+      font-style: italic;
+      font-size: 12px;
     }
   }
   
