@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import { type Balance, type GroupService } from '../../../modules/Group/application/GroupService'
 import { type Group } from '../../../modules/Group/domain/Group'
 import './BalanceSection.css'
