@@ -1,5 +1,5 @@
 import { type Expense } from '../../Expense/domain/Expense'
-import { type ExpenseRepository } from '../../Expense/domain/ExpenseRepository'
+import { type SortExpensesByDate, type ExpenseRepository } from '../../Expense/domain/ExpenseRepository'
 import { type Group } from '../domain/Group'
 import { type GroupRepository } from '../domain/GroupRepository'
 
@@ -41,7 +41,7 @@ export class GroupService implements GroupRepository {
     await this.expenseRepository.remove(expenseId)
   }
 
-  async getExpensesFromGroup (groupId: string): Promise<Expense[]> {
-    return await this.expenseRepository.getAllFromGroup(groupId)
+  async getExpensesFromGroup (groupId: string, sort: SortExpensesByDate = 'desc'): Promise<Expense[]> {
+    return await this.expenseRepository.getAllFromGroup(groupId, sort)
   }
 }

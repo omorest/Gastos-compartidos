@@ -15,7 +15,7 @@ export const BalanceSection: FC<BalanceSectionProps> = ({ group, groupService })
         <span>Usuario</span>
         <div className='balance-section-list'>
           {
-            group.participants.map((participant) => (
+            group?.participants.map((participant) => (
               <span key={participant.id}>{participant.name}</span>
             ))
           }
@@ -25,7 +25,7 @@ export const BalanceSection: FC<BalanceSectionProps> = ({ group, groupService })
         <span>Balance</span>
         <div className='balance-section-list'>
           {
-            group.participants.map((participant) => (
+            group?.participants.map((participant) => (
               <span key={participant.id}>+12$</span>
             ))
           }
