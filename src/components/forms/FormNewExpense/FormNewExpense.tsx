@@ -6,16 +6,18 @@ import { type Expense } from '../../../modules/Expense/domain/Expense'
 import { generateID } from '../../../utils/generateId'
 import './FormNewExpense.css'
 import { InputText } from '../../atoms/InputText/InputText'
+import Button from '../../atoms/Button/Button'
 
 interface FormNewExpenseProps {
   groupId: string
   users: User[]
   onSaveExpense: (expense: Expense) => void
+  onCancel: () => void
 }
 
 type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
 
-const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense }) => {
+const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense, onCancel }) => {
   const { handleSubmit, register } = useForm<ExpenseFormData>()
 
   const onSubmit: SubmitHandler<ExpenseFormData> = (expense) => {
@@ -28,7 +30,8 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
   }
 
   return (
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    <>
+    <h4>Nuevo Gasto</h4>
     <form onSubmit={handleSubmit(onSubmit)} className='form-new-expense'>
       <div>
         <InputText placeholder='Título' {...register('title', { required: 'Campo requerido' })} />
@@ -52,9 +55,12 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           ))}
         </select>
       </div>
-
-      <button type="submit">Añadir Gasto</button>
+      <div className='form-new-expense-buttons'>
+        <Button type="submit">Añadir Gasto</Button>
+        <Button type="button" onClick={onCancel}>Cancelar</Button>
+      </div>
     </form>
+    </>
   )
 }
 

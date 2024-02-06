@@ -81,7 +81,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
           </Button>
         </div>
 
-        <div>
+        <div className='form-new-group-buttons'>
           <Button type="submit">Crear</Button>
           <Button type='button' onClick={onCancel}>Cancelar</Button>
         </div>

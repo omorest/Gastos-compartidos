@@ -5,8 +5,8 @@ import { useQuery } from '@tanstack/react-query'
 import './Group.css'
 import Button from '../../components/atoms/Button/Button'
 import { useState } from 'react'
-import { ExpenseSection } from './components/ExpenseSection'
-import { BalanceSection } from './components/BalanceSection'
+import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
+import { BalanceSection } from './components/BalanceSection/BalanceSection'
 import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
 
 const groupRepository = createLocaStorageGroupRepository()
