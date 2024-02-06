@@ -35,7 +35,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
       </div>
 
       <div>
-        <input type="number" placeholder='Cantidad' {...register('cost', { required: 'Campo requerido' })} />
+        <input type="number" step={'0.01'} placeholder='Cantidad' {...register('cost', { required: 'Campo requerido', valueAsNumber: true })} />
       </div>
 
       <div>

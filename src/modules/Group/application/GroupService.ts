@@ -18,12 +18,6 @@ export class GroupService implements GroupRepository {
   //   return await this.groupRepository.edit(group)
   // }
 
-  private async addExpenseToTotalOfGroup (groupId: string, newExpenseCost: number): Promise<void> {
-    const group = await this.groupRepository.get(groupId)
-    const groupWithNewTotal = group && { ...group, totalExpenses: group?.totalExpenses + newExpenseCost }
-    // this.edit(groupWithNewTotal)
-  }
-
   async get (groupId: string): Promise<Group | null> {
     return await this.groupRepository.get(groupId)
   }
@@ -33,7 +27,6 @@ export class GroupService implements GroupRepository {
   }
 
   async addExpense (newExpense: Expense): Promise<Expense> {
-    await this.addExpenseToTotalOfGroup(newExpense.groupId, newExpense.cost)
     return await this.expenseRepository.create(newExpense)
   }
 
@@ -43,5 +36,68 @@ export class GroupService implements GroupRepository {
 
   async getExpensesFromGroup (groupId: string, sort: SortExpensesByDate = 'desc'): Promise<Expense[]> {
     return await this.expenseRepository.getAllFromGroup(groupId, sort)
+  }
+
+  // -------- balance -------
+  async calculateExpenses (group: Group): Promise<Array<{ idParticipant: string, participant: string, balance: number }>> {
+    const { participants } = group
+    const expensesGroup = await this.expenseRepository.getAllFromGroup(group.id, 'desc')
+    const totalExpensesByParticipant = participants.map(participant => {
+      const participantExpense: number = expensesGroup
+        .filter(expense => expense.paidBy === participant.name)
+        .reduce((acc, currentExpense) => {
+          return acc + currentExpense.cost
+        }, 0)
+
+      return {
+        id: participant.id,
+        name: participant.name,
+        totalExpense: participantExpense
+      }
+    })
+
+    const totalExpenses = expensesGroup.reduce((acc, expense) => acc + expense.cost, 0)
+    const averageExpenses = totalExpenses / participants.length
+    const debts = participants.map((participant) => {
+      const participantExpense = totalExpensesByParticipant.find(expenseParticipant => expenseParticipant.id === participant.id)
+
+      return {
+        idParticipant: participant.id,
+        participant: participant.name,
+        balance: participantExpense ? Math.round((participantExpense.totalExpense - averageExpenses) * 100) / 100 : 0
+      }
+    })
+
+    return debts
+  }
+
+  async calculateTransactions (group: Group): Promise<any[]> {
+    const debts = await this.calculateExpenses(group)
+    const debtors = debts.filter(debtor => debtor.balance < 0)
+    const creditors = debts.filter(creditor => creditor.balance > 0)
+
+    let indexDebtor = 0
+    let indexCreditor = 0
+
+    const result = []
+
+    while (indexDebtor < debtors.length && indexCreditor < creditors.length) {
+      const deudor = debtors[indexDebtor]
+      const creditor = creditors[indexCreditor]
+
+      const cantidad = Math.min(-deudor.balance, creditor.balance)
+      deudor.balance = Math.round((deudor.balance + cantidad) * 100) / 100
+      creditor.balance = Math.round((creditor.balance - cantidad) * 100) / 100
+
+      console.log(`${deudor.participant} paga ${cantidad} a ${creditor.participant}`)
+      result.push({
+        from: deudor.participant,
+        to: creditor.participant,
+        amount: cantidad
+      })
+      if (deudor.balance === 0) indexDebtor++
+      if (creditor.balance === 0) indexCreditor++
+    }
+    return result
   }
 }
