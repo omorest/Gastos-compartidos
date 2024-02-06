@@ -3,6 +3,14 @@ import { type SortExpensesByDate, type ExpenseRepository } from '../../Expense/d
 import { type Group } from '../domain/Group'
 import { type GroupRepository } from '../domain/GroupRepository'
 
+export interface Balance {
+  participant: string
+  payments: Array<{
+    to: string
+    amount: number
+  }>
+}
+
 export class GroupService implements GroupRepository {
   constructor (private readonly groupRepository: GroupRepository, private readonly expenseRepository: ExpenseRepository) {}
 
@@ -71,7 +79,7 @@ export class GroupService implements GroupRepository {
     return debts
   }
 
-  async calculateTransactions (group: Group): Promise<any[]> {
+  async calculateTransactions (group: Group): Promise<Balance[]> {
     const debts = await this.calculateExpenses(group)
     const debtors = debts.filter(debtor => debtor.balance < 0)
     const creditors = debts.filter(creditor => creditor.balance > 0)
@@ -79,7 +87,7 @@ export class GroupService implements GroupRepository {
     let indexDebtor = 0
     let indexCreditor = 0
 
-    const result = []
+    const transactions: Balance[] = []
 
     while (indexDebtor < debtors.length && indexCreditor < creditors.length) {
       const deudor = debtors[indexDebtor]
@@ -89,15 +97,26 @@ export class GroupService implements GroupRepository {
       deudor.balance = Math.round((deudor.balance + cantidad) * 100) / 100
       creditor.balance = Math.round((creditor.balance - cantidad) * 100) / 100
 
-      console.log(`${deudor.participant} paga ${cantidad} a ${creditor.participant}`)
-      result.push({
-        from: deudor.participant,
-        to: creditor.participant,
-        amount: cantidad
-      })
+      const deudorAlreadtExists = transactions.find(transaction => transaction.participant === deudor.participant)
+
+      if (deudorAlreadtExists) {
+        deudorAlreadtExists.payments.push({
+          to: creditor.participant,
+          amount: cantidad
+        })
+      } else {
+        transactions.push({
+          participant: deudor.participant,
+          payments: [{
+            to: creditor.participant,
+            amount: cantidad
+          }]
+        })
+      }
+
       if (deudor.balance === 0) indexDebtor++
       if (creditor.balance === 0) indexCreditor++
     }
-    return result
+    return transactions
   }
 }

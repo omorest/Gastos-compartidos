@@ -4,7 +4,7 @@ import { GroupService } from '../../modules/Group/application/GroupService'
 import { useQuery } from '@tanstack/react-query'
 import './Group.css'
 import Button from '../../components/atoms/Button/Button'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { ExpenseSection } from './components/ExpenseSection'
 import { BalanceSection } from './components/BalanceSection'
 import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
@@ -20,13 +20,10 @@ const GroupPage = () => {
   const params = useParams()
   const { data: group } = useQuery({ queryKey: ['group'], queryFn: async () => await groupService.get(params.id!) })
 
-  useEffect(() => {
-    if (group) {
-      groupService.calculateTransactions(group)
-        .then((res) => { console.log(res) })
-        .catch((e) => { console.error(e) })
-    }
-  }, [group?.id])
+  const selectedSection = group && {
+    expenses: <ExpenseSection group={group} groupService={groupService} />,
+    balance: <BalanceSection group={group} groupService={groupService} />
+  }
 
   return (
     <div className='group'>
@@ -36,7 +33,7 @@ const GroupPage = () => {
         <Button onClick={() => { setSetsectionGroup('balance') }}>Balance</Button>
       </div>
       <div>
-        {sectionGroup === 'expenses' && group ? <ExpenseSection group={group} groupService={groupService} /> : <BalanceSection group={group} groupService={groupService} />}
+        {selectedSection?.[sectionGroup]}
       </div>
 
     </div>

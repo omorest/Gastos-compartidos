@@ -1,21 +1,29 @@
 .balance-section {
   display: flex;
+  flex-direction: column;
+  gap: 10px;
   justify-content: space-around;
-  padding: 1rem;
-  background-color: var(--color-white);
-  box-shadow: var(--shadow);
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+  padding: 10px;
 
-  .balance-section-column {
+
+  .balance-section-participant {
     display: flex;
-    flex-direction: column;
-    gap: 20px;
-    
-    .balance-section-list {
+    justify-content: space-around;
+    background-color: var(--color-white);
+    box-shadow: var(--shadow);
+    border-radius: 0.5rem;
+    padding: 10px;
+
+    .balance-section-participant-icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .balance-section-participant-payment {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      height: 100%;
     }
   }
 }
