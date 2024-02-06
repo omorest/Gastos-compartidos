@@ -1,16 +1,25 @@
 :root {
+  --color-text-light: #243119;
+  --color-primary: #C9F2C7;
+  --color-secondary: #243119;
+  --color-background-light: #fff;
+  --color-background-dark: #243119;
+
+  --shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: var(--color-text-light);
+  /* background-color: #242424; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
 }
 
 body {

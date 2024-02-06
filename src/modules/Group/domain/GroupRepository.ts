@@ -7,6 +7,4 @@ export interface GroupRepository {
   // edit: (group: Group) => Promise<Group>
   get: (groupId: string) => Promise<Group | null>
   getAll: () => Promise<Group[]>
-  // addExpense: (newExpense: Expense) => Promise<Expense>
-  // removeExpense: (expenseId: string) => Promise<void>
 }

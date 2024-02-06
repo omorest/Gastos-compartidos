@@ -1,8 +1,8 @@
 import React from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { type User } from '../../../User/domain/User'
+import { type User } from '../../../modules/User/domain/User'
 import { formatDate } from '../../../utils/formatDate'
-import { type Expense } from '../../../Expense/domain/Expense'
+import { type Expense } from '../../../modules/Expense/domain/Expense'
 import { generateID } from '../../../utils/generateId'
 import './FormNewExpense.css'
 import { InputText } from '../../atoms/InputText/InputText'
@@ -35,7 +35,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
       </div>
 
       <div>
-        <input type="number" placeholder='Cantidad' {...register('cost', { required: 'Campo requerido' })} />
+        <input type="number" step={'0.01'} placeholder='Cantidad' {...register('cost', { required: 'Campo requerido', valueAsNumber: true })} />
       </div>
 
       <div>

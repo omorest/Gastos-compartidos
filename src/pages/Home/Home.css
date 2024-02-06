@@ -7,8 +7,11 @@
 .home-button-container {
   display: flex;
   justify-content: flex-start;
+  padding: 10px;
 }
 .home-button-create-group {
-  background-color: #b7e4c7
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  font-weight: 600;
 
 }

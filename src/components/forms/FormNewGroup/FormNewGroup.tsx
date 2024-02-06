@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import './FormNewGroup.css'
-import { type Group } from '../../../Group/domain/Group'
+import { type Group } from '../../../modules/Group/domain/Group'
 import Button from '../../atoms/Button/Button'
 import { generateID } from '../../../utils/generateId'
 import { RemoveIcon } from '../../icons/Remove'
@@ -37,8 +37,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
       id: generateID(),
       participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
       totalExpenses: 0,
-      creationDate: new Date(),
-      expenses: []
+      creationDate: new Date()
     }
     onSubmit(group)
   }
@@ -58,7 +57,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
         </div>
 
         <div>
-          <InputText placeholder='Descripción' {...register('description', { required: 'Este campo es requerido' })} />
+          <InputText placeholder='Descripción' {...register('description')} />
           {errors.description && <span>{errors.description.message}</span>}
         </div>
 

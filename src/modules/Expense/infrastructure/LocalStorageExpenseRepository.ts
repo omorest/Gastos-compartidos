@@ -1,5 +1,5 @@
 import { type Expense } from '../domain/Expense'
-import { type ExpenseRepository } from '../domain/ExpenseRepository'
+import { type SortExpensesByDate, type ExpenseRepository } from '../domain/ExpenseRepository'
 
 export function createLocaStorageExpenseRepository (): ExpenseRepository {
   return new LocalStorageExpenseRepository()
@@ -30,9 +30,17 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
   //   return expense
   // }
 
-  async getAllFromGroup (groupId: string): Promise<Expense[]> {
+  async getAllFromGroup (groupId: string, sort: SortExpensesByDate): Promise<Expense[]> {
     const expenses = await this.getAll()
-    return expenses.filter((expense) => expense.groupId === groupId)
+    const expensesGroup = expenses.filter((expense) => expense.groupId === groupId)
+    const expensesGroupSorted = expensesGroup.sort((a, b) => {
+      if (sort === 'asc') {
+        return new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime()
+      }
+      return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime()
+    })
+
+    return expensesGroupSorted
   }
 
   async getAll (): Promise<Expense[]> {

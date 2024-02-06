@@ -1,7 +1,7 @@
 import { Link } from 'wouter'
 import { type FC } from 'react'
 import './CardExpense.css'
-import { type Expense } from '../../../Expense/domain/Expense'
+import { type Expense } from '../../../modules/Expense/domain/Expense'
 import { formatNumberCurrency } from '../../../utils/formatNumberCurrency'
 
 interface CardExpenseProps {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { GroupService } from '../../Group/application/GroupService'
-import { type Group } from '../../Group/domain/Group'
-import { createLocaStorageGroupRepository } from '../../Group/infrastructure/LocalStorageGroupRepository'
+import { GroupService } from '../../modules/Group/application/GroupService'
+import { type Group } from '../../modules/Group/domain/Group'
+import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
 import Button from '../../components/atoms/Button/Button'
 import CardGroup from '../../components/cards/CardGroup/CardGroup'
 import { CardList } from '../../components/CardList/CardList'
@@ -9,7 +9,7 @@ import './Home.css'
 import { FormNewGroup } from '../../components/forms/FormNewGroup/FormNewGroup'
 import { generateID } from '../../utils/generateId'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { createLocaStorageExpenseRepository } from '../../Expense/infrastructure/LocalStorageExpenseRepository'
+import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
 
 const groupRepository = createLocaStorageGroupRepository()
 const expenseRepository = createLocaStorageExpenseRepository()

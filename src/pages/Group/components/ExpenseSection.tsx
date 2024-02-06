@@ -2,9 +2,9 @@ import { type FC, useState, useEffect } from 'react'
 import { CardList } from '../../../components/CardList/CardList'
 import Button from '../../../components/atoms/Button/Button'
 import FormNewExpense from '../../../components/forms/FormNewExpense/FormNewExpense'
-import { type Group } from '../../../Group/domain/Group'
-import { type GroupService } from '../../../Group/application/GroupService'
-import { type Expense } from '../../../Expense/domain/Expense'
+import { type Group } from '../../../modules/Group/domain/Group'
+import { type GroupService } from '../../../modules/Group/application/GroupService'
+import { type Expense } from '../../../modules/Expense/domain/Expense'
 import { CardExpense } from '../../../components/cards/CardExpense/CardExpense'
 
 interface ExpenseSectionProps {
@@ -46,7 +46,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
   }
 
   return (
-    <div>
+    <section>
       <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
       <CardList>
         {
@@ -57,6 +57,6 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
           />)
         }
       </CardList>
-    </div>
+    </section>
   )
 }

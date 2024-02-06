@@ -1,7 +1,7 @@
 import { Link } from 'wouter'
 import { ChevronRight } from '../../icons/ChevronRight'
 import { type FC } from 'react'
-import { type Group } from '../../../Group/domain/Group'
+import { type Group } from '../../../modules/Group/domain/Group'
 import { RemoveIcon } from '../../icons/Remove'
 import './CardGroup.css'
 
