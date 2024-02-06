@@ -1,11 +1,14 @@
 import { type FC, useState, useEffect } from 'react'
-import { CardList } from '../../../components/CardList/CardList'
-import Button from '../../../components/atoms/Button/Button'
-import FormNewExpense from '../../../components/forms/FormNewExpense/FormNewExpense'
-import { type Group } from '../../../modules/Group/domain/Group'
-import { type GroupService } from '../../../modules/Group/application/GroupService'
-import { type Expense } from '../../../modules/Expense/domain/Expense'
-import { CardExpense } from '../../../components/cards/CardExpense/CardExpense'
+import { CardList } from '../../../../components/CardList/CardList'
+import Button from '../../../../components/atoms/Button/Button'
+import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
+import { type Group } from '../../../../modules/Group/domain/Group'
+import { type GroupService } from '../../../../modules/Group/application/GroupService'
+import { type Expense } from '../../../../modules/Expense/domain/Expense'
+import { CardExpense } from '../../../../components/cards/CardExpense/CardExpense'
+
+import './ExpenseSection.css'
+import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
 
 interface ExpenseSectionProps {
   group: Group
@@ -37,17 +40,23 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
   //   onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['expenses'] }) }
   // })
 
+  const totalExpenseGroup = expenses.reduce((acc, expense) => acc + expense.cost, 0)
+
   if (isShowingFormToCreateExpense) {
     return <FormNewExpense
       groupId={group.id}
       users={group.participants}
       onSaveExpense={createNewExpense}
+      onCancel={() => { setIsShowingFormToCreateExpense(false) }}
     />
   }
 
   return (
-    <section>
-      <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
+    <section className='expense-section'>
+      <div className='expense-section-header'>
+        <strong>Total: {formatNumberCurrency(totalExpenseGroup)}</strong>
+        <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
+      </div>
       <CardList>
         {
           expenses?.map((expense) => <CardExpense

@@ -1,9 +1,9 @@
 import { useEffect, useState, type FC } from 'react'
-import { type Balance, type GroupService } from '../../../modules/Group/application/GroupService'
-import { type Group } from '../../../modules/Group/domain/Group'
+import { type Balance, type GroupService } from '../../../../modules/Group/application/GroupService'
+import { type Group } from '../../../../modules/Group/domain/Group'
 import './BalanceSection.css'
-import { formatNumberCurrency } from '../../../utils/formatNumberCurrency'
-import { DoubleArrowRight } from '../../../components/icons/DoubleArrowRight'
+import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
+import { DoubleArrowRight } from '../../../../components/icons/DoubleArrowRight'
 
 interface BalanceSectionProps {
   group: Group
