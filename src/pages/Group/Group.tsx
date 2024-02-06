@@ -1,13 +1,13 @@
 import { useParams } from 'wouter'
-import { createLocaStorageGroupRepository } from '../../Group/infrastructure/LocalStorageGroupRepository'
-import { GroupService } from '../../Group/application/GroupService'
+import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
+import { GroupService } from '../../modules/Group/application/GroupService'
 import { useQuery } from '@tanstack/react-query'
 import './Group.css'
 import Button from '../../components/atoms/Button/Button'
 import { useState } from 'react'
 import { ExpenseSection } from './components/ExpenseSection'
 import { BalanceSection } from './components/BalanceSection'
-import { createLocaStorageExpenseRepository } from '../../Expense/infrastructure/LocalStorageExpenseRepository'
+import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
 
 const groupRepository = createLocaStorageGroupRepository()
 const expenseRepository = createLocaStorageExpenseRepository()

@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import './FormNewGroup.css'
-import { type Group } from '../../../Group/domain/Group'
+import { type Group } from '../../../modules/Group/domain/Group'
 import Button from '../../atoms/Button/Button'
 import { generateID } from '../../../utils/generateId'
 import { RemoveIcon } from '../../icons/Remove'

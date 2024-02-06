@@ -1,6 +1,6 @@
 import { type FC } from 'react'
-import { type GroupService } from '../../../Group/application/GroupService'
-import { type Group } from '../../../Group/domain/Group'
+import { type GroupService } from '../../../modules/Group/application/GroupService'
+import { type Group } from '../../../modules/Group/domain/Group'
 import './BalanceSection.css'
 
 interface BalanceSectionProps {
