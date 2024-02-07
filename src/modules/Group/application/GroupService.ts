@@ -38,6 +38,10 @@ export class GroupService implements GroupRepository {
     return await this.expenseRepository.create(newExpense)
   }
 
+  async editExpense (newExpense: Expense): Promise<Expense> {
+    return await this.expenseRepository.edit(newExpense)
+  }
+
   async removeExpense (expenseId: string): Promise<void> {
     await this.expenseRepository.remove(expenseId)
   }

@@ -40,6 +40,12 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
     setIsShowingFormToCreateExpense(false)
   }
 
+  const handleEditExpense = async (expense: Expense) => {
+    await groupService.editExpense(expense)
+    setExpenses([expense, ...expenses.filter(exp => exp.id !== expense.id)])
+    setIsShowingFormToEditExpense(false)
+  }
+
   const handleRemoveExpense = (expenseId: string) => {
     groupService.removeExpense(expenseId)
       .then(() => {
@@ -65,7 +71,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
     return <FormEditExpense
       expense={expenseEdited}
       users={group.participants}
-      onSaveExpense={createNewExpense}
+      onEditExpense={handleEditExpense}
       onCancel={() => { setIsShowingFormToEditExpense(false) }}
     />
   }

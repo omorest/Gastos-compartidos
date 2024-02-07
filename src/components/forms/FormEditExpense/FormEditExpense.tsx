@@ -9,17 +9,17 @@ import Button from '../../atoms/Button/Button'
 interface FormEditExpenseProps {
   expense: Expense
   users: User[]
-  onSaveExpense: (expense: Expense) => void
+  onEditExpense: (expense: Expense) => void
   onCancel: () => void
 }
 
 type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
 
-const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onSaveExpense, onCancel }) => {
+const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
   const { handleSubmit, register } = useForm<ExpenseFormData>()
 
   const onSubmit: SubmitHandler<ExpenseFormData> = (expenseEdited) => {
-    onSaveExpense({
+    onEditExpense({
       ...expenseEdited,
       id: expense.id,
       groupId: expense.groupId,
@@ -34,7 +34,8 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onSav
       <div>
         <InputText
           placeholder='Título'
-          {...register('title', { required: 'Campo requerido' })} value={expense.title}
+          defaultValue={expense.title}
+          {...register('title', { required: 'Campo requerido' })}
         />
       </div>
 

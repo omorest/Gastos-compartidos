@@ -11,7 +11,8 @@ export class ExpenseService {
   async remove (expenseId: string): Promise<void> {
     await this.expenseRepository.remove(expenseId)
   }
-  // async edit (expense: Expense): Promise<Expense> {
-  //   return await this.expenseRepository.edit(expense)
-  // }
+
+  async edit (expenseEdited: Expense): Promise<Expense> {
+    return await this.expenseRepository.edit(expenseEdited)
+  }
 }

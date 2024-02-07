@@ -23,12 +23,16 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
     this.save(expensesWithoutSelected)
   }
 
-  // TODO: Finish this
-  // async edit (expenseEdited: Expense): Promise<Expense> {
-  //   const expenses = await this.getAll()
-  //   const expense = expenses.find((expense) => expense.id === expenseEdited.id)
-  //   return expense
-  // }
+  async edit (expenseEdited: Expense): Promise<Expense> {
+    const expenses = await this.getAll()
+    let originalExpenseEdited = expenses.find((expense) => expense.id === expenseEdited.id)
+    if (!originalExpenseEdited) {
+      throw new Error('Expense not found')
+    }
+    originalExpenseEdited = { ...expenseEdited }
+    this.save(expenses)
+    return expenseEdited
+  }
 
   async getAllFromGroup (groupId: string, sort: SortExpensesByDate): Promise<Expense[]> {
     const expenses = await this.getAll()
@@ -46,5 +50,10 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
   async getAll (): Promise<Expense[]> {
     const expenses: Expense[] = JSON.parse(localStorage.getItem('expenses') ?? '[]')
     return expenses
+  }
+
+  async getById (expenseId: string): Promise<Expense | undefined> {
+    const expenses = await this.getAll()
+    return expenses.find((expense) => expense.id === expenseId)
   }
 }
