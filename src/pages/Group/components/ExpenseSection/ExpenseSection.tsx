@@ -9,6 +9,9 @@ import { CardExpense } from '../../../../components/cards/CardExpense/CardExpens
 
 import './ExpenseSection.css'
 import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
+import { VerticalDots } from '../../../../components/icons/VerticalDots'
+import { RemoveIcon } from '../../../../components/icons/Remove'
+import { EditIcon } from '../../../../components/icons/EditIcon'
 
 interface ExpenseSectionProps {
   group: Group
@@ -40,6 +43,16 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
   //   onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['expenses'] }) }
   // })
 
+  const handleRemoveExpense = (expenseId: string) => {
+    groupService.removeExpense(expenseId)
+      .then(() => {
+        setExpenses(expenses.filter(expense => expense.id !== expenseId))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
   const totalExpenseGroup = expenses.reduce((acc, expense) => acc + expense.cost, 0)
 
   if (isShowingFormToCreateExpense) {
@@ -59,11 +72,17 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
       </div>
       <CardList>
         {
-          expenses?.map((expense) => <CardExpense
-            expense={expense}
-            key={expense.id}
-            onRemoveExpense={() => { console.log('remove expense') } }
-          />)
+          expenses?.map((expense) =>
+          <div key={expense.id} className='expense-section-list-row'>
+            <CardExpense
+              expense={expense}
+            />
+            <div className='expense-section-list-row-icons'>
+              <span><EditIcon /></span>
+              <span><RemoveIcon onClick={() => { handleRemoveExpense(expense.id) }}/></span>
+            </div>
+          </div>
+          )
         }
       </CardList>
     </section>
