@@ -31,7 +31,6 @@ export const FormEditGroup: FC<FormEditGroupProps> = ({ group, onEditGroup, onCa
 
   // TODO: Change name
   const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data)
     onEditGroup({
       ...data,
       id: group.id,

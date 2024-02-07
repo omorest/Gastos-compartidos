@@ -12,8 +12,8 @@ import { useGroup, useEditGroup } from '../../hooks/Group'
 type SectionGroup = 'expenses' | 'balance'
 
 const GroupPage = () => {
-  const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
   const params = useParams()
+  const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
   const { data: group } = useGroup(params.id)
   const { editGroupMutation, isShowingFormEditGroup, setIsShowingFormEditGroup } = useEditGroup()
 

@@ -13,14 +13,14 @@ interface FormEditExpenseProps {
   onCancel: () => void
 }
 
-type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
+type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'payerId' > & { creationDate: string }
 
 const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
   const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>({
     defaultValues: {
       title: expense.title,
       cost: expense.cost,
-      creationDate: expense.creationDate,
+      creationDate: expense.creationDate.toISOString().split('T')[0],
       payerId: expense.payerId
     }
   })
@@ -28,6 +28,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
   const onSubmit: SubmitHandler<ExpenseFormData> = async (expenseEdited) => {
     await onEditExpense({
       ...expenseEdited,
+      creationDate: expenseEdited.creationDate as unknown as Date,
       id: expense.id,
       groupId: expense.groupId,
       paidBy: users.find((user) => user.id === expenseEdited.payerId)?.name ?? ''
@@ -61,10 +62,9 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
       </div>
 
       <div>
-        {/* TODO: Value Date of Expense */}
         <input
           type="date"
-          {...register('creationDate', { required: 'Campo requerido' })}
+          {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>
