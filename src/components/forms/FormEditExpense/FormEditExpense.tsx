@@ -44,7 +44,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           type="number"
           step={'0.01'}
           placeholder='Cantidad'
-          value={expense.cost}
+          defaultValue={expense.cost}
           {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
         />
       </div>
@@ -59,7 +59,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
 
       <div className='form-edit-expense-input-date'>
         <label>Por quien fue pagado:</label>
-        <select {...register('payerId')} className='form-edit-expense-input-date-select' value={expense.payerId}>
+        <select {...register('payerId')} className='form-edit-expense-input-date-select' defaultValue={expense.payerId}>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}
@@ -68,7 +68,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
         </select>
       </div>
       <div className='form-edit-expense-buttons'>
-        <Button type="submit">Añadir Gasto</Button>
+        <Button type="submit">Editar Gasto</Button>
         <Button type="button" onClick={onCancel}>Cancelar</Button>
       </div>
     </form>
