@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { createGroup } from '../utils/createGroup'
 
-test.describe.only('Create Group', () => {
+test.describe('Create Group', () => {
   test('should create a new group', async ({ page }) => {
     const infoGroup = {
       name: 'Test Grupo',

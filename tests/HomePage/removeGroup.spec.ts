@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
 
-test.describe.only('Remove Group', () => {
+test.describe('Remove Group', () => {
   // TODO fail button remove
   test('should remove a group', async ({ page }) => {
     await page.goto('/')
