@@ -20,15 +20,15 @@ const CardGroup: FC<CardGroupProps> = ({ group, onRemoveGroup }) => {
   }
 
   return (
-    <Link href={linkTo}>
-      <div className='card-group'>
+    <Link href={linkTo} aria-label="Go to group page" data-testid="link-to-group">
+      <div className='card-group' data-testid='card-group' >
         <div className='card-group-info'>
           <h2 className='card-group-info-name'>{group.name}</h2>
           <h5 className='card-group-info-description'>{group.description}</h5>
         </div>
         <div className='card-group-icons'>
-          <span><strong>{group.participants.length}</strong><UsersIcon /></span>
-          <RemoveIcon onClick={handleRemoveGroup}></RemoveIcon>
+          <span><strong data-testid={group.name + 'number-participants'}>{group.participants.length}</strong><UsersIcon /></span>
+          <RemoveIcon onClick={handleRemoveGroup} data-testid="removeGroup"></RemoveIcon>
         </div>
       </div>
     </Link>
