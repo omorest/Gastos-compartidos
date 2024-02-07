@@ -6,29 +6,6 @@
   padding: 10px;
 
 
-  .balance-section-participant {
-    display: flex;
-    justify-content: space-around;
-    background-color: var(--color-white);
-    box-shadow: var(--shadow);
-    border-radius: 0.5rem;
-    padding: 10px;
-
-    .balance-section-participant-icon {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .balance-section-participant-payment {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-    }
-  }
+  
 }
 
-.balance-section_participant {
-  display: flex;
-  justify-content: space-around;
-}
