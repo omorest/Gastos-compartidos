@@ -31,7 +31,6 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
 
   // TODO: Change name
   const onSubmitt: SubmitHandler<FormData> = (data) => {
-    console.log(data)
     const group: Group = {
       ...data,
       id: generateID(),
