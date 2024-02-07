@@ -38,11 +38,6 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
     setIsShowingFormToCreateExpense(false)
   }
 
-  // const removeExpenseMutation = useMutation({
-  //   mutationFn: async (expenseId: string) => { await groupService.removeExpense(expenseId) },
-  //   onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['expenses'] }) }
-  // })
-
   const handleRemoveExpense = (expenseId: string) => {
     groupService.removeExpense(expenseId)
       .then(() => {
