@@ -1,42 +1,25 @@
 import { Link, useParams } from 'wouter'
-import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
-import { GroupService } from '../../modules/Group/application/GroupService'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import './Group.css'
 import Button from '../../components/atoms/Button/Button'
 import { useState } from 'react'
 import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
 import { BalanceSection } from './components/BalanceSection/BalanceSection'
-import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
 import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../components/forms/FormEditGroup/FormEditGroup'
-import { type Group } from '../../modules/Group/domain/Group'
 import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
-
-const groupRepository = createLocaStorageGroupRepository()
-const expenseRepository = createLocaStorageExpenseRepository()
-const groupService = new GroupService(groupRepository, expenseRepository)
+import { useGroup, useEditGroup } from '../../hooks/Group'
 
 type SectionGroup = 'expenses' | 'balance'
 
 const GroupPage = () => {
-  const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
-  const [isShowingFormEditGroup, setIsShowingFormEditGroup] = useState<boolean>(false)
   const params = useParams()
-  const queryClient = useQueryClient()
-  const { data: group } = useQuery({ queryKey: ['group'], queryFn: async () => await groupService.get(params.id!) })
-
-  const editGroupMutation = useMutation({
-    mutationFn: async (group: Group) => { await groupService.edit(group) },
-    onSuccess: async () => {
-      setIsShowingFormEditGroup(false)
-      await queryClient.invalidateQueries({ queryKey: ['group'] })
-    }
-  })
+  const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
+  const { data: group } = useGroup(params.id)
+  const { editGroupMutation, isShowingFormEditGroup, setIsShowingFormEditGroup } = useEditGroup()
 
   const selectedSection = group && {
-    expenses: <ExpenseSection group={group} groupService={groupService} />,
-    balance: <BalanceSection group={group} groupService={groupService} />
+    expenses: <ExpenseSection group={group} />,
+    balance: <BalanceSection group={group} />
   }
 
   if (group && isShowingFormEditGroup) {

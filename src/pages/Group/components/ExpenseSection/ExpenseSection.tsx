@@ -1,60 +1,28 @@
-import { type FC, useState, useEffect, useMemo } from 'react'
+import { useMemo, useState, type FC } from 'react'
 import { CardList } from '../../../../components/CardList/CardList'
 import Button from '../../../../components/atoms/Button/Button'
-import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
-import { type Group } from '../../../../modules/Group/domain/Group'
-import { type GroupService } from '../../../../modules/Group/application/GroupService'
-import { type Expense } from '../../../../modules/Expense/domain/Expense'
 import { CardExpense } from '../../../../components/cards/CardExpense/CardExpense'
+import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
+import { type Expense } from '../../../../modules/Expense/domain/Expense'
+import { type Group } from '../../../../modules/Group/domain/Group'
 
-import './ExpenseSection.css'
-import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
-import { RemoveIcon } from '../../../../components/icons/Remove'
-import { EditIcon } from '../../../../components/icons/EditIcon'
 import FormEditExpense from '../../../../components/forms/FormEditExpense/FormEditExpense'
+import { EditIcon } from '../../../../components/icons/EditIcon'
+import { RemoveIcon } from '../../../../components/icons/Remove'
+import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../hooks/Expense'
+import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
+import './ExpenseSection.css'
 
 interface ExpenseSectionProps {
   group: Group
-  groupService: GroupService
 }
 
-export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService }) => {
-  const [expenses, setExpenses] = useState<Expense[]>([])
+export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
+  const { expenses, setExpenses } = useExpenses(group.id)
   const [expenseEdited, setExpenseEdited] = useState<Expense>()
-  const [isShowingFormToCreateExpense, setIsShowingFormToCreateExpense] = useState<boolean>(false)
-  const [isShowingFormToEditExpense, setIsShowingFormToEditExpense] = useState<boolean>(false)
-
-  useEffect(() => {
-    groupService.getExpensesFromGroup(group.id)
-      .then((expenses) => {
-        setExpenses(expenses)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }, [group.id])
-
-  const createNewExpense = async (newExpense: Expense) => {
-    const expenses = await groupService.addExpense(newExpense)
-    setExpenses(expenses)
-    setIsShowingFormToCreateExpense(false)
-  }
-
-  const handleEditExpense = async (expense: Expense) => {
-    await groupService.editExpense(expense)
-    setExpenses([expense, ...expenses.filter(exp => exp.id !== expense.id)])
-    setIsShowingFormToEditExpense(false)
-  }
-
-  const handleRemoveExpense = (expenseId: string) => {
-    groupService.removeExpense(expenseId)
-      .then(() => {
-        setExpenses(expenses.filter(expense => expense.id !== expenseId))
-      })
-      .catch((error) => {
-        console.error(error)
-      })
-  }
+  const { createNewExpense, isShowingFormToCreateExpense, setIsShowingFormToCreateExpense } = useCreateExpense(setExpenses)
+  const { removeExpense } = useRemoveExpense(expenses, setExpenses)
+  const { editExpense, isShowingFormToEditExpense, setIsShowingFormToEditExpense } = useEditExpense(expenses, setExpenses)
 
   const totalExpenseGroup = useMemo(() => expenses.reduce((acc, expense) => acc + expense.cost, 0), [expenses])
 
@@ -71,7 +39,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
     return <FormEditExpense
       expense={expenseEdited}
       users={group.participants}
-      onEditExpense={handleEditExpense}
+      onEditExpense={editExpense}
       onCancel={() => { setIsShowingFormToEditExpense(false) }}
     />
   }
@@ -91,7 +59,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
             />
             <div className='expense-section-list-row-icons'>
               <span><EditIcon onClick={() => { setExpenseEdited(expense); setIsShowingFormToEditExpense(true) }}/></span>
-              <span><RemoveIcon onClick={() => { handleRemoveExpense(expense.id) }}/></span>
+              <span><RemoveIcon onClick={() => { removeExpense(expense.id) }}/></span>
             </div>
           </div>
           )

@@ -49,8 +49,11 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
   }
 
   async getAll (): Promise<Expense[]> {
-    const expenses: Expense[] = JSON.parse(localStorage.getItem('expenses') ?? '[]')
-    return expenses
+    const expenses: Expense[] = await JSON.parse(localStorage.getItem('expenses') ?? '[]')
+    return expenses.map((expense) => ({
+      ...expense,
+      creationDate: new Date(expense.creationDate)
+    }))
   }
 
   async getById (expenseId: string): Promise<Expense | undefined> {

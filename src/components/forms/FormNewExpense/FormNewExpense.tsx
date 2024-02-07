@@ -10,18 +10,19 @@ import Button from '../../atoms/Button/Button'
 interface FormNewExpenseProps {
   groupId: string
   users: User[]
-  onSaveExpense: (expense: Expense) => void
+  onSaveExpense: (expense: Expense) => Promise<void>
   onCancel: () => void
 }
 
-type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
+type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'payerId'> & { creationDate: string }
 
 const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense, onCancel }) => {
   const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>()
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = (expense) => {
-    onSaveExpense({
+  const onSubmit: SubmitHandler<ExpenseFormData> = async (expense) => {
+    await onSaveExpense({
       ...expense,
+      creationDate: new Date(expense.creationDate),
       id: generateID(),
       groupId,
       paidBy: users.find((user) => user.id === expense.payerId)?.name ?? ''
@@ -58,6 +59,8 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
       <div>
         <input
           type="date"
+          defaultValue={new Date().toISOString().split('T')[0]}
+          max={new Date().toISOString().split('T')[0]}
           {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}

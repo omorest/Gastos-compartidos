@@ -9,25 +9,26 @@ import Button from '../../atoms/Button/Button'
 interface FormEditExpenseProps {
   expense: Expense
   users: User[]
-  onEditExpense: (expense: Expense) => void
+  onEditExpense: (expense: Expense) => Promise<void>
   onCancel: () => void
 }
 
-type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
+type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'payerId' > & { creationDate: string }
 
 const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
   const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>({
     defaultValues: {
       title: expense.title,
       cost: expense.cost,
-      creationDate: expense.creationDate,
+      creationDate: expense.creationDate.toISOString().split('T')[0],
       payerId: expense.payerId
     }
   })
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = (expenseEdited) => {
-    onEditExpense({
+  const onSubmit: SubmitHandler<ExpenseFormData> = async (expenseEdited) => {
+    await onEditExpense({
       ...expenseEdited,
+      creationDate: expenseEdited.creationDate as unknown as Date,
       id: expense.id,
       groupId: expense.groupId,
       paidBy: users.find((user) => user.id === expenseEdited.payerId)?.name ?? ''
@@ -61,10 +62,10 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
       </div>
 
       <div>
-        {/* TODO: Value Date of Expense */}
         <input
           type="date"
-          {...register('creationDate', { required: 'Campo requerido' })}
+          max={new Date().toISOString().split('T')[0]}
+          {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>

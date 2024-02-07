@@ -7,7 +7,7 @@ import { generateID } from '../../../utils/generateId'
 import { RemoveIcon } from '../../icons/Remove'
 import { InputText } from '../../atoms/InputText/InputText'
 interface FormNewGroupProps {
-  onSubmit: (group: Group) => void
+  onSave: (group: Group) => void
   onCancel: () => void
 }
 
@@ -19,7 +19,7 @@ const initialGroupData: FormData = {
   participants: [{ id: '', name: '' }] // Inicializamos con un participante vacío
 }
 
-export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
+export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
   const {
     register,
     handleSubmit,
@@ -30,14 +30,14 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
   })
 
   // TODO: Change name
-  const onSubmitt: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
     const group: Group = {
       ...data,
       id: generateID(),
       participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
       creationDate: new Date()
     }
-    onSubmit(group)
+    onSave(group)
   }
 
   const { fields, append, remove } = useFieldArray({
@@ -48,7 +48,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
   return (
     <div>
       <h3>Nuevo grupo</h3>
-      <form onSubmit={handleSubmit(onSubmitt)} className='form-new-group'>
+      <form onSubmit={handleSubmit(onSubmit)} className='form-new-group'>
         <div>
           <InputText
             placeholder='Título'
