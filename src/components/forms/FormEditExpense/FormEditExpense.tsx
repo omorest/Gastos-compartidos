@@ -51,7 +51,11 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           type="number"
           step={'0.01'}
           placeholder='Cantidad'
-          {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
+          {...register('cost', {
+            required: 'Campo requerido',
+            valueAsNumber: true,
+            min: { value: 0, message: 'El valor debe ser mayor a 0' }
+          })}
         />
         {errors.cost && <span>{errors.cost.message}</span>}
       </div>
