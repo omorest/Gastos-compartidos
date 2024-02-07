@@ -35,8 +35,8 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
   }, [group.id])
 
   const createNewExpense = async (newExpense: Expense) => {
-    await groupService.addExpense(newExpense)
-    setExpenses([newExpense, ...expenses])
+    const expenses = await groupService.addExpense(newExpense)
+    setExpenses(expenses)
     setIsShowingFormToCreateExpense(false)
   }
 

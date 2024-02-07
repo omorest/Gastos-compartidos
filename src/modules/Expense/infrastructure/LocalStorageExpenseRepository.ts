@@ -10,16 +10,23 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
     localStorage.setItem('expenses', JSON.stringify(expenses))
   }
 
-  async create (newExpense: Expense): Promise<Expense> {
+  async create (newExpense: Expense): Promise<Expense[]> {
     const expenses = await this.getAll()
-    expenses.unshift(newExpense)
-    this.save(expenses)
-    return newExpense
+    const expensesUpdated = [newExpense, ...expenses]
+    const expensesSorted = this.sortExpensesByDate(expensesUpdated, 'desc')
+    this.save(expensesSorted)
+    return expensesSorted
   }
 
   async remove (expenseId: string): Promise<void> {
     const expenses = await this.getAll()
     const expensesWithoutSelected = expenses.filter((expense) => expense.id !== expenseId)
+    this.save(expensesWithoutSelected)
+  }
+
+  async removeAllFromGroup (groupId: string): Promise<void> {
+    const expenses = await this.getAll()
+    const expensesWithoutSelected = expenses.filter((expense) => expense.groupId !== groupId)
     this.save(expensesWithoutSelected)
   }
 
@@ -34,16 +41,10 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
     return expenseEdited
   }
 
-  async getAllFromGroup (groupId: string, sort: SortExpensesByDate): Promise<Expense[]> {
+  async getAllFromGroup (groupId: string, sort: SortExpensesByDate = 'desc'): Promise<Expense[]> {
     const expenses = await this.getAll()
     const expensesGroup = expenses.filter((expense) => expense.groupId === groupId)
-    const expensesGroupSorted = expensesGroup.sort((a, b) => {
-      if (sort === 'asc') {
-        return new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime()
-      }
-      return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime()
-    })
-
+    const expensesGroupSorted = this.sortExpensesByDate(expensesGroup, sort)
     return expensesGroupSorted
   }
 
@@ -55,5 +56,14 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
   async getById (expenseId: string): Promise<Expense | undefined> {
     const expenses = await this.getAll()
     return expenses.find((expense) => expense.id === expenseId)
+  }
+
+  private sortExpensesByDate (expenses: Expense[], sort: SortExpensesByDate): Expense[] {
+    return expenses.sort((a, b) => {
+      if (sort === 'asc') {
+        return new Date(a.creationDate).getTime() - new Date(b.creationDate).getTime()
+      }
+      return new Date(b.creationDate).getTime() - new Date(a.creationDate).getTime()
+    })
   }
 }
