@@ -23,7 +23,7 @@ const GroupPage = () => {
   const [isShowingFormEditGroup, setIsShowingFormEditGroup] = useState<boolean>(false)
   const params = useParams()
   const queryClient = useQueryClient()
-  const { data: group } = useQuery({ queryKey: ['group'], queryFn: async () => await groupService.get(params.id) })
+  const { data: group } = useQuery({ queryKey: ['group'], queryFn: async () => await groupService.get(params.id!) })
 
   const editGroupMutation = useMutation({
     mutationFn: async (group: Group) => { await groupService.edit(group) },
