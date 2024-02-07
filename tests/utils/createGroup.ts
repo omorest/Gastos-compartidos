@@ -10,7 +10,6 @@ export async function createGroup (page: Page, options: { name: string, descript
 
   for (const [index, participant] of options.participants.entries()) {
     const placeHolder = 'Nombre del participante' + (index === 0 ? '' : ` ${index + 1}`)
-    console.log(placeHolder)
     await page.getByPlaceholder(placeHolder).fill(participant)
 
     if (index < options.participants.length - 1) {
