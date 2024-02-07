@@ -21,7 +21,6 @@ export const BalanceSection: FC<BalanceSectionProps> = ({ group, groupService })
     }
   }, [group?.id])
 
-  console.log(balances)
   return (
     <section className="balance-section">
 

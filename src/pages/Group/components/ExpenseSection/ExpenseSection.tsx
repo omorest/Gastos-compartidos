@@ -9,9 +9,9 @@ import { CardExpense } from '../../../../components/cards/CardExpense/CardExpens
 
 import './ExpenseSection.css'
 import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
-import { VerticalDots } from '../../../../components/icons/VerticalDots'
 import { RemoveIcon } from '../../../../components/icons/Remove'
 import { EditIcon } from '../../../../components/icons/EditIcon'
+import FormEditExpense from '../../../../components/forms/FormEditExpense/FormEditExpense'
 
 interface ExpenseSectionProps {
   group: Group
@@ -20,7 +20,9 @@ interface ExpenseSectionProps {
 
 export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService }) => {
   const [expenses, setExpenses] = useState<Expense[]>([])
+  const [expenseEdited, setExpenseEdited] = useState<Expense>()
   const [isShowingFormToCreateExpense, setIsShowingFormToCreateExpense] = useState<boolean>(false)
+  const [isShowingFormToEditExpense, setIsShowingFormToEditExpense] = useState<boolean>(false)
 
   useEffect(() => {
     groupService.getExpensesFromGroup(group.id)
@@ -59,6 +61,15 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
     />
   }
 
+  if (isShowingFormToEditExpense && expenseEdited) {
+    return <FormEditExpense
+      expense={expenseEdited}
+      users={group.participants}
+      onSaveExpense={createNewExpense}
+      onCancel={() => { setIsShowingFormToEditExpense(false) }}
+    />
+  }
+
   return (
     <section className='expense-section'>
       <div className='expense-section-header'>
@@ -73,7 +84,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
               expense={expense}
             />
             <div className='expense-section-list-row-icons'>
-              <span><EditIcon /></span>
+              <span><EditIcon onClick={() => { setExpenseEdited(expense); setIsShowingFormToEditExpense(true) }}/></span>
               <span><RemoveIcon onClick={() => { handleRemoveExpense(expense.id) }}/></span>
             </div>
           </div>
