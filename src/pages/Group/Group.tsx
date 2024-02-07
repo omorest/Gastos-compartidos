@@ -11,7 +11,7 @@ import { createLocaStorageExpenseRepository } from '../../modules/Expense/infras
 import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../components/forms/FormEditGroup/FormEditGroup'
 import { type Group } from '../../modules/Group/domain/Group'
-import { BackIcon } from '../../components/icons/backIcon'
+import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
 
 const groupRepository = createLocaStorageGroupRepository()
 const expenseRepository = createLocaStorageExpenseRepository()
@@ -52,7 +52,7 @@ const GroupPage = () => {
       <div className='group-header'>
         <Link href='/'>
           <div className="group-header-back">
-            <BackIcon />
+            <BackHomeIcon />
           </div>
         </Link>
         <div className='group-header-name'>
