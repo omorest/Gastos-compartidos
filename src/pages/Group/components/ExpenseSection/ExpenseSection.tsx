@@ -56,7 +56,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
       })
   }
 
-  const totalExpenseGroup = useMemo(() => expenses.reduce((acc, expense) => acc + expense.cost, 0), [group.id])
+  const totalExpenseGroup = useMemo(() => expenses.reduce((acc, expense) => acc + expense.cost, 0), [expenses])
 
   if (isShowingFormToCreateExpense) {
     return <FormNewExpense
