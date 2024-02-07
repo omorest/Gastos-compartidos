@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
-import { createLocaStorageGroupRepository } from '../modules/Group/infrastructure/LocalStorageGroupRepository'
-import { createLocaStorageExpenseRepository } from '../modules/Expense/infrastructure/LocalStorageExpenseRepository'
-import { GroupService } from '../modules/Group/application/GroupService'
-import { type Group } from '../modules/Group/domain/Group'
+import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
+import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
+import { GroupService } from '../../modules/Group/application/GroupService'
+import { type Group } from '../../modules/Group/domain/Group'
 
 const groupRepository = createLocaStorageGroupRepository()
 const expenseRepository = createLocaStorageExpenseRepository()
