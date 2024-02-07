@@ -1,43 +1,43 @@
 import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import './FormNewGroup.css'
+import './FormEditGroup.css'
 import { type Group } from '../../../modules/Group/domain/Group'
 import Button from '../../atoms/Button/Button'
 import { generateID } from '../../../utils/generateId'
 import { RemoveIcon } from '../../icons/Remove'
 import { InputText } from '../../atoms/InputText/InputText'
-interface FormNewGroupProps {
-  onSubmit: (group: Group) => void
+
+interface FormEditGroupProps {
+  group: Group
+  onEditGroup: (group: Group) => void
   onCancel: () => void
 }
 
 type FormData = Pick<Group, 'name' | 'description' | 'participants'>
 
-const initialGroupData: FormData = {
-  name: '',
-  description: '',
-  participants: [{ id: '', name: '' }] // Inicializamos con un participante vacío
-}
-
-export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
+export const FormEditGroup: FC<FormEditGroupProps> = ({ group, onEditGroup, onCancel }) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors }
   } = useForm<FormData>({
-    defaultValues: initialGroupData
+    defaultValues: {
+      name: group.name || '',
+      description: group.description || '',
+      participants: group.participants || [{ id: '', name: '' }]
+    }
   })
 
   // TODO: Change name
-  const onSubmitt: SubmitHandler<FormData> = (data) => {
-    const group: Group = {
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log(data)
+    onEditGroup({
       ...data,
-      id: generateID(),
+      id: group.id,
       participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
-      creationDate: new Date()
-    }
-    onSubmit(group)
+      creationDate: group.creationDate
+    })
   }
 
   const { fields, append, remove } = useFieldArray({
@@ -47,18 +47,23 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
 
   return (
     <div>
-      <h3>Nuevo grupo</h3>
-      <form onSubmit={handleSubmit(onSubmitt)} className='form-new-group'>
+      <h3>Editar grupo</h3>
+      <form onSubmit={handleSubmit(onSubmit)} className='form-new-group'>
         <div>
           <InputText
             placeholder='Título'
+            defaultValue={group.name}
             {...register('name', { required: 'Este campo es requerido' })}
           />
           {errors.name && <span>{errors.name.message}</span>}
         </div>
 
         <div>
-          <InputText placeholder='Descripción' {...register('description')}/>
+          <InputText
+            placeholder='Descripción'
+            defaultValue={group.description}
+            {...register('description')}
+          />
           {errors.description && <span>{errors.description.message}</span>}
         </div>
 
@@ -83,7 +88,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
         </div>
 
         <div className='form-new-group-buttons'>
-          <Button type="submit">Crear</Button>
+          <Button type="submit">Editar</Button>
           <Button type='button' onClick={onCancel}>Cancelar</Button>
         </div>
     </form>

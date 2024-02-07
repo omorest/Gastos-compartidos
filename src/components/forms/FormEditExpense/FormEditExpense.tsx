@@ -16,7 +16,14 @@ interface FormEditExpenseProps {
 type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
 
 const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
-  const { handleSubmit, register } = useForm<ExpenseFormData>()
+  const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>({
+    defaultValues: {
+      title: expense.title,
+      cost: expense.cost,
+      creationDate: expense.creationDate,
+      payerId: expense.payerId
+    }
+  })
 
   const onSubmit: SubmitHandler<ExpenseFormData> = (expenseEdited) => {
     onEditExpense({
@@ -34,9 +41,9 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
       <div>
         <InputText
           placeholder='Título'
-          defaultValue={expense.title}
           {...register('title', { required: 'Campo requerido' })}
         />
+        {errors.title && <span>{errors.title.message}</span>}
       </div>
 
       <div>
@@ -44,28 +51,31 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           type="number"
           step={'0.01'}
           placeholder='Cantidad'
-          defaultValue={expense.cost}
           {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
         />
+        {errors.cost && <span>{errors.cost.message}</span>}
       </div>
 
       <div>
-        {/* TODO: Value of Expense */}
+        {/* TODO: Value Date of Expense */}
         <input
           type="date"
           {...register('creationDate', { required: 'Campo requerido' })}
         />
+        {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>
 
       <div className='form-edit-expense-input-date'>
         <label>Por quien fue pagado:</label>
-        <select {...register('payerId')} className='form-edit-expense-input-date-select' defaultValue={expense.payerId}>
+        <select {...register('payerId')} className='form-edit-expense-input-date-select'>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}
             </option>
           ))}
         </select>
+        {errors.payerId && <span>{errors.payerId.message}</span>}
+
       </div>
       <div className='form-edit-expense-buttons'>
         <Button type="submit">Editar Gasto</Button>

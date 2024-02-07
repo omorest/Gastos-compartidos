@@ -25,11 +25,11 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
 
   async edit (expenseEdited: Expense): Promise<Expense> {
     const expenses = await this.getAll()
-    let originalExpenseEdited = expenses.find((expense) => expense.id === expenseEdited.id)
-    if (!originalExpenseEdited) {
+    const originalExpenseIndex = expenses.findIndex((expense) => expense.id === expenseEdited.id)
+    if (originalExpenseIndex === -1) {
       throw new Error('Expense not found')
     }
-    originalExpenseEdited = { ...expenseEdited }
+    expenses[originalExpenseIndex] = { ...expenseEdited }
     this.save(expenses)
     return expenseEdited
   }
