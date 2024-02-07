@@ -1,4 +1,4 @@
-import { useParams } from 'wouter'
+import { Link, useParams } from 'wouter'
 import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
 import { GroupService } from '../../modules/Group/application/GroupService'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
@@ -11,6 +11,7 @@ import { createLocaStorageExpenseRepository } from '../../modules/Expense/infras
 import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../components/forms/FormEditGroup/FormEditGroup'
 import { type Group } from '../../modules/Group/domain/Group'
+import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
 
 const groupRepository = createLocaStorageGroupRepository()
 const expenseRepository = createLocaStorageExpenseRepository()
@@ -49,8 +50,15 @@ const GroupPage = () => {
   return (
     <div className='group'>
       <div className='group-header'>
-        <h2>{group?.name}</h2>
-        <span onClick={() => { setIsShowingFormEditGroup(true) }}><EditIcon /></span>
+        <Link href='/'>
+          <div className="group-header-back">
+            <BackHomeIcon />
+          </div>
+        </Link>
+        <div className='group-header-name'>
+          <h2>{group?.name}</h2>
+          <span onClick={() => { setIsShowingFormEditGroup(true) }}><EditIcon /></span>
+        </div>
       </div>
       <div className='group-titles-section'>
         <Button onClick={() => { setSetsectionGroup('expenses') }}>Gastos</Button>

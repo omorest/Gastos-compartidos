@@ -20,6 +20,7 @@ export class GroupService implements GroupRepository {
 
   async remove (groupId: string): Promise<void> {
     await this.groupRepository.remove(groupId)
+    await this.expenseRepository.removeAllFromGroup(groupId)
   }
 
   async edit (group: Group): Promise<Group> {
@@ -34,7 +35,7 @@ export class GroupService implements GroupRepository {
     return await this.groupRepository.getAll()
   }
 
-  async addExpense (newExpense: Expense): Promise<Expense> {
+  async addExpense (newExpense: Expense): Promise<Expense[]> {
     return await this.expenseRepository.create(newExpense)
   }
 
@@ -48,6 +49,10 @@ export class GroupService implements GroupRepository {
 
   async getExpensesFromGroup (groupId: string, sort: SortExpensesByDate = 'desc'): Promise<Expense[]> {
     return await this.expenseRepository.getAllFromGroup(groupId, sort)
+  }
+
+  async removeAllExpensesFromGroup (groupId: string): Promise<void> {
+    await this.expenseRepository.removeAllFromGroup(groupId)
   }
 
   // -------- balance -------

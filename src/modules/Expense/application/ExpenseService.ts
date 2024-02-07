@@ -4,7 +4,7 @@ import { type ExpenseRepository } from '../domain/ExpenseRepository'
 export class ExpenseService {
   constructor (private readonly expenseRepository: ExpenseRepository) {}
 
-  async create (expense: Expense): Promise<Expense> {
+  async create (expense: Expense): Promise<Expense[]> {
     return await this.expenseRepository.create(expense)
   }
 
@@ -14,5 +14,13 @@ export class ExpenseService {
 
   async edit (expenseEdited: Expense): Promise<Expense> {
     return await this.expenseRepository.edit(expenseEdited)
+  }
+
+  async removeAllFromGroup (groupId: string): Promise<void> {
+    try {
+      await this.expenseRepository.removeAllFromGroup(groupId)
+    } catch (error) {
+      throw new Error('Error al eliminar los gastos del grupo')
+    }
   }
 }

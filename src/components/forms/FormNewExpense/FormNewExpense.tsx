@@ -46,7 +46,11 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           step={'0.01'}
           placeholder='Cantidad'
           defaultValue={0}
-          {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
+          {...register('cost', {
+            required: 'Campo requerido',
+            valueAsNumber: true,
+            min: { value: 0, message: 'El valor debe ser mayor a 0' }
+          })}
         />
         {errors.cost && <span>{errors.cost.message}</span>}
       </div>
