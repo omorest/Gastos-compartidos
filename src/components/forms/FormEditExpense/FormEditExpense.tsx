@@ -16,7 +16,7 @@ interface FormEditExpenseProps {
 type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
 
 const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
-  const { handleSubmit, register } = useForm<ExpenseFormData>({
+  const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>({
     defaultValues: {
       title: expense.title,
       cost: expense.cost,
@@ -43,6 +43,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           placeholder='Título'
           {...register('title', { required: 'Campo requerido' })}
         />
+        {errors.title && <span>{errors.title.message}</span>}
       </div>
 
       <div>
@@ -52,6 +53,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           placeholder='Cantidad'
           {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
         />
+        {errors.cost && <span>{errors.cost.message}</span>}
       </div>
 
       <div>
@@ -60,6 +62,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           type="date"
           {...register('creationDate', { required: 'Campo requerido' })}
         />
+        {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>
 
       <div className='form-edit-expense-input-date'>
@@ -71,6 +74,8 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
             </option>
           ))}
         </select>
+        {errors.payerId && <span>{errors.payerId.message}</span>}
+
       </div>
       <div className='form-edit-expense-buttons'>
         <Button type="submit">Editar Gasto</Button>

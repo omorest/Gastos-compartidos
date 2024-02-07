@@ -17,7 +17,7 @@ interface FormNewExpenseProps {
 type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
 
 const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense, onCancel }) => {
-  const { handleSubmit, register } = useForm<ExpenseFormData>()
+  const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>()
 
   const onSubmit: SubmitHandler<ExpenseFormData> = (expense) => {
     onSaveExpense({
@@ -37,6 +37,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           placeholder='Título'
           {...register('title', { required: 'Campo requerido' })}
         />
+        {errors.title && <span>{errors.title.message}</span>}
       </div>
 
       <div>
@@ -47,6 +48,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           defaultValue={0}
           {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
         />
+        {errors.cost && <span>{errors.cost.message}</span>}
       </div>
 
       <div>
@@ -54,6 +56,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           type="date"
           {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
         />
+        {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>
 
       <div className='form-new-expense-input-date'>
@@ -65,6 +68,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
             </option>
           ))}
         </select>
+        {errors.payerId && <span>{errors.payerId.message}</span>}
       </div>
       <div className='form-new-expense-buttons'>
         <Button type="submit">Añadir Gasto</Button>
