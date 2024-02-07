@@ -12,7 +12,7 @@ const Home = () => {
 
   if (isShowingCreateGroupForm) {
     return <FormNewGroup
-      onSubmit={createNewGroupMutation.mutate}
+      onSave={createNewGroupMutation.mutate}
       onCancel={() => { setIsShowingCreateGroupForm(false) }}
     />
   }
