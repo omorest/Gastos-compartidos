@@ -3,10 +3,10 @@ import { type FC } from 'react'
 import './CardExpense.css'
 import { type Expense } from '../../../modules/Expense/domain/Expense'
 import { formatNumberCurrency } from '../../../utils/formatNumberCurrency'
+import { formatDate } from '../../../utils/formatDate'
 
 interface CardExpenseProps {
   expense: Expense
-  onRemoveExpense: (expenseID: string) => void
 }
 
 export const CardExpense: FC<CardExpenseProps> = ({ expense }) => {
@@ -19,8 +19,7 @@ export const CardExpense: FC<CardExpenseProps> = ({ expense }) => {
         </div>
         <div className='card-expense-values'>
           <span className='card-expense-values-cost'>{formatNumberCurrency(expense.cost)}</span>
-          {/* TODO: review type creationDate */}
-          <span className='card-expense-values-date'>{expense.creationDate.toString()}</span>
+          <span className='card-expense-values-date'>{formatDate(new Date(expense.creationDate))}</span>
         </div>
       </div>
     </Link>

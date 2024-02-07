@@ -2,39 +2,39 @@ import React from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
 import { type User } from '../../../modules/User/domain/User'
 import { type Expense } from '../../../modules/Expense/domain/Expense'
-import { generateID } from '../../../utils/generateId'
-import './FormNewExpense.css'
+import './FormEditExpense.css'
 import { InputText } from '../../atoms/InputText/InputText'
 import Button from '../../atoms/Button/Button'
 
-interface FormNewExpenseProps {
-  groupId: string
+interface FormEditExpenseProps {
+  expense: Expense
   users: User[]
-  onSaveExpense: (expense: Expense) => void
+  onEditExpense: (expense: Expense) => void
   onCancel: () => void
 }
 
 type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerId'>
 
-const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense, onCancel }) => {
+const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
   const { handleSubmit, register } = useForm<ExpenseFormData>()
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = (expense) => {
-    onSaveExpense({
-      ...expense,
-      id: generateID(),
-      groupId,
-      paidBy: users.find((user) => user.id === expense.payerId)?.name ?? ''
+  const onSubmit: SubmitHandler<ExpenseFormData> = (expenseEdited) => {
+    onEditExpense({
+      ...expenseEdited,
+      id: expense.id,
+      groupId: expense.groupId,
+      paidBy: users.find((user) => user.id === expenseEdited.payerId)?.name ?? ''
     })
   }
 
   return (
     <>
     <h4>Nuevo Gasto</h4>
-    <form onSubmit={handleSubmit(onSubmit)} className='form-new-expense'>
+    <form onSubmit={handleSubmit(onSubmit)} className='form-edit-expense'>
       <div>
         <InputText
           placeholder='Título'
+          defaultValue={expense.title}
           {...register('title', { required: 'Campo requerido' })}
         />
       </div>
@@ -44,21 +44,22 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           type="number"
           step={'0.01'}
           placeholder='Cantidad'
-          defaultValue={0}
+          value={expense.cost}
           {...register('cost', { required: 'Campo requerido', valueAsNumber: true })}
         />
       </div>
 
       <div>
+        {/* TODO: Value of Expense */}
         <input
           type="date"
-          {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
+          {...register('creationDate', { required: 'Campo requerido' })}
         />
       </div>
 
-      <div className='form-new-expense-input-date'>
+      <div className='form-edit-expense-input-date'>
         <label>Por quien fue pagado:</label>
-        <select {...register('payerId')} className='form-new-expense-input-date-select'>
+        <select {...register('payerId')} className='form-edit-expense-input-date-select' value={expense.payerId}>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}
@@ -66,7 +67,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           ))}
         </select>
       </div>
-      <div className='form-new-expense-buttons'>
+      <div className='form-edit-expense-buttons'>
         <Button type="submit">Añadir Gasto</Button>
         <Button type="button" onClick={onCancel}>Cancelar</Button>
       </div>
@@ -75,4 +76,4 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
   )
 }
 
-export default FormNewExpense
+export default FormEditExpense

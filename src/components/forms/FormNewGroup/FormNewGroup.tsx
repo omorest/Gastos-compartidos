@@ -31,7 +31,6 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
 
   // TODO: Change name
   const onSubmitt: SubmitHandler<FormData> = (data) => {
-    console.log(data)
     const group: Group = {
       ...data,
       id: generateID(),
@@ -52,12 +51,15 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSubmit, onCancel }) => {
       <h3>Nuevo grupo</h3>
       <form onSubmit={handleSubmit(onSubmitt)} className='form-new-group'>
         <div>
-          <InputText placeholder='Título' {...register('name', { required: 'Este campo es requerido' })} />
+          <InputText
+            placeholder='Título'
+            {...register('name', { required: 'Este campo es requerido' })}
+          />
           {errors.name && <span>{errors.name.message}</span>}
         </div>
 
         <div>
-          <InputText placeholder='Descripción' {...register('description')} />
+          <InputText placeholder='Descripción' {...register('description')}/>
           {errors.description && <span>{errors.description.message}</span>}
         </div>
 

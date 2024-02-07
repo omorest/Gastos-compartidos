@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect } from 'react'
+import { type FC, useState, useEffect, useMemo } from 'react'
 import { CardList } from '../../../../components/CardList/CardList'
 import Button from '../../../../components/atoms/Button/Button'
 import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
@@ -9,6 +9,9 @@ import { CardExpense } from '../../../../components/cards/CardExpense/CardExpens
 
 import './ExpenseSection.css'
 import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
+import { RemoveIcon } from '../../../../components/icons/Remove'
+import { EditIcon } from '../../../../components/icons/EditIcon'
+import FormEditExpense from '../../../../components/forms/FormEditExpense/FormEditExpense'
 
 interface ExpenseSectionProps {
   group: Group
@@ -17,7 +20,9 @@ interface ExpenseSectionProps {
 
 export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService }) => {
   const [expenses, setExpenses] = useState<Expense[]>([])
+  const [expenseEdited, setExpenseEdited] = useState<Expense>()
   const [isShowingFormToCreateExpense, setIsShowingFormToCreateExpense] = useState<boolean>(false)
+  const [isShowingFormToEditExpense, setIsShowingFormToEditExpense] = useState<boolean>(false)
 
   useEffect(() => {
     groupService.getExpensesFromGroup(group.id)
@@ -35,12 +40,23 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
     setIsShowingFormToCreateExpense(false)
   }
 
-  // const removeExpenseMutation = useMutation({
-  //   mutationFn: async (expenseId: string) => { await groupService.removeExpense(expenseId) },
-  //   onSuccess: async () => { await queryClient.invalidateQueries({ queryKey: ['expenses'] }) }
-  // })
+  const handleEditExpense = async (expense: Expense) => {
+    await groupService.editExpense(expense)
+    setExpenses([expense, ...expenses.filter(exp => exp.id !== expense.id)])
+    setIsShowingFormToEditExpense(false)
+  }
 
-  const totalExpenseGroup = expenses.reduce((acc, expense) => acc + expense.cost, 0)
+  const handleRemoveExpense = (expenseId: string) => {
+    groupService.removeExpense(expenseId)
+      .then(() => {
+        setExpenses(expenses.filter(expense => expense.id !== expenseId))
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }
+
+  const totalExpenseGroup = useMemo(() => expenses.reduce((acc, expense) => acc + expense.cost, 0), [group.id])
 
   if (isShowingFormToCreateExpense) {
     return <FormNewExpense
@@ -48,6 +64,15 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
       users={group.participants}
       onSaveExpense={createNewExpense}
       onCancel={() => { setIsShowingFormToCreateExpense(false) }}
+    />
+  }
+
+  if (isShowingFormToEditExpense && expenseEdited) {
+    return <FormEditExpense
+      expense={expenseEdited}
+      users={group.participants}
+      onEditExpense={handleEditExpense}
+      onCancel={() => { setIsShowingFormToEditExpense(false) }}
     />
   }
 
@@ -59,11 +84,17 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
       </div>
       <CardList>
         {
-          expenses?.map((expense) => <CardExpense
-            expense={expense}
-            key={expense.id}
-            onRemoveExpense={() => { console.log('remove expense') } }
-          />)
+          expenses?.map((expense) =>
+          <div key={expense.id} className='expense-section-list-row'>
+            <CardExpense
+              expense={expense}
+            />
+            <div className='expense-section-list-row-icons'>
+              <span><EditIcon onClick={() => { setExpenseEdited(expense); setIsShowingFormToEditExpense(true) }}/></span>
+              <span><RemoveIcon onClick={() => { handleRemoveExpense(expense.id) }}/></span>
+            </div>
+          </div>
+          )
         }
       </CardList>
     </section>

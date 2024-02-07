@@ -2,8 +2,7 @@ import { useEffect, useState, type FC } from 'react'
 import { type Balance, type GroupService } from '../../../../modules/Group/application/GroupService'
 import { type Group } from '../../../../modules/Group/domain/Group'
 import './BalanceSection.css'
-import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
-import { DoubleArrowRight } from '../../../../components/icons/DoubleArrowRight'
+import { CardBalance } from '../../../../components/cards/CardBalance/CardBalance'
 
 interface BalanceSectionProps {
   group: Group
@@ -21,30 +20,10 @@ export const BalanceSection: FC<BalanceSectionProps> = ({ group, groupService })
     }
   }, [group?.id])
 
-  console.log(balances)
   return (
     <section className="balance-section">
-
       {
-        balances.map((b) => {
-          return (
-            <div key={b.participant} className="balance-section-participant">
-              <h3>{b.participant}</h3>
-              <span className='balance-section-participant-icon'>
-                <DoubleArrowRight />
-              </span>
-              <div className='balance-section-participant-payment'>
-              {
-                b.payments.map((payment) => {
-                  return <div key={payment.to} >
-                    <strong>{payment.to} </strong> <span>{formatNumberCurrency(payment.amount)}</span>
-                  </div>
-                })
-              }
-              </div>
-            </div>
-          )
-        })
+        balances.map((balance) => <CardBalance key={balance.participant} balance={balance} />)
       }
     </section>
   )
