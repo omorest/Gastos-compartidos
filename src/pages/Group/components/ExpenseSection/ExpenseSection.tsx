@@ -1,4 +1,4 @@
-import { type FC, useState, useEffect } from 'react'
+import { type FC, useState, useEffect, useMemo } from 'react'
 import { CardList } from '../../../../components/CardList/CardList'
 import Button from '../../../../components/atoms/Button/Button'
 import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
@@ -50,7 +50,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService })
       })
   }
 
-  const totalExpenseGroup = expenses.reduce((acc, expense) => acc + expense.cost, 0)
+  const totalExpenseGroup = useMemo(() => expenses.reduce((acc, expense) => acc + expense.cost, 0), [group.id])
 
   if (isShowingFormToCreateExpense) {
     return <FormNewExpense
