@@ -24,9 +24,16 @@ export class LocalStorageGroupRepository implements GroupRepository {
     this.save(groupsWithoutSelected)
   }
 
-  // async edit (group: Group): Promise<Group> {
-  //   console.log('Edit group', group)
-  // }
+  async edit (groupEdited: Group): Promise<Group> {
+    const groups = await this.getAll()
+    const originalGroupIndex = groups.findIndex((group) => group.id === groupEdited.id)
+    if (originalGroupIndex === -1) {
+      throw new Error('Group not found')
+    }
+    groups[originalGroupIndex] = { ...groupEdited }
+    this.save(groups)
+    return groupEdited
+  }
 
   async get (groupId: string): Promise<Group | null> {
     const groups = await this.getAll()

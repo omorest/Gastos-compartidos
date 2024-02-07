@@ -1,9 +1,21 @@
+.group {
+  .group-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 
-
-.group-titles-section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0px 15px;
-  margin-bottom: 10px;
+    span:hover {
+      cursor: pointer;
+    }
+  }
+  
+  .group-titles-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 15px;
+    margin-bottom: 10px;
+  }
 }
+
