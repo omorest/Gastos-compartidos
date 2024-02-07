@@ -31,4 +31,10 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: end;
+
+  span {
+    display: flex;
+    gap: 10px;
+  }
 }

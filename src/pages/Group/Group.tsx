@@ -8,6 +8,7 @@ import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../components/forms/FormEditGroup/FormEditGroup'
 import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
 import { useGroup, useEditGroup } from '../../hooks/Group'
+import { UsersIcon } from '../../components/icons/UsersIcon'
 
 type SectionGroup = 'expenses' | 'balance'
 
@@ -41,6 +42,9 @@ const GroupPage = () => {
         <div className='group-header-name'>
           <h2>{group?.name}</h2>
           <span onClick={() => { setIsShowingFormEditGroup(true) }}><EditIcon /></span>
+        </div>
+        <div className='group-header-users'>
+          <span><strong>{group?.participants.length}</strong> <UsersIcon /></span>
         </div>
       </div>
       <div className='group-titles-section'>

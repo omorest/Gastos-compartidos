@@ -20,7 +20,6 @@ test.describe('Create Group', () => {
     await page.getByRole('heading', { name: 'Test descripción grupo' }).isVisible();
   });
 
-  // Create a test with playwright similar to the one above, but this time, when create a participant, delete it.
   test('should create a new group and delete a participant in the form', async ({page}) => {
     await page.goto('/');
     await page.getByRole('button', { name: 'Nuevo Grupo' }).click();
