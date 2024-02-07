@@ -10,8 +10,7 @@ import { createLocaStorageExpenseRepository } from '../../modules/Expense/infras
 import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../components/forms/FormEditGroup/FormEditGroup'
 import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
-import { useGroup } from '../../hooks/Group/useGroup'
-import { useEditGroup } from '../../hooks/Group/useEditGroup'
+import { useGroup, useEditGroup } from '../../hooks/Group'
 
 const groupRepository = createLocaStorageGroupRepository()
 const expenseRepository = createLocaStorageExpenseRepository()
