@@ -60,6 +60,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
         <input
           type="date"
           defaultValue={new Date().toISOString().split('T')[0]}
+          max={new Date().toISOString().split('T')[0]}
           {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}

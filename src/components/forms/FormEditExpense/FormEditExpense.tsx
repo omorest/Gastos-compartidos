@@ -64,6 +64,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
       <div>
         <input
           type="date"
+          max={new Date().toISOString().split('T')[0]}
           {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}
