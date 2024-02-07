@@ -1,14 +1,8 @@
 import { type UseMutationResult, useMutation, useQueryClient } from '@tanstack/react-query'
-import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
-import { GroupService } from '../../modules/Group/application/GroupService'
-import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
 import { generateID } from '../../utils/generateId'
 import { type Group } from '../../modules/Group/domain/Group'
 import { useState } from 'react'
-
-const groupRepository = createLocaStorageGroupRepository()
-const expenseRepository = createLocaStorageExpenseRepository()
-const groupService = new GroupService(groupRepository, expenseRepository)
+import { useGroupService } from '../GroupServiceContext/useGroupService'
 
 interface UseCreateGroupResult {
   isShowingCreateGroupForm: boolean
@@ -17,6 +11,7 @@ interface UseCreateGroupResult {
 }
 
 export const useCreateGroup = (): UseCreateGroupResult => {
+  const groupService = useGroupService()
   const [isShowingCreateGroupForm, setIsShowingCreateGroupForm] = useState<boolean>(false)
   const queryClient = useQueryClient()
 

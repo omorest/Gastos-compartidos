@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { type Expense } from '../../modules/Expense/domain/Expense'
-import { type GroupService } from '../../modules/Group/application/GroupService'
+import { useGroupService } from '../GroupServiceContext/useGroupService'
 
 interface UseCreateExpense {
   isShowingFormToCreateExpense: boolean
@@ -8,7 +8,8 @@ interface UseCreateExpense {
   createNewExpense: (newExpense: Expense) => Promise<void>
 }
 
-export const useCreateExpense = (groupService: GroupService, updateExpenses: (expenses: Expense[]) => void): UseCreateExpense => {
+export const useCreateExpense = (updateExpenses: (expenses: Expense[]) => void): UseCreateExpense => {
+  const groupService = useGroupService()
   const [isShowingFormToCreateExpense, setIsShowingFormToCreateExpense] = useState<boolean>(false)
   const createNewExpense = async (newExpense: Expense): Promise<void> => {
     const expenses = await groupService.addExpense(newExpense)

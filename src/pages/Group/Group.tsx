@@ -1,20 +1,13 @@
 import { Link, useParams } from 'wouter'
-import { createLocaStorageGroupRepository } from '../../modules/Group/infrastructure/LocalStorageGroupRepository'
-import { GroupService } from '../../modules/Group/application/GroupService'
 import './Group.css'
 import Button from '../../components/atoms/Button/Button'
 import { useState } from 'react'
 import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
 import { BalanceSection } from './components/BalanceSection/BalanceSection'
-import { createLocaStorageExpenseRepository } from '../../modules/Expense/infrastructure/LocalStorageExpenseRepository'
 import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../components/forms/FormEditGroup/FormEditGroup'
 import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
 import { useGroup, useEditGroup } from '../../hooks/Group'
-
-const groupRepository = createLocaStorageGroupRepository()
-const expenseRepository = createLocaStorageExpenseRepository()
-const groupService = new GroupService(groupRepository, expenseRepository)
 
 type SectionGroup = 'expenses' | 'balance'
 
@@ -25,8 +18,8 @@ const GroupPage = () => {
   const { editGroupMutation, isShowingFormEditGroup, setIsShowingFormEditGroup } = useEditGroup()
 
   const selectedSection = group && {
-    expenses: <ExpenseSection group={group} groupService={groupService} />,
-    balance: <BalanceSection group={group} groupService={groupService} />
+    expenses: <ExpenseSection group={group} />,
+    balance: <BalanceSection group={group} />
   }
 
   if (group && isShowingFormEditGroup) {

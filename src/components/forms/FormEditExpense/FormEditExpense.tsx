@@ -9,7 +9,7 @@ import Button from '../../atoms/Button/Button'
 interface FormEditExpenseProps {
   expense: Expense
   users: User[]
-  onEditExpense: (expense: Expense) => void
+  onEditExpense: (expense: Expense) => Promise<void>
   onCancel: () => void
 }
 
@@ -25,8 +25,8 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
     }
   })
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = (expenseEdited) => {
-    onEditExpense({
+  const onSubmit: SubmitHandler<ExpenseFormData> = async (expenseEdited) => {
+    await onEditExpense({
       ...expenseEdited,
       id: expense.id,
       groupId: expense.groupId,

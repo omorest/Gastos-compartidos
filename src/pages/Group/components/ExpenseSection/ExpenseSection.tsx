@@ -4,7 +4,6 @@ import Button from '../../../../components/atoms/Button/Button'
 import { CardExpense } from '../../../../components/cards/CardExpense/CardExpense'
 import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
 import { type Expense } from '../../../../modules/Expense/domain/Expense'
-import { type GroupService } from '../../../../modules/Group/application/GroupService'
 import { type Group } from '../../../../modules/Group/domain/Group'
 
 import FormEditExpense from '../../../../components/forms/FormEditExpense/FormEditExpense'
@@ -16,15 +15,14 @@ import './ExpenseSection.css'
 
 interface ExpenseSectionProps {
   group: Group
-  groupService: GroupService
 }
 
-export const ExpenseSection: FC<ExpenseSectionProps> = ({ group, groupService }) => {
-  const { expenses, setExpenses } = useExpenses(group.id, groupService)
+export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
+  const { expenses, setExpenses } = useExpenses(group.id)
   const [expenseEdited, setExpenseEdited] = useState<Expense>()
-  const { createNewExpense, isShowingFormToCreateExpense, setIsShowingFormToCreateExpense } = useCreateExpense(groupService, setExpenses)
-  const { removeExpense } = useRemoveExpense(groupService, expenses, setExpenses)
-  const { editExpense, isShowingFormToEditExpense, setIsShowingFormToEditExpense } = useEditExpense(groupService, expenses, setExpenses)
+  const { createNewExpense, isShowingFormToCreateExpense, setIsShowingFormToCreateExpense } = useCreateExpense(setExpenses)
+  const { removeExpense } = useRemoveExpense(expenses, setExpenses)
+  const { editExpense, isShowingFormToEditExpense, setIsShowingFormToEditExpense } = useEditExpense(expenses, setExpenses)
 
   const totalExpenseGroup = useMemo(() => expenses.reduce((acc, expense) => acc + expense.cost, 0), [expenses])
 

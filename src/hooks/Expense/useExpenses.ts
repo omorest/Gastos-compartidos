@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { type GroupService } from '../../modules/Group/application/GroupService'
 import { type Expense } from '../../modules/Expense/domain/Expense'
+import { useGroupService } from '../GroupServiceContext/useGroupService'
 
 interface UseExpenses {
   isLoading: boolean
@@ -8,7 +8,8 @@ interface UseExpenses {
   setExpenses: React.Dispatch<React.SetStateAction<Expense[]>>
 }
 
-export const useExpenses = (groupId: string, groupService: GroupService): UseExpenses => {
+export const useExpenses = (groupId: string): UseExpenses => {
+  const groupService = useGroupService()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [expenses, setExpenses] = useState<Expense[]>([])
 
