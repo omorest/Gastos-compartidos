@@ -10,7 +10,7 @@ import Button from '../../atoms/Button/Button'
 interface FormNewExpenseProps {
   groupId: string
   users: User[]
-  onSaveExpense: (expense: Expense) => void
+  onSaveExpense: (expense: Expense) => Promise<void>
   onCancel: () => void
 }
 
@@ -19,8 +19,8 @@ type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'creationDate' | 'payerI
 const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense, onCancel }) => {
   const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>()
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = (expense) => {
-    onSaveExpense({
+  const onSubmit: SubmitHandler<ExpenseFormData> = async (expense) => {
+    await onSaveExpense({
       ...expense,
       id: generateID(),
       groupId,
