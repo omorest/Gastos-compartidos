@@ -16,7 +16,7 @@ type FormData = Pick<Group, 'name' | 'description' | 'participants'>
 const initialGroupData: FormData = {
   name: '',
   description: '',
-  participants: [{ id: '', name: '' }] // Inicializamos con un participante vacío
+  participants: [{ id: '', name: '' }]
 }
 
 export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
@@ -29,7 +29,6 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
     defaultValues: initialGroupData
   })
 
-  // TODO: Change name
   const onSubmit: SubmitHandler<FormData> = (data) => {
     const group: Group = {
       ...data,

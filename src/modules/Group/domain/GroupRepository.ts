@@ -1,4 +1,3 @@
-// import { type Expense } from '../../Expense/domain/Expense'
 import { type Group } from './Group'
 
 export interface GroupRepository {

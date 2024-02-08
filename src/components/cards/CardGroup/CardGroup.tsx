@@ -7,7 +7,6 @@ import { UsersIcon } from '../../icons/UsersIcon'
 
 interface CardGroupProps {
   group: Group
-  // TODO: review type, promise or not?
   onRemoveGroup: (group: Group) => void
 }
 

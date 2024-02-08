@@ -11,54 +11,82 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
   }
 
   async create (newExpense: Expense): Promise<Expense[]> {
-    const expenses = await this.getAll()
-    const expensesUpdated = [newExpense, ...expenses]
-    const expensesSorted = this.sortExpensesByDate(expensesUpdated, 'desc')
-    this.save(expensesSorted)
-    return expensesSorted
+    try {
+      const expenses = await this.getAll()
+      const expensesUpdated = [newExpense, ...expenses]
+      const expensesSorted = this.sortExpensesByDate(expensesUpdated, 'desc')
+      this.save(expensesSorted)
+      return expensesSorted
+    } catch (error) {
+      throw new Error('Error creating expense')
+    }
   }
 
   async remove (expenseId: string): Promise<void> {
-    const expenses = await this.getAll()
-    const expensesWithoutSelected = expenses.filter((expense) => expense.id !== expenseId)
-    this.save(expensesWithoutSelected)
+    try {
+      const expenses = await this.getAll()
+      const expensesWithoutSelected = expenses.filter((expense) => expense.id !== expenseId)
+      this.save(expensesWithoutSelected)
+    } catch (error) {
+      throw new Error('Error removing expense')
+    }
   }
 
   async removeAllFromGroup (groupId: string): Promise<void> {
-    const expenses = await this.getAll()
-    const expensesWithoutSelected = expenses.filter((expense) => expense.groupId !== groupId)
-    this.save(expensesWithoutSelected)
+    try {
+      const expenses = await this.getAll()
+      const expensesWithoutSelected = expenses.filter((expense) => expense.groupId !== groupId)
+      this.save(expensesWithoutSelected)
+    } catch (error) {
+      throw new Error('Error removing expenses from group')
+    }
   }
 
   async edit (expenseEdited: Expense): Promise<Expense> {
-    const expenses = await this.getAll()
-    const originalExpenseIndex = expenses.findIndex((expense) => expense.id === expenseEdited.id)
-    if (originalExpenseIndex === -1) {
-      throw new Error('Expense not found')
+    try {
+      const expenses = await this.getAll()
+      const originalExpenseIndex = expenses.findIndex((expense) => expense.id === expenseEdited.id)
+      if (originalExpenseIndex === -1) {
+        throw new Error('Expense not found')
+      }
+      expenses[originalExpenseIndex] = { ...expenseEdited }
+      this.save(expenses)
+      return expenseEdited
+    } catch (error) {
+      throw new Error('Error editing expense')
     }
-    expenses[originalExpenseIndex] = { ...expenseEdited }
-    this.save(expenses)
-    return expenseEdited
   }
 
   async getAllFromGroup (groupId: string, sort: SortExpensesByDate = 'desc'): Promise<Expense[]> {
-    const expenses = await this.getAll()
-    const expensesGroup = expenses.filter((expense) => expense.groupId === groupId)
-    const expensesGroupSorted = this.sortExpensesByDate(expensesGroup, sort)
-    return expensesGroupSorted
+    try {
+      const expenses = await this.getAll()
+      const expensesGroup = expenses.filter((expense) => expense.groupId === groupId)
+      const expensesGroupSorted = this.sortExpensesByDate(expensesGroup, sort)
+      return expensesGroupSorted
+    } catch (error) {
+      throw new Error('Error getting expenses from group')
+    }
   }
 
   async getAll (): Promise<Expense[]> {
-    const expenses: Expense[] = await JSON.parse(localStorage.getItem('expenses') ?? '[]')
-    return expenses.map((expense) => ({
-      ...expense,
-      creationDate: new Date(expense.creationDate)
-    }))
+    try {
+      const expenses: Expense[] = await JSON.parse(localStorage.getItem('expenses') ?? '[]')
+      return expenses.map((expense) => ({
+        ...expense,
+        creationDate: new Date(expense.creationDate)
+      }))
+    } catch (error) {
+      throw new Error('Error getting expenses')
+    }
   }
 
   async getById (expenseId: string): Promise<Expense | undefined> {
-    const expenses = await this.getAll()
-    return expenses.find((expense) => expense.id === expenseId)
+    try {
+      const expenses = await this.getAll()
+      return expenses.find((expense) => expense.id === expenseId)
+    } catch (error) {
+      throw new Error('Error getting expense')
+    }
   }
 
   private sortExpensesByDate (expenses: Expense[], sort: SortExpensesByDate): Expense[] {

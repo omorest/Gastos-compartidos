@@ -5,44 +5,63 @@ export function createLocaStorageGroupRepository (): GroupRepository {
   return new LocalStorageGroupRepository()
 }
 
-// TODO: Improve error handling
 export class LocalStorageGroupRepository implements GroupRepository {
   private save (groups: Group[]): void {
     localStorage.setItem('groups', JSON.stringify(groups))
   }
 
   async create (group: Group): Promise<Group> {
-    const groups = await this.getAll()
-    groups.unshift(group)
-    this.save(groups)
-    return group
+    try {
+      const groups = await this.getAll()
+      groups.unshift(group)
+      this.save(groups)
+      return group
+    } catch (error) {
+      throw new Error('Error creating group')
+    }
   }
 
   async remove (groupId: string): Promise<void> {
-    const groups = await this.getAll()
-    const groupsWithoutSelected = groups.filter((group) => group.id !== groupId)
-    this.save(groupsWithoutSelected)
+    try {
+      const groups = await this.getAll()
+      const groupsWithoutSelected = groups.filter((group) => group.id !== groupId)
+      this.save(groupsWithoutSelected)
+    } catch (error) {
+      throw new Error('Error removing group')
+    }
   }
 
   async edit (groupEdited: Group): Promise<Group> {
-    const groups = await this.getAll()
-    const originalGroupIndex = groups.findIndex((group) => group.id === groupEdited.id)
-    if (originalGroupIndex === -1) {
-      throw new Error('Group not found')
+    try {
+      const groups = await this.getAll()
+      const originalGroupIndex = groups.findIndex((group) => group.id === groupEdited.id)
+      if (originalGroupIndex === -1) {
+        throw new Error('Group not found')
+      }
+      groups[originalGroupIndex] = { ...groupEdited }
+      this.save(groups)
+      return groupEdited
+    } catch (error) {
+      throw new Error('Error editing group')
     }
-    groups[originalGroupIndex] = { ...groupEdited }
-    this.save(groups)
-    return groupEdited
   }
 
   async get (groupId: string): Promise<Group | null> {
-    const groups = await this.getAll()
-    const group = groups?.find((group) => group.id === groupId)
-    return group ?? null
+    try {
+      const groups = await this.getAll()
+      const group = groups?.find((group) => group.id === groupId)
+      return group ?? null
+    } catch (error) {
+      throw new Error('Error getting group')
+    }
   }
 
   async getAll (): Promise<Group[]> {
-    const groups = JSON.parse(localStorage.getItem('groups') ?? '[]')
-    return groups
+    try {
+      const groups = JSON.parse(localStorage.getItem('groups') ?? '[]')
+      return groups
+    } catch (error) {
+      throw new Error('Error getting groups')
+    }
   }
 }
