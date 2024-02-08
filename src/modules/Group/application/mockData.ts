@@ -12,6 +12,7 @@ export const groupRepository: GroupRepository = {
 }
 
 export const expenseRepository: ExpenseRepository = {
+  save: () => {},
   create: async expense => [expense],
   remove: async () => {},
   edit: async expense => expense,
