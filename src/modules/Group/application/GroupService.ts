@@ -1,5 +1,6 @@
 import { type Expense } from '../../Expense/domain/Expense'
 import { type SortExpensesByDate, type ExpenseRepository } from '../../Expense/domain/ExpenseRepository'
+import { type User } from '../../User/domain/User'
 import { type Group } from '../domain/Group'
 import { type GroupRepository } from '../domain/GroupRepository'
 
@@ -56,10 +57,12 @@ export class GroupService implements GroupRepository {
   }
 
   // -------- balance -------
-  async calculateExpenses (group: Group): Promise<Array<{ idParticipant: string, participant: string, balance: number }>> {
-    const { participants } = group
-    const expensesGroup = await this.expenseRepository.getAllFromGroup(group.id, 'desc')
-    const totalExpensesByParticipant = participants.map(participant => {
+  totalExpensesByParticipant (participants: User[], expensesGroup: Expense[]): Array<{
+    id: string
+    name: string
+    totalExpense: number
+  }> {
+    return participants.map(participant => {
       const participantExpense: number = expensesGroup
         .filter(expense => expense.paidBy === participant.name)
         .reduce((acc, currentExpense) => {
@@ -72,18 +75,28 @@ export class GroupService implements GroupRepository {
         totalExpense: participantExpense
       }
     })
+  }
 
+  calculateAverageExpenses (expensesGroup: Expense[], participants: User[]): number {
     const totalExpenses = expensesGroup.reduce((acc, expense) => acc + expense.cost, 0)
     const averageExpenses = totalExpenses / participants.length
-    const debts = participants.map((participant) => {
-      const participantExpense = totalExpensesByParticipant.find(expenseParticipant => expenseParticipant.id === participant.id)
+    return averageExpenses
+  }
 
-      return {
-        idParticipant: participant.id,
-        participant: participant.name,
-        balance: participantExpense ? Math.round((participantExpense.totalExpense - averageExpenses) * 100) / 100 : 0
-      }
+  calculateDebts (participants: User[], totalExpensesByParticipant: Array<{ id: string, totalExpense: number }>, averageExpenses: number): Array<{ idParticipant: string, participant: string, balance: number }> {
+    return participants.map(participant => {
+      const participantExpense = totalExpensesByParticipant.find(expenseParticipant => expenseParticipant.id === participant.id)
+      const balance = participantExpense ? Math.round((participantExpense.totalExpense - averageExpenses) * 100) / 100 : 0
+
+      return { idParticipant: participant.id, participant: participant.name, balance }
     })
+  }
+
+  async calculateExpenses (group: Group): Promise<Array<{ idParticipant: string, participant: string, balance: number }>> {
+    const expensesGroup = await this.expenseRepository.getAllFromGroup(group.id, 'desc')
+    const totalExpensesByParticipant = this.totalExpensesByParticipant(group.participants, expensesGroup)
+    const averageExpenses = this.calculateAverageExpenses(expensesGroup, group.participants)
+    const debts = this.calculateDebts(group.participants, totalExpensesByParticipant, averageExpenses)
 
     return debts
   }

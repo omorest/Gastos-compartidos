@@ -72,7 +72,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
 
       <div className='form-edit-expense-input-date'>
         <label>Por quien fue pagado:</label>
-        <select {...register('payerId')} name="selectPayer" className='form-edit-expense-input-date-select'>
+        <select {...register('payerId')} className='form-edit-expense-input-date-select'>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}

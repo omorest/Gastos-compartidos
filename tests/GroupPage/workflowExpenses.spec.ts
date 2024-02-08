@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test'
 import { createGroup } from '../utils/createGroup'
 
+// TODO: review select name
 async function createExpense (page: Page, options: { title: string, amount: string, date: string, payer: string }): Promise<void> {
   await page.getByRole('button', { name: 'Nuevo Gasto' }).click()
   await page.getByPlaceholder('Título').fill(options.title)
