@@ -2,7 +2,7 @@ import { describe, test, expect } from 'vitest'
 import { GroupService } from './GroupService'
 import { expectedExpensesDebts, expenseRepository, expenses, groupRepository, users } from './mockData'
 
-describe.only('Group expenses example challenge', () => {
+describe('Group expenses example challenge', () => {
   const groupService = new GroupService(groupRepository, expenseRepository)
   test('should calculate the total expenses by participants', () => {
     const totalExpenses = groupService.totalExpensesByParticipant(users, expenses)

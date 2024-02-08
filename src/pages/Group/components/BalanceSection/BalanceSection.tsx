@@ -9,7 +9,7 @@ interface BalanceSectionProps {
 }
 
 export const BalanceSection: FC<BalanceSectionProps> = ({ group }) => {
-  const {balances} = useBalance(group )
+  const { balances } = useBalance(group)
 
   return (
     <section className="balance-section">
