@@ -68,7 +68,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
 
       <div className='form-new-expense-input-date'>
         <label>Por quien fue pagado:</label>
-        <select {...register('payerId')} className='form-new-expense-input-date-select' data-testid="select-payer">
+        <select {...register('payerId')} className='form-new-expense-input-date-select' data-testid="select-payer" id='selectNewForm'>
           {users.map((user) => (
             <option key={user.id} value={user.id} data-testid={`option-${user.name}`}>
               {user.name}

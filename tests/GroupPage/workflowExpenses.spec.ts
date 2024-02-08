@@ -19,7 +19,7 @@ test.describe.serial('Workflow Expenses', () => {
       description: 'Test Description',
       participants: ['Oscar', 'Juan']
     }
-    const infoExpense = { title: 'Comida', amount: '35.56', date: '2024-02-07', payer: 'Oscar' }
+    const infoExpense = { title: 'Comida', amount: '35.56', date: '2024-02-07', payer: 'Juan' }
     await page.goto('/')
     await createGroup(page, infoGroup)
     const cardGroupElement = await page.$('[data-testid="card-group"]')
@@ -52,7 +52,7 @@ test.describe.serial('Workflow Expenses', () => {
   test('should navigate to balance', async () => {
     await page.getByRole('button', { name: 'Balance' }).click()
     expect(await page.getByRole('heading', { name: 'Juan' }).isVisible()).toBeTruthy()
-    expect(await page.getByText('Oscar 67,78 €').isVisible()).toBeTruthy()
+    expect(await page.getByText('Oscar 32,22 €').isVisible()).toBeTruthy()
   })
 
   test('should navigate to expenses and remove one', async () => {
