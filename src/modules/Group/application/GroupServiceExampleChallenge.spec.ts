@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import { GroupService } from './GroupService'
-import { expectedExpensesDebts, expenseRepository, expenses, groupRepository, users } from './mockData'
+import { expectedExpensesDebts, expenseRepository, expenses, groupRepository, users } from './mockDataExampleChallenge'
 
 describe('Group expenses example challenge', () => {
   const groupService = new GroupService(groupRepository, expenseRepository)
