@@ -100,9 +100,8 @@ export class GroupService implements GroupRepository {
     return debts
   }
 
-  async calculateTransactions (group: Group): Promise<Balance[]> {
-    const expensesGroup = await this.expenseRepository.getAllFromGroup(group.id, 'desc')
-    const debts = this.calculateExpenses(group.participants, expensesGroup)
+  calculateTransactions (participants: User[], expensesFromGroup: Expense[]): Balance[] {
+    const debts = this.calculateExpenses(participants, expensesFromGroup)
     const debtors = debts.filter(debtor => debtor.balance < 0)
     const creditors = debts.filter(creditor => creditor.balance > 0)
 
@@ -139,6 +138,12 @@ export class GroupService implements GroupRepository {
       if (deudor.balance === 0) indexDebtor++
       if (creditor.balance === 0) indexCreditor++
     }
+    console.log(transactions)
     return transactions
+  }
+
+  async getBalances (group: Group): Promise<Balance[]> {
+    const expensesFromGroup = await this.getExpensesFromGroup(group.id)
+    return this.calculateTransactions(group.participants, expensesFromGroup)
   }
 }

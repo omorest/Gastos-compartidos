@@ -33,11 +33,40 @@ describe.only('Group expenses example challenge', () => {
 
     const debts = groupService.calculateDebts(users, totalExpensesByParticipant, 40.85)
 
-    expect(expectedExpensesDebts).toEqual(debts)
+    expect(debts).toEqual(expectedExpensesDebts)
   })
 
   test('should calculate all expenses debts', () => {
     const finalExpensesParticipants = groupService.calculateExpenses(users, expenses)
     expect(expectedExpensesDebts).toEqual(finalExpensesParticipants)
+  })
+
+  test('should calculate all transactions', () => {
+    const transactions = groupService.calculateTransactions(users, expenses)
+    const expected = [
+      {
+        participant: 'Raul',
+        payments: [
+          {
+            to: 'Fran',
+            amount: 40.85
+          }
+        ]
+      },
+      {
+        participant: 'Jose',
+        payments: [
+          {
+            to: 'Fran',
+            amount: 18.3
+          },
+          {
+            to: 'Alfonso',
+            amount: 22.55
+          }
+        ]
+      }
+    ]
+    expect(transactions).toEqual(expected)
   })
 })

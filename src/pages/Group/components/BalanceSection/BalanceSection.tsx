@@ -1,25 +1,15 @@
-import { useEffect, useState, type FC } from 'react'
-import { type Balance } from '../../../../modules/Group/application/GroupService'
+import { type FC } from 'react'
 import { type Group } from '../../../../modules/Group/domain/Group'
 import './BalanceSection.css'
 import { CardBalance } from '../../../../components/cards/CardBalance/CardBalance'
-import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
+import { useBalance } from '../../../../hooks/Expense/useBalance'
 
 interface BalanceSectionProps {
   group: Group
 }
 
 export const BalanceSection: FC<BalanceSectionProps> = ({ group }) => {
-  const groupService = useGroupService()
-  const [balances, setBalances] = useState<Balance[]>([])
-
-  useEffect(() => {
-    if (group) {
-      groupService.calculateTransactions(group)
-        .then((res) => { setBalances(res) })
-        .catch((e) => { console.error(e) })
-    }
-  }, [group?.id])
+  const {balances} = useBalance(group )
 
   return (
     <section className="balance-section">
