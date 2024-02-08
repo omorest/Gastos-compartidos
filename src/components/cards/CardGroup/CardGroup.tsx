@@ -28,7 +28,7 @@ const CardGroup: FC<CardGroupProps> = ({ group, onRemoveGroup }) => {
         </div>
         <div className='card-group-icons'>
           <span><strong data-testid={group.name + 'number-participants'}>{group.participants.length}</strong><UsersIcon /></span>
-          <RemoveIcon onClick={handleRemoveGroup} data-testid="removeGroup"></RemoveIcon>
+          <span onClick={handleRemoveGroup} data-testid="removeGroup"><RemoveIcon ></RemoveIcon></span>
         </div>
       </div>
     </Link>
