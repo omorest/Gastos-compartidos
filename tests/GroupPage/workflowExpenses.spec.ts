@@ -11,7 +11,7 @@ async function createExpense (page: Page, options: { title: string, amount: stri
   await page.getByRole('button', { name: 'Añadir Gasto' }).click()
 }
 
-test.describe.serial.only('Workflow Expenses', () => {
+test.describe.serial('Workflow Expenses', () => {
   let page: Page
 
   test.beforeAll(async ({ browser }) => {
