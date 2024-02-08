@@ -5,18 +5,18 @@ import { type GroupRepository } from '../domain/GroupRepository'
 
 export const groupRepository: GroupRepository = {
   create: async group => group,
-  remove: async groupId => {},
+  remove: async () => {},
   edit: async group => group,
-  get: async groupId => null,
+  get: async () => null,
   getAll: async () => []
 }
 
 export const expenseRepository: ExpenseRepository = {
   create: async expense => [expense],
-  remove: async expenseId => {},
+  remove: async () => {},
   edit: async expense => expense,
-  getAllFromGroup: async groupId => [],
-  removeAllFromGroup: async groupId => {},
+  getAllFromGroup: async () => [],
+  removeAllFromGroup: async () => {},
   getAll: async () => []
 }
 
