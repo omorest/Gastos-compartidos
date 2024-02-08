@@ -59,7 +59,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
             />
             <div className='expense-section-list-row-icons'>
               <span><EditIcon onClick={() => { setExpenseEdited(expense); setIsShowingFormToEditExpense(true) }}/></span>
-              <span><RemoveIcon onClick={() => { removeExpense(expense.id) }}/></span>
+              <span data-testid={`removeExpense-${expense.title}`}><RemoveIcon onClick={() => { removeExpense(expense.id) }}/></span>
             </div>
           </div>
           )
