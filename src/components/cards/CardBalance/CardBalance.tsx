@@ -10,15 +10,13 @@ interface BalanceProps {
 }
 
 export const CardBalance: FC<BalanceProps> = ({ balance }) => {
-  // TODO: Calculate with service
   const totalExpenseParticipant = Math.round((balance.payments.reduce((acc, payment) => acc + payment.amount, 0) * 100)) / 100
 
   return (
     <div key={balance.participant} className="balance-section-participant">
       <div className='balance-section-participant-info'>
         <h3>{balance.participant}</h3>
-        {/* TODO: show all participants with negativa and positive values */}
-        <div className='balance-section-participant-info-total'>-{totalExpenseParticipant}</div>
+        <div className='balance-section-participant-info-total'>-{formatNumberCurrency(totalExpenseParticipant)}</div>
       </div>
       <span className='balance-section-participant-icon'>
         <DoubleArrowRight />

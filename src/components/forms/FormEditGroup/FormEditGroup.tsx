@@ -3,7 +3,6 @@ import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import './FormEditGroup.css'
 import { type Group } from '../../../modules/Group/domain/Group'
 import Button from '../../atoms/Button/Button'
-import { generateID } from '../../../utils/generateId'
 import { RemoveIcon } from '../../icons/Remove'
 import { InputText } from '../../atoms/InputText/InputText'
 
@@ -29,12 +28,11 @@ export const FormEditGroup: FC<FormEditGroupProps> = ({ group, onEditGroup, onCa
     }
   })
 
-  // TODO: Change name
   const onSubmit: SubmitHandler<FormData> = (data) => {
     onEditGroup({
       ...data,
       id: group.id,
-      participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
+      participants: data.participants,
       creationDate: group.creationDate
     })
   }

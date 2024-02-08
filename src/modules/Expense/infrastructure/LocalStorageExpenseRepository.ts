@@ -6,7 +6,7 @@ export function createLocaStorageExpenseRepository (): ExpenseRepository {
 }
 
 export class LocalStorageExpenseRepository implements ExpenseRepository {
-  private save (expenses: Expense[]): void {
+  save (expenses: Expense[]): void {
     localStorage.setItem('expenses', JSON.stringify(expenses))
   }
 
