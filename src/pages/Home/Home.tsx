@@ -2,7 +2,7 @@ import Button from '../../components/atoms/Button/Button'
 import CardGroup from '../../components/cards/CardGroup/CardGroup'
 import { CardList } from '../../components/CardList/CardList'
 import './Home.css'
-import { FormNewGroup } from '../../components/forms/FormNewGroup/FormNewGroup'
+import { FormNewGroup } from '../../modules/Group/ui/FormNewGroup/FormNewGroup'
 import { useGroups, useRemoveGroup, useCreateGroup } from '../../hooks/Group'
 
 const Home = () => {
