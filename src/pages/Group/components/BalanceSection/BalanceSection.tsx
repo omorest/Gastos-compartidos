@@ -1,7 +1,7 @@
 import { type FC } from 'react'
 import { type Group } from '../../../../modules/Group/domain/Group'
 import './BalanceSection.css'
-import { CardBalance } from '../../../../components/cards/CardBalance/CardBalance'
+import { CardBalance } from '../../../../core/components/CardBalance/CardBalance'
 import { useBalance } from '../../../../modules/Expense/ui/hooks/useBalance'
 
 interface BalanceSectionProps {

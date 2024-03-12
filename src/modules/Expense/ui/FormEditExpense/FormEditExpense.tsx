@@ -3,8 +3,8 @@ import { useForm, type SubmitHandler } from 'react-hook-form'
 import { type User } from '../../../User/domain/User'
 import { type Expense } from '../../domain/Expense'
 import './FormEditExpense.css'
-import { InputText } from '../../../../components/atoms/InputText/InputText'
-import Button from '../../../../components/atoms/Button/Button'
+import { InputText } from '../../../../core/components/InputText/InputText'
+import Button from '../../../../core/components/Button/Button'
 
 interface FormEditExpenseProps {
   expense: Expense

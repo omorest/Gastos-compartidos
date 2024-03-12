@@ -1,6 +1,6 @@
 import { type FC } from 'react'
 import { type Balance } from '../../../modules/Group/application/GroupService'
-import { DoubleArrowRight } from '../../icons/DoubleArrowRight'
+import { DoubleArrowRight } from '../icons/DoubleArrowRight'
 import { formatNumberCurrency } from '../../../utils/formatNumberCurrency'
 
 import './CardBalance.css'

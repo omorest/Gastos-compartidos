@@ -1,6 +1,6 @@
-import Button from '../../components/atoms/Button/Button'
+import Button from '../../core/components/Button/Button'
 import CardGroup from '../../modules/Group/ui/CardGroup/CardGroup'
-import { CardList } from '../../components/CardList/CardList'
+import { CardList } from '../../core/components/CardList/CardList'
 import './Home.css'
 import { FormNewGroup } from '../../modules/Group/ui/FormNewGroup/FormNewGroup'
 import { useGroups, useRemoveGroup, useCreateGroup } from '../../modules/Group/ui/hooks'

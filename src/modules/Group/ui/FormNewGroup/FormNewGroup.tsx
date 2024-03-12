@@ -2,10 +2,10 @@ import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import './FormNewGroup.css'
 import { type Group } from '../../domain/Group'
-import Button from '../../../../components/atoms/Button/Button'
+import Button from '../../../../core/components/Button/Button'
 import { generateID } from '../../../../utils/generateId'
-import { RemoveIcon } from '../../../../components/icons/Remove'
-import { InputText } from '../../../../components/atoms/InputText/InputText'
+import { RemoveIcon } from '../../../../core/components/icons/Remove'
+import { InputText } from '../../../../core/components/InputText/InputText'
 interface FormNewGroupProps {
   onSave: (group: Group) => void
   onCancel: () => void
