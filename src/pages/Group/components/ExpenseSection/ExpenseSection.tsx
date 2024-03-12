@@ -2,7 +2,7 @@ import { useMemo, useState, type FC } from 'react'
 import { CardList } from '../../../../components/CardList/CardList'
 import Button from '../../../../components/atoms/Button/Button'
 import { CardExpense } from '../../../../components/cards/CardExpense/CardExpense'
-import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
+import FormNewExpense from '../../../../modules/Expense/ui/FormNewExpense/FormNewExpense'
 import { type Expense } from '../../../../modules/Expense/domain/Expense'
 import { type Group } from '../../../../modules/Group/domain/Group'
 
