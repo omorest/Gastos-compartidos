@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient, type UseMutationResult } from '@tanstack/react-query'
-import { type Group } from '../../modules/Group/domain/Group'
-import { useGroupService } from '../GroupServiceContext/useGroupService'
+import { type Group } from '../../domain/Group'
+import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
 
 export const useRemoveGroup = (): { removeGroupMutation: UseMutationResult<void, Error, Group, unknown> } => {
   const groupService = useGroupService()

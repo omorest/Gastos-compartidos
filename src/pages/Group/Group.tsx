@@ -7,7 +7,7 @@ import { BalanceSection } from './components/BalanceSection/BalanceSection'
 import { EditIcon } from '../../components/icons/EditIcon'
 import { FormEditGroup } from '../../modules/Group/ui/FormEditGroup/FormEditGroup'
 import { BackHomeIcon } from '../../components/icons/BackHomeIcon'
-import { useGroup, useEditGroup } from '../../hooks/Group'
+import { useGroup, useEditGroup } from '../../modules/Group/ui/hooks'
 import { UsersIcon } from '../../components/icons/UsersIcon'
 
 type SectionGroup = 'expenses' | 'balance'

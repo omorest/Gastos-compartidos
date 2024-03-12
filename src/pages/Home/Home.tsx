@@ -3,7 +3,7 @@ import CardGroup from '../../modules/Group/ui/CardGroup/CardGroup'
 import { CardList } from '../../components/CardList/CardList'
 import './Home.css'
 import { FormNewGroup } from '../../modules/Group/ui/FormNewGroup/FormNewGroup'
-import { useGroups, useRemoveGroup, useCreateGroup } from '../../hooks/Group'
+import { useGroups, useRemoveGroup, useCreateGroup } from '../../modules/Group/ui/hooks'
 
 const Home = () => {
   const { data: groups } = useGroups()
