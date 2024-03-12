@@ -1,10 +1,10 @@
 import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
 import './FormEditGroup.css'
-import { type Group } from '../../../modules/Group/domain/Group'
-import Button from '../../atoms/Button/Button'
-import { RemoveIcon } from '../../icons/Remove'
-import { InputText } from '../../atoms/InputText/InputText'
+import { type Group } from '../../domain/Group'
+import Button from '../../../../components/atoms/Button/Button'
+import { RemoveIcon } from '../../../../components/icons/Remove'
+import { InputText } from '../../../../components/atoms/InputText/InputText'
 
 interface FormEditGroupProps {
   group: Group
