@@ -10,7 +10,7 @@ import FormEditExpense from '../../../../modules/Expense/ui/FormEditExpense/Form
 import { EditIcon } from '../../../../core/components/icons/EditIcon'
 import { RemoveIcon } from '../../../../core/components/icons/Remove'
 import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../modules/Expense/ui/hooks'
-import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
+import { formatNumberCurrency } from '../../../../core/utils/formatNumberCurrency'
 import './ExpenseSection.css'
 
 interface ExpenseSectionProps {

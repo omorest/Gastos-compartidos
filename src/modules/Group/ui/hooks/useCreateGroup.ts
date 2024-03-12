@@ -1,5 +1,5 @@
 import { type UseMutationResult, useMutation, useQueryClient } from '@tanstack/react-query'
-import { generateID } from '../../../../utils/generateId'
+import { generateID } from '../../../../core/utils/generateId'
 import { type Group } from '../../domain/Group'
 import { useState } from 'react'
 import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
