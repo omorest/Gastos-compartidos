@@ -6,7 +6,7 @@ import FormNewExpense from '../../../../modules/Expense/ui/FormNewExpense/FormNe
 import { type Expense } from '../../../../modules/Expense/domain/Expense'
 import { type Group } from '../../../../modules/Group/domain/Group'
 
-import FormEditExpense from '../../../../components/forms/FormEditExpense/FormEditExpense'
+import FormEditExpense from '../../../../modules/Expense/ui/FormEditExpense/FormEditExpense'
 import { EditIcon } from '../../../../components/icons/EditIcon'
 import { RemoveIcon } from '../../../../components/icons/Remove'
 import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../hooks/Expense'

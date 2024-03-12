@@ -1,10 +1,10 @@
 import React from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { type User } from '../../../modules/User/domain/User'
-import { type Expense } from '../../../modules/Expense/domain/Expense'
+import { type User } from '../../../User/domain/User'
+import { type Expense } from '../../domain/Expense'
 import './FormEditExpense.css'
-import { InputText } from '../../atoms/InputText/InputText'
-import Button from '../../atoms/Button/Button'
+import { InputText } from '../../../../components/atoms/InputText/InputText'
+import Button from '../../../../components/atoms/Button/Button'
 
 interface FormEditExpenseProps {
   expense: Expense
