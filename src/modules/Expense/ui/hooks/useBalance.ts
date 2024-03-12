@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { type Balance } from '../../modules/Group/application/GroupService'
-import { useGroupService } from '../GroupServiceContext/useGroupService'
-import { type Group } from '../../modules/Group/domain/Group'
+import { type Balance } from '../../../Group/application/GroupService'
+import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
+import { type Group } from '../../../Group/domain/Group'
 
 interface UseBalanceResponse {
   balances: Balance[]
@@ -15,7 +15,7 @@ export const useBalance = (group: Group): UseBalanceResponse => {
   useEffect(() => {
     if (group) {
       groupService.getBalances(group)
-        .then((res) => { setBalances(res as Balance[]) })
+        .then((res) => { setBalances(res) })
         .catch((e) => { console.error(e) })
     }
   }, [group?.id])

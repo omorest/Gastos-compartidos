@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useState } from 'react'
-import { type Expense } from '../../modules/Expense/domain/Expense'
-import { useGroupService } from '../GroupServiceContext/useGroupService'
+import { type Expense } from '../../domain/Expense'
+import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
 
 interface UseEditExpense {
   isShowingFormToEditExpense: boolean

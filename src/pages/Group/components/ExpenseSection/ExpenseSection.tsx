@@ -9,7 +9,7 @@ import { type Group } from '../../../../modules/Group/domain/Group'
 import FormEditExpense from '../../../../modules/Expense/ui/FormEditExpense/FormEditExpense'
 import { EditIcon } from '../../../../components/icons/EditIcon'
 import { RemoveIcon } from '../../../../components/icons/Remove'
-import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../hooks/Expense'
+import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../modules/Expense/ui/hooks'
 import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
 import './ExpenseSection.css'
 
