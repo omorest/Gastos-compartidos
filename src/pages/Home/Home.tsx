@@ -1,5 +1,5 @@
 import Button from '../../components/atoms/Button/Button'
-import CardGroup from '../../components/cards/CardGroup/CardGroup'
+import CardGroup from '../../modules/Group/ui/CardGroup/CardGroup'
 import { CardList } from '../../components/CardList/CardList'
 import './Home.css'
 import { FormNewGroup } from '../../modules/Group/ui/FormNewGroup/FormNewGroup'
