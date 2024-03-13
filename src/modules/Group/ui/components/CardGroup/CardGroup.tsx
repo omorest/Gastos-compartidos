@@ -1,9 +1,9 @@
 import { Link } from 'wouter'
 import { type FC } from 'react'
-import { type Group } from '../../domain/Group'
-import { RemoveIcon } from '../../../../core/components/icons/Remove'
+import { type Group } from '../../../domain/Group'
+import { RemoveIcon } from '../../../../../core/components/icons/Remove'
 import './CardGroup.css'
-import { UsersIcon } from '../../../../core/components/icons/UsersIcon'
+import { UsersIcon } from '../../../../../core/components/icons/UsersIcon'
 
 interface CardGroupProps {
   group: Group
