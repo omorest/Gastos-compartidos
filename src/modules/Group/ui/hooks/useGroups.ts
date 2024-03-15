@@ -8,7 +8,6 @@ export const useGroups = (): UseQueryResult<Group[], Error> => {
     queryKey: ['groups'],
     queryFn: async () => {
       const groups = await getAllGroupsQuery.execute()
-      console.log({ groups })
       return groups
     }
   })
