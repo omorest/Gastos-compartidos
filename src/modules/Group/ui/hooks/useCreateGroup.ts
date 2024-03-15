@@ -2,7 +2,7 @@ import { type UseMutationResult, useMutation, useQueryClient } from '@tanstack/r
 import { generateID } from '../../../../core/utils/generateId'
 import { type Group } from '../../domain/Group'
 import { useState } from 'react'
-import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
+import { useCasesGroup } from './useCasesGroup'
 
 interface UseCreateGroupResult {
   isShowingCreateGroupForm: boolean
@@ -11,12 +11,12 @@ interface UseCreateGroupResult {
 }
 
 export const useCreateGroup = (): UseCreateGroupResult => {
-  const groupService = useGroupService()
+  const { createGroupCommand } = useCasesGroup()
   const [isShowingCreateGroupForm, setIsShowingCreateGroupForm] = useState<boolean>(false)
   const queryClient = useQueryClient()
 
   const createNewGroupMutation = useMutation({
-    mutationFn: async (newGroup: Group) => await groupService.create({ ...newGroup, id: generateID() }),
+    mutationFn: async (newGroup: Group) => await createGroupCommand.execute({ ...newGroup, id: generateID() }),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['groups'] })
       setIsShowingCreateGroupForm(false)
