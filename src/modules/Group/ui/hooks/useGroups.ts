@@ -1,14 +1,13 @@
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { type Group } from '../../domain/Group'
-import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
+import { useCasesGroup } from './useCasesGroup'
 
 export const useGroups = (): UseQueryResult<Group[], Error> => {
-  console.log('holaa')
-  const groupService = useGroupService()
+  const { getAllGroupsQuery } = useCasesGroup()
   const query = useQuery({
     queryKey: ['groups'],
     queryFn: async () => {
-      const groups = await groupService.getAll()
+      const groups = await getAllGroupsQuery.execute()
       console.log({ groups })
       return groups
     }
