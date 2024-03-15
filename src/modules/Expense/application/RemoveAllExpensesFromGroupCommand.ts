@@ -1,6 +1,7 @@
+import { type Command } from '../../../core/application/Command'
 import { type ExpenseRepository } from '../domain/ExpenseRepository'
 
-export class RemoveAllExpensesFromGroupCommand {
+export class RemoveAllExpensesFromGroupCommand implements Command<string, void> {
   constructor (private readonly expenseRepository: ExpenseRepository) {}
 
   async execute (groupId: string): Promise<void> {
