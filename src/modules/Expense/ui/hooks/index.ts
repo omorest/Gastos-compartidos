@@ -1,4 +1,4 @@
-export * from './useBalance'
+export * from '../../../Group/ui/hooks/useBalance'
 export * from './useCasesExpenses'
 export * from './useCreateExpense'
 export * from './useEditExpense'
