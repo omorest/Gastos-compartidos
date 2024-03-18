@@ -1,11 +1,11 @@
 import React from 'react'
 import { useForm, type SubmitHandler } from 'react-hook-form'
-import { type User } from '../../../User/domain/User'
-import { type Expense } from '../../domain/Expense'
-import { generateID } from '../../../../core/utils/generateId'
+import { type User } from '../../../../User/domain/User'
+import { type Expense } from '../../../domain/Expense'
+import { generateID } from '../../../../../core/utils/generateId'
 import './FormNewExpense.css'
-import { InputText } from '../../../../core/components/InputText/InputText'
-import Button from '../../../../core/components/Button/Button'
+import { InputText } from '../../../../../core/components/InputText/InputText'
+import Button from '../../../../../core/components/Button/Button'
 
 interface FormNewExpenseProps {
   groupId: string

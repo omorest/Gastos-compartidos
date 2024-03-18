@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 import './CardExpense.css'
-import { type Expense } from '../../domain/Expense'
-import { formatNumberCurrency } from '../../../../core/utils/formatNumberCurrency'
-import { formatDate } from '../../../../core/utils/formatDate'
+import { type Expense } from '../../../domain/Expense'
+import { formatNumberCurrency } from '../../../../../core/utils/formatNumberCurrency'
+import { formatDate } from '../../../../../core/utils/formatDate'
 
 interface CardExpenseProps {
   expense: Expense
