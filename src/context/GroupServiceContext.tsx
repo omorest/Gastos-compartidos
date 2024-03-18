@@ -1,12 +1,10 @@
 import { type FC, createContext } from 'react'
 import { GroupService } from '../modules/Group/application/GroupService'
-import { type UseCasesGroup, casesGroup, groupRepository } from '../modules/Group/dependencies'
-import { type UseCasesExpense, useCasesExpense, expenseRepository } from '../modules/Expense/dependencies'
+import { groupRepository } from '../modules/Group/dependencies'
+import { expenseRepository } from '../modules/Expense/dependencies'
 
 interface GroupServiceContextType {
   groupService: GroupService
-  useCasesGroup: UseCasesGroup
-  useCasesExpense: UseCasesExpense
 }
 
 export const GroupServiceContext = createContext<GroupServiceContextType | null>(null)
@@ -19,7 +17,7 @@ export const GroupServiceProvider: FC<GroupServiceProviderProps> = ({ children }
   const groupService = new GroupService(groupRepository, expenseRepository)
 
   return (
-    <GroupServiceContext.Provider value={{ groupService, useCasesGroup: casesGroup, useCasesExpense }}>
+    <GroupServiceContext.Provider value={{ groupService }}>
       {children}
     </GroupServiceContext.Provider>
   )
