@@ -1,7 +1,7 @@
 import type React from 'react'
 import { useState } from 'react'
 import { type Expense } from '../../domain/Expense'
-import { useGroupService } from '../../../../hooks/GroupServiceContext/useGroupService'
+import { useCasesExpenses } from './useCasesExpenses'
 
 interface UseEditExpense {
   isShowingFormToEditExpense: boolean
@@ -9,15 +9,12 @@ interface UseEditExpense {
   editExpense: (expense: Expense) => Promise<void>
 }
 
-export const useEditExpense = (
-  expenses: Expense[],
-  updateExpenses: (expenses: Expense[]
-  ) => void): UseEditExpense => {
-  const groupService = useGroupService()
+export const useEditExpense = (expenses: Expense[], updateExpenses: (expenses: Expense[]) => void): UseEditExpense => {
+  const { editExpenseCommand } = useCasesExpenses()
   const [isShowingFormToEditExpense, setIsShowingFormToEditExpense] = useState<boolean>(false)
 
   const editExpense = async (expense: Expense): Promise<void> => {
-    await groupService.editExpense(expense)
+    await editExpenseCommand.execute(expense)
     updateExpenses([expense, ...expenses.filter(exp => exp.id !== expense.id)])
     setIsShowingFormToEditExpense(false)
   }
