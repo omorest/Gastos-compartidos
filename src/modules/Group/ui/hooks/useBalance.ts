@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
-import { type Balance } from '../../application/GroupService'
 import { type Group } from '../../domain/Group'
-import { BalanceService } from '../../domain/services/BalanceService'
+import { type Balance, BalanceService } from '../../domain/services/BalanceService'
 import { useCasesExpenses } from '../../../Expense/ui/hooks'
 
 interface UseBalanceResponse {
