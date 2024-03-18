@@ -1,9 +1,9 @@
 import { type FC } from 'react'
-import { type Balance } from '../../../modules/Group/application/GroupService'
 import { DoubleArrowRight } from '../icons/DoubleArrowRight'
-import { formatNumberCurrency } from '../../utils/formatNumberCurrency'
 
 import './CardBalance.css'
+import { type Balance } from '../../../modules/Group/domain/services/BalanceService'
+import { Currency } from '../../currency/Currency'
 
 interface BalanceProps {
   balance: Balance
@@ -16,7 +16,7 @@ export const CardBalance: FC<BalanceProps> = ({ balance }) => {
     <div key={balance.participant} className="balance-section-participant">
       <div className='balance-section-participant-info'>
         <h3>{balance.participant}</h3>
-        <div className='balance-section-participant-info-total'>-{formatNumberCurrency(totalExpenseParticipant)}</div>
+        <div className='balance-section-participant-info-total'>-{Currency.format(totalExpenseParticipant)}</div>
       </div>
       <span className='balance-section-participant-icon'>
         <DoubleArrowRight />
@@ -25,7 +25,7 @@ export const CardBalance: FC<BalanceProps> = ({ balance }) => {
       {
         balance.payments.map((payment) => {
           return <div key={payment.to} >
-            <strong>{payment.to} </strong> <span>{formatNumberCurrency(payment.amount)}</span>
+            <strong>{payment.to} </strong> <span>{Currency.format(payment.amount)}</span>
           </div>
         })
       }

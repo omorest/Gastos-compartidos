@@ -10,8 +10,8 @@ import FormEditExpense from '../../../../modules/Expense/ui/components/FormEditE
 import { EditIcon } from '../../../../core/components/icons/EditIcon'
 import { RemoveIcon } from '../../../../core/components/icons/Remove'
 import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../modules/Expense/ui/hooks'
-import { formatNumberCurrency } from '../../../../core/utils/formatNumberCurrency'
 import './ExpenseSection.css'
+import { Currency } from '../../../../core/currency/Currency'
 
 interface ExpenseSectionProps {
   group: Group
@@ -47,7 +47,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
   return (
     <section className='expense-section'>
       <div className='expense-section-header'>
-        <strong>Total: {formatNumberCurrency(totalExpenseGroup)}</strong>
+        <strong>Total: {Currency.format(totalExpenseGroup)}</strong>
         <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
       </div>
       <CardList>
