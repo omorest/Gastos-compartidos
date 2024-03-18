@@ -2,12 +2,14 @@ import { type Expense } from '../domain/Expense'
 import { type SortExpensesByDate, type ExpenseRepository } from '../domain/ExpenseRepository'
 
 export function createLocaStorageExpenseRepository (): ExpenseRepository {
-  return new LocalStorageExpenseRepository()
+  return new LocalStorageExpenseRepository(localStorage)
 }
 
 export class LocalStorageExpenseRepository implements ExpenseRepository {
+  constructor (private readonly storage: Storage) {}
+
   save (expenses: Expense[]): void {
-    localStorage.setItem('expenses', JSON.stringify(expenses))
+    this.storage.setItem('expenses', JSON.stringify(expenses))
   }
 
   async create (newExpense: Expense): Promise<Expense[]> {
@@ -70,7 +72,7 @@ export class LocalStorageExpenseRepository implements ExpenseRepository {
 
   async getAll (): Promise<Expense[]> {
     try {
-      const expenses: Expense[] = await JSON.parse(localStorage.getItem('expenses') ?? '[]')
+      const expenses: Expense[] = await JSON.parse(this.storage.getItem('expenses') ?? '[]')
       return expenses.map((expense) => ({
         ...expense,
         creationDate: new Date(expense.creationDate)
