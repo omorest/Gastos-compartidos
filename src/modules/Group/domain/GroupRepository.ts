@@ -6,4 +6,5 @@ export interface GroupRepository {
   edit: (group: Group) => Promise<Group>
   get: (groupId: string) => Promise<Group | null>
   getAll: () => Promise<Group[]>
+  getGroupByName: (name: string) => Promise<Group | null>
 }

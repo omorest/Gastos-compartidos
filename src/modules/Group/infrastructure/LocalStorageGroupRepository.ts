@@ -2,12 +2,14 @@ import { type Group } from '../domain/Group'
 import { type GroupRepository } from '../domain/GroupRepository'
 
 export function createLocaStorageGroupRepository (): GroupRepository {
-  return new LocalStorageGroupRepository()
+  return new LocalStorageGroupRepository(localStorage)
 }
 
 export class LocalStorageGroupRepository implements GroupRepository {
+  constructor (private readonly storage: Storage) {}
+
   private save (groups: Group[]): void {
-    localStorage.setItem('groups', JSON.stringify(groups))
+    this.storage.setItem('groups', JSON.stringify(groups))
   }
 
   async create (group: Group): Promise<Group> {
@@ -58,10 +60,20 @@ export class LocalStorageGroupRepository implements GroupRepository {
 
   async getAll (): Promise<Group[]> {
     try {
-      const groups = JSON.parse(localStorage.getItem('groups') ?? '[]')
+      const groups = JSON.parse(this.storage.getItem('groups') ?? '[]')
       return groups
     } catch (error) {
       throw new Error('Error getting groups')
+    }
+  }
+
+  async getGroupByName (name: string): Promise<Group | null> {
+    try {
+      const groups = await this.getAll()
+      const group = groups?.find((group) => group.name === name)
+      return group ?? null
+    } catch (error) {
+      throw new Error('Error getting group')
     }
   }
 }

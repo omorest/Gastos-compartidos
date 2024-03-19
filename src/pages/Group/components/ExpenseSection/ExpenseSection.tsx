@@ -1,17 +1,17 @@
 import { useMemo, useState, type FC } from 'react'
-import { CardList } from '../../../../components/CardList/CardList'
-import Button from '../../../../components/atoms/Button/Button'
-import { CardExpense } from '../../../../components/cards/CardExpense/CardExpense'
-import FormNewExpense from '../../../../components/forms/FormNewExpense/FormNewExpense'
+import { CardList } from '../../../../core/components/CardList/CardList'
+import Button from '../../../../core/components/Button/Button'
+import { CardExpense } from '../../../../modules/Expense/ui/components/CardExpense/CardExpense'
+import FormNewExpense from '../../../../modules/Expense/ui/components/FormNewExpense/FormNewExpense'
 import { type Expense } from '../../../../modules/Expense/domain/Expense'
 import { type Group } from '../../../../modules/Group/domain/Group'
 
-import FormEditExpense from '../../../../components/forms/FormEditExpense/FormEditExpense'
-import { EditIcon } from '../../../../components/icons/EditIcon'
-import { RemoveIcon } from '../../../../components/icons/Remove'
-import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../hooks/Expense'
-import { formatNumberCurrency } from '../../../../utils/formatNumberCurrency'
+import FormEditExpense from '../../../../modules/Expense/ui/components/FormEditExpense/FormEditExpense'
+import { EditIcon } from '../../../../core/components/icons/EditIcon'
+import { RemoveIcon } from '../../../../core/components/icons/Remove'
+import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../modules/Expense/ui/hooks'
 import './ExpenseSection.css'
+import { Currency } from '../../../../core/currency/Currency'
 
 interface ExpenseSectionProps {
   group: Group
@@ -47,7 +47,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
   return (
     <section className='expense-section'>
       <div className='expense-section-header'>
-        <strong>Total: {formatNumberCurrency(totalExpenseGroup)}</strong>
+        <strong>Total: {Currency.format(totalExpenseGroup)}</strong>
         <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
       </div>
       <CardList>

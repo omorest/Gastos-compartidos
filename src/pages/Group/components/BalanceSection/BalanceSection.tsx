@@ -1,8 +1,8 @@
 import { type FC } from 'react'
 import { type Group } from '../../../../modules/Group/domain/Group'
 import './BalanceSection.css'
-import { CardBalance } from '../../../../components/cards/CardBalance/CardBalance'
-import { useBalance } from '../../../../hooks/Expense/useBalance'
+import { CardBalance } from '../../../../core/components/CardBalance/CardBalance'
+import { useBalance } from '../../../../modules/Group/ui/hooks/useBalance'
 
 interface BalanceSectionProps {
   group: Group
