@@ -8,7 +8,8 @@ export const groupRepository: GroupRepository = {
   remove: async () => {},
   edit: async group => group,
   get: async () => null,
-  getAll: async () => []
+  getAll: async () => [],
+  getGroupByName: async () => null
 }
 
 export const expenseRepository: ExpenseRepository = {
