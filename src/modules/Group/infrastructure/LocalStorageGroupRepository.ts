@@ -66,4 +66,14 @@ export class LocalStorageGroupRepository implements GroupRepository {
       throw new Error('Error getting groups')
     }
   }
+
+  async getGroupByName (name: string): Promise<Group | null> {
+    try {
+      const groups = await this.getAll()
+      const group = groups?.find((group) => group.name === name)
+      return group ?? null
+    } catch (error) {
+      throw new Error('Error getting group')
+    }
+  }
 }

@@ -3,6 +3,7 @@ import { generateID } from '../../../../core/utils/generateId'
 import { type Group } from '../../domain/Group'
 import { useState } from 'react'
 import { useCasesGroup } from './useCasesGroup'
+import toast from 'react-hot-toast'
 
 interface UseCreateGroupResult {
   isShowingCreateGroupForm: boolean
@@ -20,6 +21,11 @@ export const useCreateGroup = (): UseCreateGroupResult => {
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['groups'] })
       setIsShowingCreateGroupForm(false)
+      toast.success('Grupo creado')
+    },
+    onError: (error) => {
+      console.error(error)
+      toast.error(error.message)
     }
   })
 
