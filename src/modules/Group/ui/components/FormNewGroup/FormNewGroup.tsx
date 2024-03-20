@@ -7,7 +7,7 @@ import { generateID } from '../../../../../core/utils/generateId'
 import { RemoveIcon } from '../../../../../core/components/icons/Remove'
 import { InputText } from '../../../../../core/components/InputText/InputText'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { NewGroupSchema, type NewGroupSchemaType } from '../../../domain/validators/newGroupSchema'
+import { NewGroupSchema, type NewGroupSchemaType } from '../../schemas/newGroupSchema'
 
 interface FormNewGroupProps {
   onSave: (group: Group) => void
@@ -75,6 +75,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
               <Button type="button" onClick={() => { remove(index) }}>
                 <RemoveIcon />
               </Button>
+
             </div>
           ))}
           <Button type="button" onClick={() => { append({ name: '' }) }}>

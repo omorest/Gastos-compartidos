@@ -5,7 +5,9 @@ export const NewGroupSchema = z.object({
   description: z.string().max(100, 'Máximo 50 caracteres').optional(),
   participants: z.array(
     z.object({
-      name: z.string().min(1, 'Este campo es requerido').max(30, 'Máximo 30 caracteres')
+      name: z.string()
+        .min(1, 'Este campo es requerido')
+        .max(30, 'Máximo 30 caracteres')
     })
   )
 })
