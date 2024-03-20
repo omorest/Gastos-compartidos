@@ -24,7 +24,6 @@ export const useCreateGroup = (): UseCreateGroupResult => {
       toast.success('Grupo creado')
     },
     onError: (error) => {
-      console.error(error)
       toast.error(error.message)
     }
   })
