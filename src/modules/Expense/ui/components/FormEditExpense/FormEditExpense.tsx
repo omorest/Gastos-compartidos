@@ -5,6 +5,9 @@ import { type Expense } from '../../../domain/Expense'
 import './FormEditExpense.css'
 import { InputText } from '../../../../../core/components/InputText/InputText'
 import Button from '../../../../../core/components/Button/Button'
+import { NewExpenseSchema, type NewExpenseSchemaType } from '../../schemas/NewExpenseSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Datetime } from '../../../../../core/datetime/Datetime'
 
 interface FormEditExpenseProps {
   expense: Expense
@@ -13,22 +16,25 @@ interface FormEditExpenseProps {
   onCancel: () => void
 }
 
-type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'payerId' > & { creationDate: string }
+type NewExpenseSchemaTypeWithDateString = Omit<NewExpenseSchemaType, 'creationDate'> & {
+  creationDate: string
+}
 
 const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
-  const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>({
+  const { handleSubmit, register, formState: { errors } } = useForm<(NewExpenseSchemaTypeWithDateString)>({
     defaultValues: {
       title: expense.title,
       cost: expense.cost,
-      creationDate: expense.creationDate.toISOString().split('T')[0],
+      creationDate: Datetime.formatForInput(expense.creationDate),
       payerId: expense.payerId
-    }
+    },
+    resolver: zodResolver(NewExpenseSchema)
   })
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = async (expenseEdited) => {
+  const onSubmit: SubmitHandler<NewExpenseSchemaType> = async (expenseEdited) => {
     await onEditExpense({
       ...expenseEdited,
-      creationDate: expenseEdited.creationDate as unknown as Date,
+      creationDate: expenseEdited.creationDate,
       id: expense.id,
       groupId: expense.groupId,
       paidBy: users.find((user) => user.id === expenseEdited.payerId)?.name ?? ''
@@ -38,11 +44,12 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
   return (
     <>
     <h4>Nuevo Gasto</h4>
+    {/* TODO: fix problem with dates */}
     <form onSubmit={handleSubmit(onSubmit)} className='form-edit-expense'>
       <div>
         <InputText
           placeholder='Título'
-          {...register('title', { required: 'Campo requerido' })}
+          {...register('title')}
         />
         {errors.title && <span>{errors.title.message}</span>}
       </div>
@@ -54,8 +61,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
           placeholder='Cantidad'
           {...register('cost', {
             required: 'Campo requerido',
-            valueAsNumber: true,
-            min: { value: 0, message: 'El valor debe ser mayor a 0' }
+            valueAsNumber: true
           })}
         />
         {errors.cost && <span>{errors.cost.message}</span>}
@@ -64,8 +70,7 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
       <div>
         <input
           type="date"
-          max={new Date().toISOString().split('T')[0]}
-          {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
+          {...register('creationDate', { valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>
