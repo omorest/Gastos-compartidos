@@ -1,7 +1,7 @@
 import { z } from 'zod'
-import { Validators } from '../../domain/validators/validators'
+import { ValidatorsExpense } from '../../domain/validators/validators'
 
-const { isValidCost, isValidCreationDate, isValidPayerId, isValidTitle } = Validators
+const { isValidCost, isValidCreationDate, isValidPayerId, isValidTitle } = ValidatorsExpense
 export const NewExpenseSchema = z.object({
   title: z.string().refine(isValidTitle.validate, isValidTitle.errorMessage),
   cost: z.number().refine(isValidCost.validate, isValidCost.errorMessage),

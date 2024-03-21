@@ -18,7 +18,7 @@ const isValidPayerId = (payerId: string): boolean => {
   return Boolean(payerId && payerId.trim().length > 0)
 }
 
-export const Validators = {
+export const ValidatorsExpense = {
   isValidTitle: {
     validate: isValidTitle,
     errorMessage: errorMessageTitle
