@@ -1,12 +1,12 @@
 import { z } from 'zod'
+import { Validators } from '../../domain/validators/validators'
 
+const { isValidCost, isValidCreationDate, isValidPayerId, isValidTitle } = Validators
 export const NewExpenseSchema = z.object({
-  title: z.string().min(1, 'Campo requerido'),
-  cost: z.number().min(0.01, 'El valor debe ser mayor a 0').default(0),
-  creationDate: z.date()
-    .max(new Date(), 'La fecha no puede ser posterior a hoy')
-    .default(() => new Date()),
-  payerId: z.string().min(1, 'Campo requerido')
+  title: z.string().refine(isValidTitle.validate, isValidTitle.errorMessage),
+  cost: z.number().refine(isValidCost.validate, isValidCost.errorMessage),
+  creationDate: z.date().refine(isValidCreationDate.validate, isValidCreationDate.errorMessage),
+  payerId: z.string().refine(isValidPayerId.validate, isValidPayerId.errorMessage)
 })
 
 export type NewExpenseSchemaType = z.infer<typeof NewExpenseSchema>
