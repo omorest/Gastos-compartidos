@@ -3,7 +3,7 @@ import { type Expense } from '../../domain/Expense'
 import { useCasesExpenses } from './useCasesExpenses'
 
 interface UseRemoveExpense {
-  removeExpense: (expenseId: string) => void
+  removeExpense: (expenseId: string) => Promise<void>
   isLoading: boolean
 }
 
@@ -11,7 +11,7 @@ export const useRemoveExpense = (expenses: Expense[], updateExpenses: (expenses:
   const { removeExpenseCommand } = useCasesExpenses()
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const removeExpense = (expenseId: string): void => {
+  const removeExpense = async (expenseId: string): Promise<void> => {
     setIsLoading(true)
     removeExpenseCommand.execute(expenseId)
       .then(() => { updateExpenses(expenses.filter(expense => expense.id !== expenseId)) })

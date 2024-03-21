@@ -12,6 +12,7 @@ import { RemoveIcon } from '../../../../core/components/icons/Remove'
 import { useCreateExpense, useEditExpense, useExpenses, useRemoveExpense } from '../../../../modules/Expense/ui/hooks'
 import './ExpenseSection.css'
 import { Currency } from '../../../../core/currency/Currency'
+import toast from 'react-hot-toast'
 
 interface ExpenseSectionProps {
   group: Group
@@ -44,6 +45,12 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
     />
   }
 
+  const handleRemoveExpense = (expense: Expense) => {
+    removeExpense(expense.id)
+      .catch(() => { toast.error('Error al eliminar el gasto') })
+      .finally(() => { toast.success('Gasto eliminado correctamente') })
+  }
+
   return (
     <section className='expense-section'>
       <div className='expense-section-header'>
@@ -53,15 +60,15 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
       <CardList>
         {
           expenses?.map((expense) =>
-          <div key={expense.id} className='expense-section-list-row'>
-            <CardExpense
-              expense={expense}
-            />
-            <div className='expense-section-list-row-icons'>
-              <span><EditIcon onClick={() => { setExpenseEdited(expense); setIsShowingFormToEditExpense(true) }}/></span>
-              <span data-testid={`removeExpense-${expense.title}`}><RemoveIcon onClick={() => { removeExpense(expense.id) }}/></span>
+            <div key={expense.id} className='expense-section-list-row'>
+              <CardExpense
+                expense={expense}
+              />
+              <div className='expense-section-list-row-icons'>
+                <span><EditIcon onClick={() => { setExpenseEdited(expense); setIsShowingFormToEditExpense(true) }} /></span>
+                <span data-testid={`removeExpense-${expense.title}`}><RemoveIcon onClick={() => { handleRemoveExpense(expense) }} /></span>
+              </div>
             </div>
-          </div>
           )
         }
       </CardList>
