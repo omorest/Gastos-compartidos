@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { type Group } from '../../domain/Group'
-import { type Balance, BalanceService } from '../../domain/services/BalanceService'
+import { type Balance, CalculateBalanceGroup } from '../../domain/services/CalculateBalanceGroup'
 import { useCasesExpenses } from '../../../Expense/ui/hooks'
 
 interface UseBalanceResponse {
@@ -10,7 +10,7 @@ interface UseBalanceResponse {
 
 export const useBalance = (group: Group): UseBalanceResponse => {
   const { getAllExpenseFromGroupQuery } = useCasesExpenses()
-  const balanceService = new BalanceService()
+  const balanceService = new CalculateBalanceGroup()
   const [balances, setBalances] = useState<Balance[]>([])
 
   const calculateBalances = async (): Promise<Balance[]> => {

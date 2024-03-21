@@ -10,7 +10,7 @@ export interface Balance {
   }>
 }
 
-export class BalanceService {
+export class CalculateBalanceGroup {
   private totalExpensesByParticipant (participants: User[], expensesGroup: Expense[]): Array<{
     id: string
     name: string
