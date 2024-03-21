@@ -17,7 +17,7 @@ interface FormNewGroupProps {
 const initialGroupData: NewGroupSchemaType = {
   name: '',
   description: '',
-  participants: [{ name: '' }]
+  participants: [{ name: '', id: '' }]
 }
 
 export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
@@ -78,7 +78,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
 
             </div>
           ))}
-          <Button type="button" onClick={() => { append({ name: '' }) }}>
+          <Button type="button" onClick={() => { append({ name: '', id: '' }) }}>
             Añadir Participante
           </Button>
         </div>

@@ -7,7 +7,8 @@ export const NewGroupSchema = z.object({
     z.object({
       name: z.string()
         .min(1, 'Este campo es requerido')
-        .max(30, 'Máximo 30 caracteres')
+        .max(30, 'Máximo 30 caracteres'),
+      id: z.string()
     })
   )
 })
