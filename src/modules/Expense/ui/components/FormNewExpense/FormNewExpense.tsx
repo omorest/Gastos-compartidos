@@ -9,6 +9,7 @@ import Button from '../../../../../core/components/Button/Button'
 import { NewExpenseSchema, type NewExpenseSchemaType } from '../../schemas/NewExpenseSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Datetime } from '../../../../../core/datetime/Datetime'
+import toast from 'react-hot-toast'
 
 interface FormNewExpenseProps {
   groupId: string
@@ -30,6 +31,8 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
       groupId,
       paidBy: users.find((user) => user.id === expense.payerId)?.name ?? ''
     })
+      .catch(() => toast.error('Error al añadir el gasto'))
+      .finally(() => toast.success('Gasto añadido correctamente'))
   }
 
   return (

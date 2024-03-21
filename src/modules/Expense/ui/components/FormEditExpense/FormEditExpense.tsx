@@ -1,13 +1,14 @@
-import React from 'react'
+import { type FC } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm, type SubmitHandler } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import Button from '../../../../../core/components/Button/Button'
+import { InputText } from '../../../../../core/components/InputText/InputText'
+import { Datetime } from '../../../../../core/datetime/Datetime'
 import { type User } from '../../../../User/domain/User'
 import { type Expense } from '../../../domain/Expense'
-import './FormEditExpense.css'
-import { InputText } from '../../../../../core/components/InputText/InputText'
-import Button from '../../../../../core/components/Button/Button'
 import { NewExpenseSchema, type NewExpenseSchemaType } from '../../schemas/NewExpenseSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Datetime } from '../../../../../core/datetime/Datetime'
+import './FormEditExpense.css'
 
 interface FormEditExpenseProps {
   expense: Expense
@@ -20,7 +21,7 @@ type NewExpenseSchemaTypeWithDateString = Omit<NewExpenseSchemaType, 'creationDa
   creationDate: string
 }
 
-const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
+const FormEditExpense: FC<FormEditExpenseProps> = ({ expense, users, onEditExpense, onCancel }) => {
   const { handleSubmit, register, formState: { errors } } = useForm<(NewExpenseSchemaTypeWithDateString)>({
     defaultValues: {
       title: expense.title,
@@ -39,6 +40,8 @@ const FormEditExpense: React.FC<FormEditExpenseProps> = ({ expense, users, onEdi
       groupId: expense.groupId,
       paidBy: users.find((user) => user.id === expenseEdited.payerId)?.name ?? ''
     })
+      .catch(() => toast.error('Error al editar el gasto'))
+      .finally(() => toast.success('Gasto editado correctamente'))
   }
 
   return (
