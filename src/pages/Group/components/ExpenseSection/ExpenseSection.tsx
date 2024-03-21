@@ -58,6 +58,7 @@ export const ExpenseSection: FC<ExpenseSectionProps> = ({ group }) => {
         <Button onClick={() => { setIsShowingFormToCreateExpense(true) }}>Nuevo Gasto</Button>
       </div>
       <CardList>
+        {expenses.length === 0 && <strong>Añade tu primer gasto compartido con tus amigos</strong>}
         {
           expenses?.map((expense) =>
             <div key={expense.id} className='expense-section-list-row'>

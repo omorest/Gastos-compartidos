@@ -34,7 +34,7 @@ const Home = () => {
                   <CardGroup group={group} onRemoveGroup={removeGroupMutation.mutate} key={group?.id}></CardGroup>
                 ))}
               </CardList>
-            : null
+            : <strong>Crea ya tu grupo con tus amigos para compartir gastos</strong>
         }
     </main>
   )
