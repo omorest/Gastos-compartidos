@@ -5,10 +5,10 @@ import { useState } from 'react'
 import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
 import { BalanceSection } from './components/BalanceSection/BalanceSection'
 import { EditIcon } from '../../core/components/icons/EditIcon'
-import { FormEditGroup } from '../../modules/Group/ui/components/FormEditGroup/FormEditGroup'
 import { BackHomeIcon } from '../../core/components/icons/BackHomeIcon'
-import { useGroup, useEditGroup } from '../../modules/Group/ui/hooks'
+import { useGroup } from '../../modules/Group/ui/hooks'
 import { UsersIcon } from '../../core/components/icons/UsersIcon'
+import { navigate } from 'wouter/use-location'
 
 type SectionGroup = 'expenses' | 'balance'
 
@@ -16,19 +16,10 @@ const GroupPage = () => {
   const params = useParams()
   const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
   const { data: group } = useGroup(params.id)
-  const { editGroupMutation, isShowingFormEditGroup, setIsShowingFormEditGroup } = useEditGroup()
 
   const selectedSection = group && {
     expenses: <ExpenseSection group={group} />,
     balance: <BalanceSection group={group} />
-  }
-
-  if (group && isShowingFormEditGroup) {
-    return <FormEditGroup
-      group={group}
-      onEditGroup={editGroupMutation.mutate}
-      onCancel={() => { setIsShowingFormEditGroup(false) }}
-    />
   }
 
   return (
@@ -41,7 +32,7 @@ const GroupPage = () => {
         </Link>
         <div className='group-header-name'>
           <h2>{group?.name}</h2>
-          <span onClick={() => { setIsShowingFormEditGroup(true) }}><EditIcon /></span>
+          <span onClick={() => { navigate(`/group/${group?.id}/edit`) }}><EditIcon /></span>
         </div>
         <div className='group-header-users'>
           <span><strong>{group?.participants.length}</strong> <UsersIcon /></span>
