@@ -2,27 +2,19 @@ import Button from '../../core/components/Button/Button'
 import CardGroup from '../../modules/Group/ui/components/CardGroup/CardGroup'
 import { CardList } from '../../core/components/CardList/CardList'
 import './Home.css'
-import { FormNewGroup } from '../../modules/Group/ui/components/FormNewGroup/FormNewGroup'
-import { useGroups, useRemoveGroup, useCreateGroup } from '../../modules/Group/ui/hooks'
+import { useGroups, useRemoveGroup } from '../../modules/Group/ui/hooks'
+import { navigate } from 'wouter/use-location'
 
 const Home = () => {
   const { data: groups } = useGroups()
   const { removeGroupMutation } = useRemoveGroup()
-  const { isShowingCreateGroupForm, setIsShowingCreateGroupForm, createNewGroupMutation } = useCreateGroup()
-
-  if (isShowingCreateGroupForm) {
-    return <FormNewGroup
-      onSave={createNewGroupMutation.mutate}
-      onCancel={() => { setIsShowingCreateGroupForm(false) }}
-    />
-  }
 
   return (
     <main className='home'>
       <div className='home-button-container'>
         <Button
           className='home-button-create-group'
-          onClick={() => { setIsShowingCreateGroupForm(true) }}
+          onClick={() => { navigate('/create-group') }}
         >
           Nuevo Grupo
         </Button>
