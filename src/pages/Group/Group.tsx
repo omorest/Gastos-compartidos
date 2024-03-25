@@ -1,25 +1,19 @@
 import { Link, useParams } from 'wouter'
 import './Group.css'
-import Button from '../../core/components/Button/Button'
-import { useState } from 'react'
-import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
-import { BalanceSection } from './components/BalanceSection/BalanceSection'
 import { EditIcon } from '../../core/components/icons/EditIcon'
 import { BackHomeIcon } from '../../core/components/icons/BackHomeIcon'
 import { useGroup } from '../../modules/Group/ui/hooks'
 import { UsersIcon } from '../../core/components/icons/UsersIcon'
 import { navigate } from 'wouter/use-location'
-
-type SectionGroup = 'expenses' | 'balance'
+import LinkButton from '../../core/components/LinkButton/LinkButton'
+import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
 
 const GroupPage = () => {
   const params = useParams()
-  const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
   const { data: group } = useGroup(params.id)
 
-  const selectedSection = group && {
-    expenses: <ExpenseSection group={group} />,
-    balance: <BalanceSection group={group} />
+  if (!group) {
+    return null
   }
 
   return (
@@ -39,14 +33,11 @@ const GroupPage = () => {
         </div>
       </div>
       <div className='group-titles-section'>
-        <Button onClick={() => { setSetsectionGroup('expenses') }}>Gastos</Button>
-        {/* <Button onClick={() => { setSetsectionGroup('balance') }}>Balance</Button> */}
-        <Button onClick={() => { navigate(`/group/${group?.id}/balance`) }}>Balance</Button>
+        <LinkButton href={`/group/${group?.id}/balance`}>Balance</LinkButton>
       </div>
       <div>
-        {selectedSection?.[sectionGroup]}
+        <ExpenseSection group={group ?? {}} />
       </div>
-
     </div>
   )
 }
