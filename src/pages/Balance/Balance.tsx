@@ -13,11 +13,14 @@ const Balance = () => {
   }
 
   return (
-    <section className="balance-section">
-      {
-        balances.map((balance) => <CardBalance key={balance.participant} balance={balance} />)
-      }
-    </section>
+    <>
+      <h2>Balances</h2>
+      <section className="balance-section">
+        {
+          balances.map((balance) => <CardBalance key={balance.participant} balance={balance} />)
+        }
+      </section>
+    </>
   )
 }
 
