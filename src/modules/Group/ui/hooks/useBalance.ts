@@ -8,7 +8,10 @@ interface UseBalanceResponse {
   setBalances: React.Dispatch<React.SetStateAction<Balance[]>>
 }
 
-export const useBalance = (group: Group): UseBalanceResponse => {
+export const useBalance = (group: Group | undefined | null): UseBalanceResponse => {
+  if (!group) {
+    return { balances: [], setBalances: () => {} }
+  }
   const { getAllExpenseFromGroupQuery } = useCasesExpenses()
   const balanceService = new CalculateBalanceGroup()
   const [balances, setBalances] = useState<Balance[]>([])

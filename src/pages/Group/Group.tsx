@@ -40,7 +40,8 @@ const GroupPage = () => {
       </div>
       <div className='group-titles-section'>
         <Button onClick={() => { setSetsectionGroup('expenses') }}>Gastos</Button>
-        <Button onClick={() => { setSetsectionGroup('balance') }}>Balance</Button>
+        {/* <Button onClick={() => { setSetsectionGroup('balance') }}>Balance</Button> */}
+        <Button onClick={() => { navigate(`/group/${group?.id}/balance`) }}>Balance</Button>
       </div>
       <div>
         {selectedSection?.[sectionGroup]}

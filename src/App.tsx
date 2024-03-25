@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import CreateGroup from './pages/CreateGroup/CreateGroup'
 import EditGroup from './pages/EditGroup/EditGroup'
+import Balance from './pages/Balance/Balance'
 
 const queryClient = new QueryClient()
 
@@ -18,6 +19,7 @@ function App () {
         <Route path='/create-group' component={CreateGroup} />
         <Route path='/group/:id' component={GroupPage} />
         <Route path='/group/:id/edit' component={EditGroup} />
+        <Route path='/group/:id/balance' component={Balance} />
         <Toaster position='bottom-center' toastOptions={{ duration: 4000 }}></Toaster>
       </QueryClientProvider>
     </>
