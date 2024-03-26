@@ -2,8 +2,8 @@ import { type FC } from 'react'
 import { DoubleArrowRight } from '../icons/DoubleArrowRight'
 
 import './CardBalance.css'
-import { type Balance } from '../../../modules/Group/domain/services/BalanceService'
 import { Currency } from '../../currency/Currency'
+import { type Balance } from '../../../modules/Group/domain/services/CalculateBalanceGroup'
 
 interface BalanceProps {
   balance: Balance
