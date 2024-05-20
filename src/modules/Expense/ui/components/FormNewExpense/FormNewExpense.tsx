@@ -6,6 +6,10 @@ import { generateID } from '../../../../../core/utils/generateId'
 import './FormNewExpense.css'
 import { InputText } from '../../../../../core/components/InputText/InputText'
 import Button from '../../../../../core/components/Button/Button'
+import { NewExpenseSchema, type NewExpenseSchemaType } from '../../schemas/NewExpenseSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Datetime } from '../../../../../core/datetime/Datetime'
+import toast from 'react-hot-toast'
 
 interface FormNewExpenseProps {
   groupId: string
@@ -14,19 +18,21 @@ interface FormNewExpenseProps {
   onCancel: () => void
 }
 
-type ExpenseFormData = Pick<Expense, 'title' | 'cost' | 'payerId'> & { creationDate: string }
-
 const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveExpense, onCancel }) => {
-  const { handleSubmit, register, formState: { errors } } = useForm<ExpenseFormData>()
+  const { handleSubmit, register, formState: { errors } } = useForm<NewExpenseSchemaType>({
+    resolver: zodResolver(NewExpenseSchema)
+  })
 
-  const onSubmit: SubmitHandler<ExpenseFormData> = async (expense) => {
+  const onSubmit: SubmitHandler<NewExpenseSchemaType> = async (expense) => {
     await onSaveExpense({
       ...expense,
-      creationDate: new Date(expense.creationDate),
+      creationDate: expense.creationDate,
       id: generateID(),
       groupId,
       paidBy: users.find((user) => user.id === expense.payerId)?.name ?? ''
     })
+      .catch(() => toast.error('Error al añadir el gasto'))
+      .finally(() => toast.success('Gasto añadido correctamente'))
   }
 
   return (
@@ -36,7 +42,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
       <div>
         <InputText
           placeholder='Título'
-          {...register('title', { required: 'Campo requerido' })}
+          {...register('title')}
         />
         {errors.title && <span>{errors.title.message}</span>}
       </div>
@@ -47,11 +53,7 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
           step={'0.01'}
           placeholder='Cantidad'
           defaultValue={0}
-          {...register('cost', {
-            required: 'Campo requerido',
-            valueAsNumber: true,
-            min: { value: 0, message: 'El valor debe ser mayor a 0' }
-          })}
+          {...register('cost', { valueAsNumber: true })}
         />
         {errors.cost && <span>{errors.cost.message}</span>}
       </div>
@@ -59,9 +61,8 @@ const FormNewExpense: React.FC<FormNewExpenseProps> = ({ groupId, users, onSaveE
       <div>
         <input
           type="date"
-          defaultValue={new Date().toISOString().split('T')[0]}
-          max={new Date().toISOString().split('T')[0]}
-          {...register('creationDate', { required: 'Campo requerido', valueAsDate: true })}
+          defaultValue={Datetime.formatForInput(new Date())}
+          {...register('creationDate', { valueAsDate: true })}
         />
         {errors.creationDate && <span>{errors.creationDate.message}</span>}
       </div>

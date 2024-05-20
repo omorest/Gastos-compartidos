@@ -1,10 +1,13 @@
+import { zodResolver } from '@hookform/resolvers/zod'
 import { type FC } from 'react'
 import { type SubmitHandler, useFieldArray, useForm } from 'react-hook-form'
-import './FormEditGroup.css'
-import { type Group } from '../../../domain/Group'
 import Button from '../../../../../core/components/Button/Button'
 import { RemoveIcon } from '../../../../../core/components/icons/Remove'
 import { InputText } from '../../../../../core/components/InputText/InputText'
+import { generateID } from '../../../../../core/utils/generateId'
+import { type Group } from '../../../domain/Group'
+import { NewGroupSchema, type NewGroupSchemaType } from '../../schemas/newGroupSchema'
+import './FormEditGroup.css'
 
 interface FormEditGroupProps {
   group: Group
@@ -12,27 +15,27 @@ interface FormEditGroupProps {
   onCancel: () => void
 }
 
-type FormData = Pick<Group, 'name' | 'description' | 'participants'>
-
 export const FormEditGroup: FC<FormEditGroupProps> = ({ group, onEditGroup, onCancel }) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<FormData>({
+  } = useForm<NewGroupSchemaType>({
     defaultValues: {
       name: group.name || '',
       description: group.description || '',
       participants: group.participants || [{ id: '', name: '' }]
-    }
+    },
+    resolver: zodResolver(NewGroupSchema)
   })
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<NewGroupSchemaType> = (data) => {
     onEditGroup({
       ...data,
+      description: data.description ?? '',
       id: group.id,
-      participants: data.participants,
+      participants: data.participants.map((participant) => ({ ...participant, id: participant.id || generateID() })),
       creationDate: group.creationDate
     })
   }

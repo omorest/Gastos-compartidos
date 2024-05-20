@@ -1,34 +1,19 @@
 import { Link, useParams } from 'wouter'
 import './Group.css'
-import Button from '../../core/components/Button/Button'
-import { useState } from 'react'
-import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
-import { BalanceSection } from './components/BalanceSection/BalanceSection'
 import { EditIcon } from '../../core/components/icons/EditIcon'
-import { FormEditGroup } from '../../modules/Group/ui/components/FormEditGroup/FormEditGroup'
 import { BackHomeIcon } from '../../core/components/icons/BackHomeIcon'
-import { useGroup, useEditGroup } from '../../modules/Group/ui/hooks'
+import { useGroup } from '../../modules/Group/ui/hooks'
 import { UsersIcon } from '../../core/components/icons/UsersIcon'
-
-type SectionGroup = 'expenses' | 'balance'
+import { navigate } from 'wouter/use-location'
+import LinkButton from '../../core/components/LinkButton/LinkButton'
+import { ExpenseSection } from './components/ExpenseSection/ExpenseSection'
 
 const GroupPage = () => {
   const params = useParams()
-  const [sectionGroup, setSetsectionGroup] = useState<SectionGroup>('expenses')
   const { data: group } = useGroup(params.id)
-  const { editGroupMutation, isShowingFormEditGroup, setIsShowingFormEditGroup } = useEditGroup()
 
-  const selectedSection = group && {
-    expenses: <ExpenseSection group={group} />,
-    balance: <BalanceSection group={group} />
-  }
-
-  if (group && isShowingFormEditGroup) {
-    return <FormEditGroup
-      group={group}
-      onEditGroup={editGroupMutation.mutate}
-      onCancel={() => { setIsShowingFormEditGroup(false) }}
-    />
+  if (!group) {
+    return null
   }
 
   return (
@@ -41,20 +26,18 @@ const GroupPage = () => {
         </Link>
         <div className='group-header-name'>
           <h2>{group?.name}</h2>
-          <span onClick={() => { setIsShowingFormEditGroup(true) }}><EditIcon /></span>
+          <span onClick={() => { navigate(`/group/${group?.id}/edit`) }}><EditIcon /></span>
         </div>
         <div className='group-header-users'>
           <span><strong>{group?.participants.length}</strong> <UsersIcon /></span>
         </div>
       </div>
       <div className='group-titles-section'>
-        <Button onClick={() => { setSetsectionGroup('expenses') }}>Gastos</Button>
-        <Button onClick={() => { setSetsectionGroup('balance') }}>Balance</Button>
+        <LinkButton href={`/group/${group?.id}/balance`}>Balance</LinkButton>
       </div>
       <div>
-        {selectedSection?.[sectionGroup]}
+        <ExpenseSection group={group ?? {}} />
       </div>
-
     </div>
   )
 }

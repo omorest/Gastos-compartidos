@@ -6,17 +6,18 @@ import Button from '../../../../../core/components/Button/Button'
 import { generateID } from '../../../../../core/utils/generateId'
 import { RemoveIcon } from '../../../../../core/components/icons/Remove'
 import { InputText } from '../../../../../core/components/InputText/InputText'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { NewGroupSchema, type NewGroupSchemaType } from '../../schemas/newGroupSchema'
+
 interface FormNewGroupProps {
   onSave: (group: Group) => void
   onCancel: () => void
 }
 
-type FormData = Pick<Group, 'name' | 'description' | 'participants'>
-
-const initialGroupData: FormData = {
+const initialGroupData: NewGroupSchemaType = {
   name: '',
   description: '',
-  participants: [{ id: '', name: '' }]
+  participants: [{ name: '', id: '' }]
 }
 
 export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
@@ -25,13 +26,15 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
     handleSubmit,
     control,
     formState: { errors }
-  } = useForm<FormData>({
-    defaultValues: initialGroupData
+  } = useForm<NewGroupSchemaType>({
+    defaultValues: initialGroupData,
+    resolver: zodResolver(NewGroupSchema)
   })
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<NewGroupSchemaType> = (data) => {
     const group: Group = {
       ...data,
+      description: data.description ?? '',
       id: generateID(),
       participants: data.participants.map((participant) => ({ ...participant, id: generateID() })),
       creationDate: new Date()
@@ -51,7 +54,7 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
         <div>
           <InputText
             placeholder='Título'
-            {...register('name', { required: 'Este campo es requerido' })}
+            {...register('name')}
           />
           {errors.name && <span>{errors.name.message}</span>}
         </div>
@@ -67,16 +70,15 @@ export const FormNewGroup: FC<FormNewGroupProps> = ({ onSave, onCancel }) => {
             <div key={field.id} className='form-participant-input'>
               <InputText
                 placeholder={`Nombre del participante ${index + 1}`}
-                {...register(`participants.${index}.name`, {
-                  required: 'Nombre es requerido'
-                })}
+                {...register(`participants.${index}.name`)}
               />
               <Button type="button" onClick={() => { remove(index) }}>
                 <RemoveIcon />
               </Button>
+
             </div>
           ))}
-          <Button type="button" onClick={() => { append({ id: '', name: '' }) }}>
+          <Button type="button" onClick={() => { append({ name: '', id: '' }) }}>
             Añadir Participante
           </Button>
         </div>

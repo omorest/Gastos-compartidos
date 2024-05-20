@@ -8,14 +8,10 @@ export class CreateGroupCommand implements Command<Group, Group> {
   constructor (private readonly groupRepository: GroupRepository, private readonly getGroupByNameQuery: GetGroupByNameQuery) {}
 
   async execute (group: Group): Promise<Group> {
-    try {
-      const groupe = await this.getGroupByNameQuery.execute(group?.name)
-      if (groupe !== null) {
-        throw new GroupAlreadyExistError()
-      }
-      return await this.groupRepository.create(group)
-    } catch (error) {
+    const groupFound = await this.getGroupByNameQuery.execute(group?.name)
+    if (groupFound) {
       throw new GroupAlreadyExistError()
     }
+    return await this.groupRepository.create(group)
   }
 }

@@ -13,67 +13,42 @@ export class LocalStorageGroupRepository implements GroupRepository {
   }
 
   async create (group: Group): Promise<Group> {
-    try {
-      const groups = await this.getAll()
-      groups.unshift(group)
-      this.save(groups)
-      return group
-    } catch (error) {
-      throw new Error('Error creating group')
-    }
+    const groups = await this.getAll()
+    groups.unshift(group)
+    this.save(groups)
+    return group
   }
 
   async remove (groupId: string): Promise<void> {
-    try {
-      const groups = await this.getAll()
-      const groupsWithoutSelected = groups.filter((group) => group.id !== groupId)
-      this.save(groupsWithoutSelected)
-    } catch (error) {
-      throw new Error('Error removing group')
-    }
+    const groups = await this.getAll()
+    const groupsWithoutSelected = groups.filter((group) => group.id !== groupId)
+    this.save(groupsWithoutSelected)
   }
 
   async edit (groupEdited: Group): Promise<Group> {
-    try {
-      const groups = await this.getAll()
-      const originalGroupIndex = groups.findIndex((group) => group.id === groupEdited.id)
-      if (originalGroupIndex === -1) {
-        throw new Error('Group not found')
-      }
-      groups[originalGroupIndex] = { ...groupEdited }
-      this.save(groups)
-      return groupEdited
-    } catch (error) {
-      throw new Error('Error editing group')
+    const groups = await this.getAll()
+    const originalGroupIndex = groups.findIndex((group) => group.id === groupEdited.id)
+    if (originalGroupIndex === -1) {
+      throw new Error('Group not found')
     }
+    groups[originalGroupIndex] = { ...groupEdited }
+    this.save(groups)
+    return groupEdited
   }
 
   async get (groupId: string): Promise<Group | null> {
-    try {
-      const groups = await this.getAll()
-      const group = groups?.find((group) => group.id === groupId)
-      return group ?? null
-    } catch (error) {
-      throw new Error('Error getting group')
-    }
+    const groups = await this.getAll()
+    const group = groups?.find((group) => group.id === groupId)
+    return group ?? null
   }
 
   async getAll (): Promise<Group[]> {
-    try {
-      const groups = JSON.parse(this.storage.getItem('groups') ?? '[]')
-      return groups
-    } catch (error) {
-      throw new Error('Error getting groups')
-    }
+    return JSON.parse(this.storage.getItem('groups') ?? '[]')
   }
 
   async getGroupByName (name: string): Promise<Group | null> {
-    try {
-      const groups = await this.getAll()
-      const group = groups?.find((group) => group.name === name)
-      return group ?? null
-    } catch (error) {
-      throw new Error('Error getting group')
-    }
+    const groups = await this.getAll()
+    const group = groups?.find((group) => group.name === name)
+    return group ?? null
   }
 }
