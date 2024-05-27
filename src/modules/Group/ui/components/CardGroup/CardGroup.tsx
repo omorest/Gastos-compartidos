@@ -4,6 +4,7 @@ import { type Group } from '../../../domain/Group'
 import { RemoveIcon } from '../../../../../core/components/icons/Remove'
 import './CardGroup.css'
 import { UsersIcon } from '../../../../../core/components/icons/UsersIcon'
+import Button from '../../../../../core/components/Button/Button.tsx'
 
 interface CardGroupProps {
   group: Group
@@ -27,7 +28,13 @@ const CardGroup: FC<CardGroupProps> = ({ group, onRemoveGroup }) => {
         </div>
         <div className='card-group-icons'>
           <span><strong data-testid={group.name + 'number-participants'}>{group.participants.length}</strong><UsersIcon /></span>
-          <span onClick={handleRemoveGroup} data-testid="removeGroup"><RemoveIcon ></RemoveIcon></span>
+          <Button
+            onClick={handleRemoveGroup}
+            aria-label="delete group"
+            data-testid="removeGroup"
+          >
+            <RemoveIcon />
+          </Button>
         </div>
       </div>
     </Link>

@@ -32,10 +32,10 @@ const FormEditExpense: FC<FormEditExpenseProps> = ({ expense, users, onEditExpen
     resolver: zodResolver(NewExpenseSchema)
   })
 
-  const onSubmit: SubmitHandler<NewExpenseSchemaType> = async (expenseEdited) => {
+  const onSubmit: SubmitHandler<NewExpenseSchemaTypeWithDateString> = async (expenseEdited) => {
     await onEditExpense({
       ...expenseEdited,
-      creationDate: expenseEdited.creationDate,
+      creationDate: new Date(expenseEdited.creationDate),
       id: expense.id,
       groupId: expense.groupId,
       paidBy: users.find((user) => user.id === expenseEdited.payerId)?.name ?? ''
